@@ -1,39 +1,41 @@
-# Contributor Covenant Code of Conduct
+# Code of Conduct
 
 ## Our Pledge
 
-In the interest of fostering an open and welcoming environment, we as contributors and maintainers pledge to making participation in our project and our community a harassment-free experience for everyone, regardless of age, body size, disability, ethnicity, gender identity and expression, level of experience, nationality, personal appearance, race, religion, or sexual identity and orientation.
+We treat potential contributors and maintainers of our project and community regardless of their sexual orientation, race, country, or ethnicity, and we treat them equally and create a sense of positive and friendly atmosphere. We thank all contributors and maintainer.
 
 ## Our Standards
 
-Examples of unacceptable behavior by participants include:
+We promote the following behaviors:
 
--   The use of sexualized language or imagery
--   Personal attacks
--   Trolling or insulting/derogatory comments
--   Public or private harassment
--   Publishing other's private information, such as physical or electronic addresses, without explicit permission
--   Other unethical or unprofessional conduct
+- friendly communication
+
+- reasonable reviews
+
+- Debate based on objective facts
+
+We do not recommend or prohibit the following behaviors:
+
+- Personal attacks
+
+- hate speech
+
+- Expression of politically sensitive issues
 
 ## Our Responsibilities
 
-Project maintainers are responsible for clarifying the standards of acceptable behavior and are expected to take appropriate and fair corrective action in response to any instances of unacceptable behavior.
-
-Project maintainers have the right and responsibility to remove, edit, or reject comments, commits, code, wiki edits, issues, and other contributions that are not aligned to this Code of Conduct, or to ban temporarily or permanently any contributor for other behaviors that they deem inappropriate, threatening, offensive, or harmful.
+The maintainers of the project are obliged to delete any inappropriate comments mentioned above to create a kind and friendly community atmosphere, including but not limited to: hate speech, expression of political issues that have nothing to do with the technology itself. Community maintainers should also manage submissions from contributors from different backgrounds, give timely feedback and manage version control. Replies and comments should be polite when submitting an application, and foul language is not allowed if the code quality of the submitter is not good enough.
 
 ## Availability
 
-This Code of Conduct applies both within project spaces and in public spaces when an individual is representing the project or its community. Examples of representing a project or community include using an official project e-mail address, posting via an official social media account, or acting as an appointed representative at an online or offline event. Representation of a project may be further defined and clarified by project maintainers.
+This project shall not be used for any commercial purposes without permission, and the commercialization of the project requires the consent of the project builder, and shall not be used as a commercial project without permission.
+At the same time, this project cannot be used for academic purposes without notification, such as the publication of papers. If some scholars need the project code of this article, they can inform the maintainers and contributors of the project and use it, and indicate the source in the article.
 
-Project maintainers have the right and responsibility to remove, edit, or reject comments, commits, code, wiki edits, issues, and other contributions that are not aligned to this Code of Conduct, or to ban temporarily or permanently any contributor for other behaviors that they deem inappropriate, threatening, offensive, or harmful.
-
-By adopting this Code of Conduct, project maintainers commit themselves to fairly and consistently applying these principles to every aspect of managing this project. Project maintainers who do not follow or enforce the Code of Conduct may be permanently removed from the project team.
-
-This Code of Conduct applies both within project spaces and in public spaces when an individual is representing the project or its community.
+Personal learning use is permitted, and we are happy to open the source code of the project for individuals and students to use for learning EDA and data visualization. Since the subject of this project is credit default prediction, which is a very popular and common topic, if you have any advanced technical comments and insights, we welcome reasonable and constructive suggestions.
 
 ## Contract
 
-A working group of community members is committed to promptly addressing any reported issues. The working group is made up of pandas contributors and users. Instances of abusive, harassing, or otherwise unacceptable behavior may be reported by contacting the working group by e-mail [Althrunsun\@gmail.com](mailto:Althrunsun@gmail.com). Messages sent to this e-mail address will not be publicly visible but only to the working group members. The working group currently includes: 
+We have a working group dedicated to quickly responding to problems. The members of the working group are composed of 4 members of the original members of the project. They can be sent to the person in charge by email: Althrunsun@gmail.com Contact any technical issues, inappropriate comments, Harassment etc. Feedback is done in private, and any speech will not be deleted without definite evidence, because we support freedom of speech.The working group currently includes: 
 
 -Althrun Sun
 
@@ -43,8 +45,8 @@ A working group of community members is committed to promptly addressing any rep
   
  -Ken
 
-All complaints will be reviewed and investigated and will result in a response that is deemed necessary and appropriate to the circumstances. Maintainers are obligated to maintain confidentiality with regard to the reporter of an incident.
+All reports will first be reviewed by Althrun Sun and further discussed with other team members. We promise to keep the identity of any reporter confidential to protect the reporter's personal and reputation safety.
 
 ## Attribution
 
-This Code of Conduct is copied from the [code-of-conduct](https://github.com/pandas-dev/pandas-governance/edit/master/code-of-conduct.md).
+This Code of Conduct is based on the template of the [code-of-conduct](https://github.com/pandas-dev/pandas-governance/edit/master/code-of-conduct.md).
