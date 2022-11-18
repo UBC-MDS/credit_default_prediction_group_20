@@ -1,3 +1,3 @@
 # Contributing
 
-We welcome all contributions to this project! If you notice a bug, or have a feature request, please open up an issue here. If you’d like to contribute a feature or bug fix, you can fork our repo and submit a pull request. We will review pull requests within 7 days. All contributors must abide by our code of conduct.
+Regardless of the potential contributor's technical level, project experience, country and any background, all contributions and error corrections, please ask questions boldly. If you want to contribute new modules or bug fixes, you can fork our repository and submit a pull request. Althrun Sun will review pull requests as soon as possible (usually within 3 days), if you need urgent contact to speed up the review, you can contact us directly by email (AlthrunSun@gmail.com).
