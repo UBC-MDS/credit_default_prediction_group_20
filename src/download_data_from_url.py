@@ -13,6 +13,10 @@ Options:
   --file_name=<file_name>               Name of the locally downloaded file [default: data].
   --file_type=<file_type>               Type or Extension of the locally saved file [default: csv].
 
+Example:
+From the root of the repository, the below command could be used to save a file to data/raw folder:
+python ./src/download_data_from_url.py --url "<sample_url>" --download_path "./data/raw"
+
 """
 
 import os
