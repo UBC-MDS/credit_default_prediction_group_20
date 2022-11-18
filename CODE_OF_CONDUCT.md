@@ -33,7 +33,15 @@ This Code of Conduct applies both within project spaces and in public spaces whe
 
 ## Contract
 
-A working group of community members is committed to promptly addressing any reported issues. The working group is made up of pandas contributors and users. Instances of abusive, harassing, or otherwise unacceptable behavior may be reported by contacting the working group by e-mail [Althrunsun\@gmail.com](mailto:Althrunsun@gmail.com). Messages sent to this e-mail address will not be publicly visible but only to the working group members. The working group currently includes: -Althrun Sun -Arjun Radhakrishnan -Morris Zhao -Ken
+A working group of community members is committed to promptly addressing any reported issues. The working group is made up of pandas contributors and users. Instances of abusive, harassing, or otherwise unacceptable behavior may be reported by contacting the working group by e-mail [Althrunsun\@gmail.com](mailto:Althrunsun@gmail.com). Messages sent to this e-mail address will not be publicly visible but only to the working group members. The working group currently includes: 
+
+-Althrun Sun
+
+-Arjun Radhakrishnan
+ 
+-Morris Zhao
+  
+ -Ken
 
 All complaints will be reviewed and investigated and will result in a response that is deemed necessary and appropriate to the circumstances. Maintainers are obligated to maintain confidentiality with regard to the reporter of an incident.
 
