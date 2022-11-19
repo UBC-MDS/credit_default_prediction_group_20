@@ -52,10 +52,19 @@ To reproduce this analysis you will need to:
 ## Dependencies
 
   - Python 3.10.6 and Python packages:
-      - pandas==0.24.2
-      - altair==4.2.0
-      - altair_data_serve==0.4.1
-      - scikit-learn==1.1.3
+      - docopt=0.6.2
+      - ipykernel
+      - ipython>=7.15
+      - vega_datasets
+      - altair_saver
+      - selenium<4.3.0
+      - matplotlib>=3.2.2
+      - scikit-learn>=1.0
+      - pandas>=1.3.*
+      - requests>=2.24.0
+      - joblib==1.1.0
+      - mglearn
+      - psutil>=5.7.2
 
 ## License
 
