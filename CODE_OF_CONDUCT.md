@@ -2,52 +2,58 @@
 
 ## Our Pledge
 
-We treat potential contributors and maintainers of our project and community regardless of their sexual orientation, race, country, or ethnicity, and we treat them equally and create a sense of positive and friendly atmosphere. We thank all contributors and maintainers.
+We commit to respecting anyone who contributes to this project to build an open and friendly community. No matter the level of experience, gender, sexual orientation, gender identity or expression, physical appearance, size, age, religion, or country of origin, we are dedicated to ensuring that everyone, who participates in this project, is free from harassment.
+
+We thank all potential contributors and maintainers, and by committing to this Code of Conduct, we, as project maintainers, promise to apply these values fairly and consistently to all facets of running this project.
 
 ## Our Standards
 
-We promote the following behaviors:
+We promote the following behaviors*:
 
-- friendly communication
+- Friendly and respectful communication.
 
-- reasonable reviews
+- Growth Mindset: Be open to diverse point-of-views and embrace learning.
 
-- Debate based on objective facts
+- Conversations and feedback based on objective facts.
 
-We do not recommend or prohibit the following behaviors:
+We do not recommend the following behaviors*:
 
-- Personal attacks
+- Personal attacks.
 
-- foul language
+- Foul language.
 
-- Expression of politically sensitive issues
+- Expression of Politically Sensitive Issues.
+
+- Trolling or use of sexualized language and imagery.
+
+*Please note that this is not an exhaustive list and can be modified without notice. 
 
 ## Our Responsibilities
 
-The maintainers of the project are obliged to delete any inappropriate comments mentioned above to create a kind and friendly community atmosphere, including but not limited to: abuse, and expression of political issues that have nothing to do with the technology itself. Community maintainers should also manage submissions from contributors from different backgrounds, give timely feedback and manage version control. Replies and comments should be polite and foul language is not allowed even if the code quality of the submitter is not good enough.
+The maintainers of the project have the right and responsibility to delete any inappropriate forms of text or communication that incites fear, abuse, or harassment, as it would disrupt a kind and friendly community atmosphere. As community maintainers, we will also manage submissions from contributors, give timely feedback and manage version control. Replies and comments should be polite. Altercations should be avoided at all costs, and feedback should be constructive and professional. 
 
 ## Availability
 
-This project shall not be used for any commercial purposes without permission, and the commercialization of the project requires the consent of the project builder, and shall not be used as a commercial project without permission.
-At the same time, this project cannot be used for academic purposes without notification, such as the publication of papers. If some scholars need the project code of this article, they can inform the maintainers and contributors of the project and use it, and indicate the source in the article.
+This project shall not be used for any commercial purposes without permission, and the commercialization of the project requires the consent of the project members.
 
-Personal learning use is permitted, and we are happy to open the source code of the project for individuals and students to use for learning EDA and data visualization. Since the subject of this project is credit default prediction, which is a very popular and common topic, if you have any advanced technical comments and insights, we welcome reasonable and constructive suggestions.
+At the same time, this project cannot be used for academic purposes without notification, such as referecning in academic papers. Please contact the project members before citing the project as a reference.
+
+Personal learning use is permitted, and we are happy to open the source code of the project for individuals and students to use for learning. Since the subject of this project is credit default prediction, which is a very popular and common topic, if you have any advanced technical comments and insights, we welcome reasonable and constructive suggestions.
 
 ## Response
 
-We have a working group dedicated to quickly responding to problems. The members of the working group are composed of 4 members of the original members of the project. They can be sent to the person in charge by email: Althrunsun@gmail.com Contact any technical issues, inappropriate comments, Harassment, etc. Feedback is done in private, and any speech will not be deleted without definite evidence, because we support freedom of speech. The working group currently includes: 
+We have a working group dedicated to promptly address problems. The members of working group are composed of four members who are the original members of the project. For any issues, the team members can be contacted via email.
 
--Althrun Sun
+- Althrun Sun <althrunsun@gmail.com>
 
--Arjun Radhakrishnan
+- Arjun Radhakrishnan <rkrishnan.arjun@gmail.com>
  
--Morris Zhao
+- Morris Zhao <morrisz@student.ubc.ca>
   
--Ken
+- Ken Wang <kenuiuc@gmail.com>
 
-All reports will first be reviewed by Althrun Sun and further discussed with other team members. We promise to keep the identity of any reporter confidential to protect the reporter's personal and reputation safety.
+The nature and degree of the complaint will be used to decide the repercussions. It could entail rejecting, deleting, or altering submissions, as well as banning the author from future contributions. We promise to keep the identity of any reporter confidential to protect the reporter's personal and reputational safety.
 
 ## Attribution
 
-This Code of Conduct is based on the template of the [code-of-conduct](https://github.com/pandas-dev/pandas-governance/edit/master/code-of-conduct.md).
-
+This Code of Conduct is adapted from the Pandas Governance Code of Conduct available [here](https://github.com/pandas-dev/pandas-governance/blob/master/code-of-conduct.md) and Contributor Covenant, version 1.3.0, available at [here](http://contributor-covenant.org/version/1/3/0/), and the Swift Code of Conduct.
