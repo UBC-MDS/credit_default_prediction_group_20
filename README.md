@@ -25,13 +25,13 @@ The dataset this project uses is the [default of credit card clients Data Set](h
 
 ### Analysis Approach
 
-Given that this is a binary classification problem and we have both categorical and continous numeric features, we plan to build different models including `logistic regression`, `support vector classifier`, `kNN classifier` and `naive Bayes classifier`. We will carry out cross-validation for each model, optimize their hyper-parameters compare their performance using multiple evalution metrics. Given that the smaple data is imbalanced with about 20% default rate, accuracy might not be a good enough scoring method to use. We will include other metrics like precision/recall, f1-score and ROC AUC.
+Given that this is a binary classification problem and we have both categorical and continuous numeric features, we plan to build different models including `logistic regression`, `support vector classifier`, `kNN classifier` and `naive Bayes classifier`. We will carry out cross-validation for each model, optimize their hyper-parameters compare their performance using multiple evaluation metrics. Given that the sample data is imbalanced with about 20% default rate, accuracy might not be a good enough scoring method to use. We will include other metrics like precision/recall, f1-score and ROC AUC.
 
 ### Initial EDA
 
 So far we have performed some basic exploratory data analysis which can be found [here](https://github.com/UBC-MDS/credit_default_prediction_group_20/blob/main/src/EDA%20of%20data.ipynb). The main observations are:
 
-- Target data is imbalanced so we need extra efforts in choosing approperiate evaluation metrics and applying class-weight to our models.
+- Target data is imbalanced so we need extra efforts in choosing appropriate evaluation metrics and applying class-weight to our models.
 
 - There are strong correlation among multiple numeric features (April payment amount and May payment amount for example), which indicates we might want to drop some of those features to simplify our models.
 
@@ -59,7 +59,7 @@ To reproduce this analysis you will need to:
 
 ## License
 
-The Credit Card Deafault Predictor materials here are licensed under `MIT License`. If re-using/re-mixing please provide attribution and link to this webpage.
+The Credit Card Default Predictor materials here are licensed under `MIT License`. If re-using/re-mixing please provide attribution and link to this webpage.
 
 
 ## Reference
