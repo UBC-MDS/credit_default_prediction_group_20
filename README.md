@@ -59,30 +59,17 @@ To reproduce this analysis you will need to:
 
 ## License
 
-The Breast Cancer Predictor materials here are licensed under the
-Creative Commons Attribution 2.5 Canada License (CC BY 2.5 CA). If
-re-using/re-mixing please provide attribution and link to this webpage.
+The Credit Card Deafault Predictor materials here are licensed under `MIT License`. If re-using/re-mixing please provide attribution and link to this webpage.
 
-# References
 
-<div id="refs" class="references">
+## Reference
 
-<div id="ref-Dua2019">
+[Credit Card Default Data](https://archive.ics.uci.edu/ml/datasets/default+of+credit+card+clients) from UCI ML Repository.
+Name: I-Cheng Yeh
+email addresses: (1) icyeh '@' chu.edu.tw (2) 140910 '@' mail.tku.edu.tw
+institutions: (1) Department of Information Management, Chung Hua University, Taiwan. (2) Department of Civil Engineering, Tamkang University, Taiwan.
+other contact information: 886-2-26215656 ext. 3181
 
-Dua, Dheeru, and Casey Graff. 2017. “UCI Machine Learning Repository.”
-University of California, Irvine, School of Information; Computer
-Sciences. <http://archive.ics.uci.edu/ml>.
 
-</div>
+This readme and project proposal file follows the format of the `README.md` in the [Breast Cancer Predictor](https://github.com/ttimbers/breast_cancer_predictor) project.
 
-<div id="ref-Streetetal">
-
-Street, W. Nick, W. H. Wolberg, and O. L. Mangasarian. 1993. “Nuclear
-feature extraction for breast tumor diagnosis.” In *Biomedical Image
-Processing and Biomedical Visualization*, edited by Raj S. Acharya and
-Dmitry B. Goldgof, 1905:861–70. International Society for Optics;
-Photonics; SPIE. <https://doi.org/10.1117/12.148698>.
-
-</div>
-
-</div>
