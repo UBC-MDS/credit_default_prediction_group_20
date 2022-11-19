@@ -62,20 +62,20 @@ python ./src/download_data_from_url.py --url "https://archive.ics.uci.edu/ml/mac
 ## Dependencies
 
   - Python 3.10.6 and Python packages:
-      - xlrd
-      - xlwt
+      - xlrd>=2.0.1
+      - xlwt>=1.3.0
+      - ipykernel>=6.16.0
+      - mglearn>=0.1.9
+      - altair_saver>=0.5.0
+      - vega_datasets>=0.9.0
       - docopt=0.6.2
-      - ipykernel
       - ipython>=7.15
-      - vega_datasets
-      - altair_saver
       - selenium<4.3.0
       - matplotlib>=3.2.2
       - scikit-learn>=1.0
       - pandas>=1.3.*
       - requests>=2.24.0
       - joblib==1.1.0
-      - mglearn
       - psutil>=5.7.2
 
 ## License
