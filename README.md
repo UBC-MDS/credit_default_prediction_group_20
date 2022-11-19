@@ -44,14 +44,26 @@ We will present the analysis report using tools like `R markdown` and `Github Pa
 
 To reproduce this analysis you will need to:
 
-- Clone this Github repo
+- Clone this Github repo:
+
+```
+git clone git@github.com:UBC-MDS/credit_default_prediction_group_20.git
+```
+
 - Install the dependencies listed below
-- Run the [python script](https://github.com/UBC-MDS/credit_default_prediction_group_20/blob/main/src/download_data_from_url.py) to download the data from UCI ML repository
+- Run the [python script](https://github.com/UBC-MDS/credit_default_prediction_group_20/blob/main/src/download_data_from_url.py) to download the data from UCI ML repository:
+
+```
+python ./src/download_data_from_url.py --url "https://archive.ics.uci.edu/ml/machine-learning-databases/00350/default%20of%20credit%20card%20clients.xls" --download_path "./data/raw" --file_name "credit_default_data" --file_type "xlsx"
+```
+
 - Run the [EDA notebook](https://github.com/UBC-MDS/credit_default_prediction_group_20/blob/main/src/EDA%20of%20data.ipynb) to get the initial EDA results
 
 ## Dependencies
 
   - Python 3.10.6 and Python packages:
+      - xlrd
+      - xlwt
       - docopt=0.6.2
       - ipykernel
       - ipython>=7.15
