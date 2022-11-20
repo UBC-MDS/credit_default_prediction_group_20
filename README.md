@@ -55,13 +55,25 @@ git clone git@github.com:UBC-MDS/credit_default_prediction_group_20.git
 
 - Install the dependencies listed below
 
-- Run the [python script](https://github.com/UBC-MDS/credit_default_prediction_group_20/blob/main/src/download_data_from_url.py) to download the data from UCI ML repository:
+- Create the environment
+
+```
+conda env create -f environment.yaml
+```
+
+- To activate the created environment, execute the below command:
+
+```
+    conda activate credit_default_predict
+```
+
+- Download the data: Run the [python script](https://github.com/UBC-MDS/credit_default_prediction_group_20/blob/main/src/download_data_from_url.py) to download the data from UCI ML repository:
 
 ```
 python ./src/download_data_from_url.py --url "https://archive.ics.uci.edu/ml/machine-learning-databases/00350/default%20of%20credit%20card%20clients.xls" --download_path "./data/raw" --file_name "credit_default_data" --file_type "xlsx"
 ```
 
-- Run the [EDA notebook](https://github.com/UBC-MDS/credit_default_prediction_group_20/blob/main/src/eda_credit_default_data.ipynb) to get the initial EDA results
+- Analyze the EDA: Run the [EDA notebook](https://github.com/UBC-MDS/credit_default_prediction_group_20/blob/main/src/eda_credit_default_data.ipynb) to get the initial EDA results
 
 ## Dependencies
 
