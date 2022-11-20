@@ -44,6 +44,7 @@ def main(url, download_path, file_name, file_type):
         The type in which the file will be locally saved.
     """
 
+    # Test if the URL exists and returns Status OK
     try:
         request = requests.get(url, timeout=30)
         if request.status_code != 200:
@@ -55,19 +56,24 @@ def main(url, download_path, file_name, file_type):
         print(ex)
         return
 
+    # Read data
     data = pd.read_excel(url)
 
+    # Make necessary directories to the required path
     if not os.path.exists(download_path):
         os.makedirs(download_path)
 
+    # Construct full file path
     file_name += "." + file_type
     full_path = os.path.join(download_path, file_name)
 
+    # Save file based on user preference.
     if file_type == "xlsx" or file_type == "xls":
         pd.DataFrame.to_excel(data, full_path, index=False)
     else:
         pd.DataFrame.to_csv(data, full_path, index=False)
 
 
+# Execute only when run as a script.
 if __name__ == "__main__":
     main(opt["--url"], opt["--download_path"], opt["--file_name"], opt["--file_type"])
