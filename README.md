@@ -9,7 +9,7 @@
 
 For this project we are trying to answer the question:
 
-> **Given a credit card customer's payment history and demographic information like gender, age, and education level, would the customer default on the next bill payment??"**
+> **Given a credit card customer's payment history and demographic information like gender, age, and education level, would the customer default on the next bill payment?"**
 
 Answering this question is important because, with an effective predictive model, financial institutions can evaluate a customer's credit level and grant appropriate credit amount limits. This analysis would be crucial in credit score calculation and risk management.
 
