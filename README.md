@@ -81,6 +81,7 @@ python ./src/download_data_from_url.py --url "https://archive.ics.uci.edu/ml/mac
   - requests>=2.24.0
   - joblib==1.1.0
   - psutil>=5.7.2
+  - openpyxl>=3.0.0
 
 ## License
 
