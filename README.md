@@ -33,7 +33,7 @@ Given that this is a binary classification problem and we have both categorical 
 
 ### Initial EDA
 
-So far we have performed some basic exploratory data analysis which can be found [here](https://github.com/UBC-MDS/credit_default_prediction_group_20/blob/main/src/EDA%20of%20data.ipynb). The main observations are:
+So far we have performed some basic exploratory data analysis which can be found [here](https://github.com/UBC-MDS/credit_default_prediction_group_20/blob/main/src/eda_credit_default_data.ipynb). The main observations are:
 
 - Target data is imbalanced so we need extra efforts in choosing appropriate evaluation metrics and applying class-weight to our models.
 
@@ -61,7 +61,7 @@ git clone git@github.com:UBC-MDS/credit_default_prediction_group_20.git
 python ./src/download_data_from_url.py --url "https://archive.ics.uci.edu/ml/machine-learning-databases/00350/default%20of%20credit%20card%20clients.xls" --download_path "./data/raw" --file_name "credit_default_data" --file_type "xlsx"
 ```
 
-- Run the [EDA notebook](https://github.com/UBC-MDS/credit_default_prediction_group_20/blob/main/src/EDA%20of%20data.ipynb) to get the initial EDA results
+- Run the [EDA notebook](https://github.com/UBC-MDS/credit_default_prediction_group_20/blob/main/src/eda_credit_default_data.ipynb) to get the initial EDA results
 
 ## Dependencies
 
