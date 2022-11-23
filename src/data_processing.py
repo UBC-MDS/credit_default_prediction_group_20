@@ -57,6 +57,9 @@ def main(input_path, out_dir):
     
     categorical_features = ['MARRIAGE']
     
+    # PAY_i:
+    # -1=pay duly, 1=payment delay for one month, 2=payment delay for two months, … 
+    # 8=payment delay for eight months, 9=payment delay for nine months and above
     ordinal_features = ['EDUCATION', 'PAY_0', 'PAY_2', 'PAY_3', 'PAY_4', 'PAY_5', 'PAY_6']
     
     binary_features = ["SEX"]
