@@ -4,11 +4,12 @@
 Cleaning, splitting and tranforming the raw data and save to file path as csv files.
 
 Usage:
-  data_processing.py --input_path=<input_path> --out_dir=<out_dir>
+  data_processing.py --input_path=<input_path> --out_dir=<out_dir> [--test_size=<test_size>]
 
 Options:
   --input_path=<input_path>        Path (file path) to raw data (support csv file only)
   --out_dir=<out_dir>              Path (directory) to save processed data (output csv file)
+  --test_size=<test_size>          Test size for spliting data [default: 0.2]
 
 Example:
 From the root of the repository, the below command could be used to save files to data/processed folder:
@@ -19,12 +20,10 @@ import os
 import pandas as pd
 from docopt import docopt
 from sklearn.model_selection import train_test_split
-from sklearn.compose import make_column_transformer
-from sklearn.preprocessing import OneHotEncoder, StandardScaler
 
 opt = docopt(__doc__)
 
-def main(input_path, out_dir):
+def main(input_path, out_dir, test_size):
     """
     Driver function to clean and split the raw data set from input path,
     and save it in the local file system.
@@ -44,47 +43,30 @@ def main(input_path, out_dir):
     credit_cleaned_df = credit_df.rename(columns={'default payment next month': 'default_payment_next_month'})
     
     # split the data in to 20% test data set and 80% train data set with random_state=522
-    credit_train_df, credit_test_df = train_test_split(credit_cleaned_df, test_size=0.2, random_state=522)
+    credit_train_df, credit_test_df = train_test_split(credit_cleaned_df, test_size=float(test_size), random_state=522)
     
     X_train = credit_train_df.drop(columns=["default_payment_next_month"])
     y_train = credit_test_df.drop(columns=["default_payment_next_month"])
     
-    # define comlumn types
-    numeric_features = ['LIMIT_BAL', 'AGE', 'BILL_AMT1', 'BILL_AMT2', 
-                        'BILL_AMT3', 'BILL_AMT4', 'BILL_AMT5', 'BILL_AMT6', 
-                        'PAY_AMT1', 'PAY_AMT2', 'PAY_AMT3', 'PAY_AMT4', 
-                        'PAY_AMT5', 'PAY_AMT6']
+    # combine 0, 5, 6 into the 4 for EDUCATION
+    # Education (1 = graduate school; 2 = university; 3 = high school; 4 = others)
+    def com_edu(col):
+        for i in range(len(col)):
+            if col.iloc[i] in {0, 5, 6}:
+                col.iloc[i] = 4
+        return col
     
-    categorical_features = ['MARRIAGE']
+    credit_df["EDUCATION"] = com_edu(credit_df["EDUCATION"])
     
-    # PAY_i:
-    # -1=pay duly, 1=payment delay for one month, 2=payment delay for two months, … 
-    # 8=payment delay for eight months, 9=payment delay for nine months and above
-    ordinal_features = ['EDUCATION', 'PAY_0', 'PAY_2', 'PAY_3', 'PAY_4', 'PAY_5', 'PAY_6']
+    # combine 0 into 3 for MARRIAGE
+    # Marrige (1 = single; 2 = married; 3 = others)
+    def com_mar(col):
+        for i in range(len(col)):
+            if col.iloc[i] == 0:
+                col.iloc[i] = 3
+        return col
     
-    binary_features = ["SEX"]
-    
-    # transformer
-    numeric_transformer = StandardScaler()
-    categorical_transformer = OneHotEncoder(handle_unknown="ignore", sparse=False)
-    binary_transformer = OneHotEncoder(dtype=int, drop="if_binary")
-    
-    # transformation
-    preprocessor = make_column_transformer(
-    (numeric_transformer, numeric_features),
-    (categorical_transformer, categorical_features),
-    ("passthrough", ordinal_features),
-    (binary_transformer, binary_features))
-    
-    # fit and transform
-    tran_X_train = preprocessor.fit_transform(X_train)
-    tran_y_train = preprocessor.transform(y_train)
-    
-    # Create a dataframe with the transformed features and column names
-    preprocessor.verbose_feature_names_out = False
-    column_names = preprocessor.get_feature_names_out()
-    transformed_X_train = pd.DataFrame(tran_X_train, columns=column_names)
-    transformed_y_train = pd.DataFrame(tran_y_train, columns=column_names)
+    credit_df["MARRIAGE"] = com_mar(credit_df["MARRIAGE"])
     
     # set director
     if not os.path.exists(out_dir):
@@ -103,18 +85,18 @@ def main(input_path, out_dir):
     file_name_all = "credit_cleaned_df" + file_type
     full_path_all = os.path.join(out_dir, file_name_all)
     
-    file_name_tran_X = "transformed_X_train" + file_type
+    file_name_tran_X = "credit_X_train" + file_type
     full_path_tran_X = os.path.join(out_dir, file_name_tran_X)
     
-    file_name_tran_y = "transformed_y_train" + file_type
+    file_name_tran_y = "credit_y_train" + file_type
     full_path_tran_y = os.path.join(out_dir, file_name_tran_y)
     
     # save files
     pd.DataFrame.to_csv(credit_train_df, full_path_train, index=False)
     pd.DataFrame.to_csv(credit_test_df, full_path_test, index=False)
     pd.DataFrame.to_csv(credit_cleaned_df, full_path_all, index=False)
-    pd.DataFrame.to_csv(transformed_X_train, full_path_tran_X, index=False)
-    pd.DataFrame.to_csv(transformed_y_train, full_path_tran_y, index=False)
+    pd.DataFrame.to_csv(X_train, full_path_tran_X, index=False)
+    pd.DataFrame.to_csv(y_train, full_path_tran_y, index=False)
 
 if __name__ == "__main__":
-    main(opt["--input_path"], opt["--out_dir"])
+    main(opt["--input_path"], opt["--out_dir"], opt["--test_size"])
