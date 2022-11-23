@@ -14,3 +14,8 @@ Example:
 From the root of the repository, the below command could be used to save files to data/processed folder:
 python ./src/data_cleaning_spliting.py --input_path="./data/raw/credit_default_data.csv" --out_dir="./data/processed"
 """
+
+import os
+import pandas as pd
+from docopt import docopt
+from sklearn.model_selection import train_test_split
