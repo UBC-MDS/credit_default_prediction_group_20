@@ -73,6 +73,7 @@ def main(input_path, out_dir):
     ("passthrough", ordinal_features),
     (binary_transformer, binary_features))
     
+    # fit and transform
     tran_X_train = preprocessor.fit_transform(X_train)
     tran_y_train = preprocessor.transform(y_train)
     
@@ -82,11 +83,14 @@ def main(input_path, out_dir):
     transformed_X_train = pd.DataFrame(tran_X_train, columns=column_names)
     transformed_y_train = pd.DataFrame(tran_y_train, columns=column_names)
     
+    # set director
     if not os.path.exists(out_dir):
         os.makedirs(out_dir)
     
+    # file type (csv file)
     file_type = ".csv"
     
+    # files' names and pathes
     file_name_train = "credit_train_df" + file_type
     full_path_train = os.path.join(out_dir, file_name_train)
     
@@ -101,7 +105,8 @@ def main(input_path, out_dir):
     
     file_name_tran_y = "transformed_y_train" + file_type
     full_path_tran_y = os.path.join(out_dir, file_name_tran_y)
-
+    
+    # save files
     pd.DataFrame.to_csv(credit_train_df, full_path_train, index=False)
     pd.DataFrame.to_csv(credit_test_df, full_path_test, index=False)
     pd.DataFrame.to_csv(credit_cleaned_df, full_path_all, index=False)
