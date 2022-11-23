@@ -55,9 +55,9 @@ def main(input_path, out_dir):
                         'PAY_AMT1', 'PAY_AMT2', 'PAY_AMT3', 'PAY_AMT4', 
                         'PAY_AMT5', 'PAY_AMT6']
     
-    categorical_features = ['MARRIAGE', 'PAY_0', 'PAY_2', 'PAY_3', 'PAY_4', 'PAY_5', 'PAY_6']
+    categorical_features = ['MARRIAGE']
     
-    ordinal_features = ['EDUCATION']
+    ordinal_features = ['EDUCATION', 'PAY_0', 'PAY_2', 'PAY_3', 'PAY_4', 'PAY_5', 'PAY_6']
     
     binary_features = ["SEX"]
     
