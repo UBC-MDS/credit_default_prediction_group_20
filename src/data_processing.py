@@ -19,3 +19,18 @@ import os
 import pandas as pd
 from docopt import docopt
 from sklearn.model_selection import train_test_split
+
+opt = docopt(__doc__)
+
+def main(input_path, out_dir):
+    """
+    Driver function to clean and split the raw data set from input path,
+    and save it in the local file system.
+
+    Parameters
+    ----------
+    input_path : string
+        The URL from where the excel can be downloaded from.
+    out_dir : string
+        The path where the file needs to be saved.
+    """
