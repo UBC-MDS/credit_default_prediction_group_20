@@ -34,3 +34,15 @@ def main(input_path, out_dir):
     out_dir : string
         The path where the file needs to be saved.
     """
+    
+    # read the raw data and skip the first row, and make id column as index
+    credit_df = pd.read_csv(input_path, index_col=0, skiprows=1)
+    
+    # change a column name
+    credit_cleaned_df = credit_df.rename(columns={'default payment next month': 'default_payment_next_month'})
+    
+    # split the data in to 20% test data set and 80% train data set with random_state=522
+    credit_train_df, credit_test_df = train_test_split(credit_cleaned_df, test_size=0.2, random_state=522)
+    
+    if not os.path.exists(out_dir):
+        os.makedirs(out_dir)
