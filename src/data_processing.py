@@ -43,7 +43,7 @@ def main(input_path, out_dir, test_size):
     credit_cleaned_df = credit_df.rename(columns={'default payment next month': 'default_payment_next_month'})
     
     # combine 0, 5, 6 into the 4 for EDUCATION
-    # Education (1 = graduate school; 2 = university; 3 = high school; 4 = others)
+    # EDUCATION (1 = graduate school; 2 = university; 3 = high school; 4 = others)
     def com_edu(col):
         for i in range(len(col)):
             if col.iloc[i] in {0, 5, 6}:
@@ -52,7 +52,7 @@ def main(input_path, out_dir, test_size):
     com_edu(credit_cleaned_df["EDUCATION"])
     
     # combine 0 into 3 for MARRIAGE
-    # Marrige (1 = single; 2 = married; 3 = others)
+    # MARRIAGE (1 = single; 2 = married; 3 = others)
     def com_mar(col):
         for i in range(len(col)):
             if col.iloc[i] == 0:
@@ -62,9 +62,6 @@ def main(input_path, out_dir, test_size):
     
     # split the data in to 20% test data set and 80% train data set with random_state=522
     credit_train_df, credit_test_df = train_test_split(credit_cleaned_df, test_size=float(test_size), random_state=522)
-    
-    X_train = credit_train_df.drop(columns=["default_payment_next_month"])
-    y_train = credit_test_df.drop(columns=["default_payment_next_month"])
     
     # set director
     if not os.path.exists(out_dir):
@@ -83,18 +80,10 @@ def main(input_path, out_dir, test_size):
     file_name_all = "credit_cleaned_df" + file_type
     full_path_all = os.path.join(out_dir, file_name_all)
     
-    file_name_tran_X = "credit_X_train" + file_type
-    full_path_tran_X = os.path.join(out_dir, file_name_tran_X)
-    
-    file_name_tran_y = "credit_y_train" + file_type
-    full_path_tran_y = os.path.join(out_dir, file_name_tran_y)
-    
     # save files
     pd.DataFrame.to_csv(credit_train_df, full_path_train, index=False)
     pd.DataFrame.to_csv(credit_test_df, full_path_test, index=False)
     pd.DataFrame.to_csv(credit_cleaned_df, full_path_all, index=False)
-    pd.DataFrame.to_csv(X_train, full_path_tran_X, index=False)
-    pd.DataFrame.to_csv(y_train, full_path_tran_y, index=False)
     
     # test
     assert len(credit_cleaned_df["EDUCATION"].unique()) == len([2, 1, 3, 4]), 'wrong number of classes for EDUCATION, should be 4 classes'
@@ -103,7 +92,7 @@ def main(input_path, out_dir, test_size):
     assert 5 not in credit_cleaned_df["EDUCATION"].unique(), 'EDUCATION class 5 should combine to class 4'
     assert 6 not in credit_cleaned_df["EDUCATION"].unique(), 'EDUCATION class 6 should combine to class 4'
     assert len(credit_cleaned_df["MARRIAGE"].unique()) == len([1, 2, 3]), 'wrong number of classes for MARRIAGE, should be 3 classes'
-    assert 0 not in credit_df["MARRIAGE"].unique(), 'MARRIAGE class 0 should combine to class 3'
+    assert 0 not in credit_cleaned_df["MARRIAGE"].unique(), 'MARRIAGE class 0 should combine to class 3'
 
 if __name__ == "__main__":
     main(opt["--input_path"], opt["--out_dir"], opt["--test_size"])
