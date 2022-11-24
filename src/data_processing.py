@@ -89,7 +89,6 @@ def main(input_path, out_dir, test_size):
     
     # test
     assert len(credit_cleaned_df["EDUCATION"].unique()) == len([2, 1, 3, 4]), 'wrong number of classes for EDUCATION, should be 4 classes'
-    assert sum(credit_cleaned_df["EDUCATION"].unique()) == 1+2+3+4, 'class in EDUCATION is woring, should incloude 1, 2, 3, 4'
     assert 0 not in credit_cleaned_df["EDUCATION"].unique(), 'EDUCATION class 0 should combine to class 4'
     assert 5 not in credit_cleaned_df["EDUCATION"].unique(), 'EDUCATION class 5 should combine to class 4'
     assert 6 not in credit_cleaned_df["EDUCATION"].unique(), 'EDUCATION class 6 should combine to class 4'
