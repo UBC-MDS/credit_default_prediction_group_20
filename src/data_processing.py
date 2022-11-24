@@ -44,13 +44,19 @@ def main(input_path, out_dir, test_size):
     # change a column name
     credit_cleaned_df = credit_df.rename(columns={'default payment next month': 'default_payment_next_month'})
     
-    # combine 0, 5, 6 into the 4 for EDUCATION
-    # EDUCATION (1 = graduate school; 2 = university; 3 = high school; 4 = others)
+    # combine 0, 5, 6 into the 4 for EDUCATION, and reverse the order
+    # EDUCATION (4 = graduate school; 3 = university; 2 = high school; 1 = others)
     def com_edu(col):
         for i in range(len(col)):
-            if col.iloc[i] in {0, 5, 6}:
+            if col.iloc[i] in {0, 4, 5, 6}:
+                col.iloc[i] = 1
+            elif col.iloc[i] == 1:
                 col.iloc[i] = 4
-    
+            elif col.iloc[i] == 2:
+                col.iloc[i] = 3
+            elif col.iloc[i] == 3:
+                col.iloc[i] = 2
+            
     com_edu(credit_cleaned_df["EDUCATION"])
     
     # combine 0 into 3 for MARRIAGE
