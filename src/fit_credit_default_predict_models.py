@@ -1,6 +1,18 @@
 # Author: Arjun
 # Date: 2022-11-24
 
+"""Python script to train various models on the Credit Default Training Data.
+   The models considered for training are Dummy Classifier for baseline, RandomForestClassifier,
+   KNeighborsClassifier, SVC, and LogisticRegression.
+
+Usage: fit_credit_default_predict_models.py --read_training_path=<read_training_path> [--write_model_path=<write_model_path>] [--write_score_path=<write_score_path>]
+
+Options:
+    --read_training_path=<read_training_path>               Path to the training data.
+    --write_model_path=<write_model_path>                   Path (excluding filename) to save the serialized model file [default: ./results/trained_models/]
+    --write_score_path=<write_score_path>                   Path (excluding filename) to save the training results [default: ./results/]
+"""
+
 import os
 import numpy as np
 import pandas as pd
@@ -10,7 +22,6 @@ from sklearn.neighbors import KNeighborsClassifier
 from sklearn.dummy import DummyClassifier
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import (
-    # GridSearchCV,
     RandomizedSearchCV,
     cross_validate,
 )
@@ -18,12 +29,24 @@ from sklearn.compose import make_column_transformer
 from sklearn.preprocessing import OneHotEncoder, StandardScaler
 from sklearn.pipeline import make_pipeline
 from joblib import dump
+from docopt import docopt
+
+opt = docopt(__doc__)
 
 
-def main():
+def main(read_training_path, write_model_path, write_score_path):
     """
     Driver function that applies ml models on the data
     and saves the artifacts that are generated.
+
+    Parameters
+    ----------
+    read_training_path : str
+        Path to the training data.
+    write_model_path : str
+        Path to save the serialized model file [default: ./results/trained_models]
+    write_score_path : str
+        Path (excluding filename) to save the training results [default: ./results/]
     """
 
     results = {}
@@ -32,7 +55,7 @@ def main():
 
     target = "default_payment_next_month"
 
-    train_df = pd.read_csv("./data/processed/credit_train_df.csv")
+    train_df = pd.read_csv(read_training_path)
 
     x_train, y_train = train_df.drop(columns=[target]), train_df[target]
 
@@ -77,30 +100,32 @@ def main():
 
     # Dummy Classifier
     add_dummy_scores_to_results_and_save(
-        results, scoring_metrics, x_train, y_train, column_transformer
+        results, scoring_metrics, x_train, y_train, column_transformer, write_model_path
     )
 
     # RandomForestClassifier
     add_rfc_scores_to_results_and_save(
-        results, scoring_metrics, x_train, y_train, column_transformer
+        results, scoring_metrics, x_train, y_train, column_transformer, write_model_path
     )
 
     # kNN
     add_knn_scores_to_results_and_save(
-        results, scoring_metrics, x_train, y_train, column_transformer
+        results, scoring_metrics, x_train, y_train, column_transformer, write_model_path
     )
 
     # SVC
     add_svc_scores_to_results_and_save(
-        results, scoring_metrics, x_train, y_train, column_transformer
+        results, scoring_metrics, x_train, y_train, column_transformer, write_model_path
     )
 
     # Logistic Regression
     add_lr_scores_to_results_and_save(
-        results, scoring_metrics, x_train, y_train, column_transformer
+        results, scoring_metrics, x_train, y_train, column_transformer, write_model_path
     )
 
-    pd.DataFrame.to_csv(pd.DataFrame(results), "./results/cross_validation_results.csv")
+    pd.DataFrame.to_csv(
+        pd.DataFrame(results), write_score_path + "cross_validation_results.csv"
+    )
 
     return
 
@@ -137,7 +162,7 @@ def mean_std_cross_val_scores(model, x_train, y_train, **kwargs):
 
 
 def add_dummy_scores_to_results_and_save(
-    results, scoring_metrics, x_train, y_train, column_transformer
+    results, scoring_metrics, x_train, y_train, column_transformer, write_model_path
 ):
     """
     Helper function to add the dummy classifier cross validation scores
@@ -155,6 +180,8 @@ def add_dummy_scores_to_results_and_save(
         y in the training data
     column_transformer : sklearn column transformer
         the column transformer needed to transform the features.
+    write_model_path : str
+        Path where the model should be saved.
     """
 
     dummy_pipe = make_pipeline(column_transformer, DummyClassifier())
@@ -169,11 +196,11 @@ def add_dummy_scores_to_results_and_save(
 
     dummy_pipe.fit(x_train, y_train)
 
-    dump(dummy_pipe, "./results/trained_models/dummy_classifier.joblib")
+    dump(dummy_pipe, write_model_path + "dummy_classifier.joblib")
 
 
 def add_rfc_scores_to_results_and_save(
-    results, scoring_metrics, x_train, y_train, column_transformer
+    results, scoring_metrics, x_train, y_train, column_transformer, write_model_path
 ):
     """
     Helper function to add the Random Forest Classifier cross validation scores
@@ -191,6 +218,8 @@ def add_rfc_scores_to_results_and_save(
         y in the training data
     column_transformer : sklearn column transformer
         the column transformer needed to transform the features.
+    write_model_path : str
+        Path where the model should be saved.
     """
 
     forest_pipe = make_pipeline(column_transformer, RandomForestClassifier())
@@ -243,12 +272,12 @@ def add_rfc_scores_to_results_and_save(
 
     dump(
         forest_random_search.best_estimator_,
-        "./results/trained_models/random_forest.joblib",
+        write_model_path + "random_forest.joblib",
     )
 
 
 def add_knn_scores_to_results_and_save(
-    results, scoring_metrics, x_train, y_train, column_transformer
+    results, scoring_metrics, x_train, y_train, column_transformer, write_model_path
 ):
     """
     Helper function to add the KNeighbors Classifier cross validation scores
@@ -266,6 +295,8 @@ def add_knn_scores_to_results_and_save(
         y in the training data
     column_transformer : sklearn column transformer
         the column transformer needed to transform the features.
+    write_model_path : str
+        Path where the model should be saved.
     """
 
     knn_pipe = make_pipeline(column_transformer, KNeighborsClassifier())
@@ -305,11 +336,11 @@ def add_knn_scores_to_results_and_save(
         return_train_score=True,
     )
 
-    dump(knn_grid_search.best_estimator_, "./results/trained_models/knn.joblib")
+    dump(knn_grid_search.best_estimator_, write_model_path + "knn.joblib")
 
 
 def add_svc_scores_to_results_and_save(
-    results, scoring_metrics, x_train, y_train, column_transformer
+    results, scoring_metrics, x_train, y_train, column_transformer, write_model_path
 ):
     """
     Helper function to add the SVC Classifier cross validation scores
@@ -327,6 +358,8 @@ def add_svc_scores_to_results_and_save(
         y in the training data
     column_transformer : sklearn column transformer
         the column transformer needed to transform the features.
+    write_model_path : str
+        Path where the model should be saved.
     """
 
     svc_pipe = make_pipeline(column_transformer, SVC())
@@ -367,11 +400,11 @@ def add_svc_scores_to_results_and_save(
         return_train_score=True,
     )
 
-    dump(svc_random_search.best_estimator_, "./results/trained_models/svc.joblib")
+    dump(svc_random_search.best_estimator_, write_model_path + "svc.joblib")
 
 
 def add_lr_scores_to_results_and_save(
-    results, scoring_metrics, x_train, y_train, column_transformer
+    results, scoring_metrics, x_train, y_train, column_transformer, write_model_path
 ):
     """
     Helper function to add the Logistic Regression Classifier cross validation scores
@@ -389,6 +422,8 @@ def add_lr_scores_to_results_and_save(
         y in the training data
     column_transformer : sklearn column transformer
         the column transformer needed to transform the features.
+    write_model_path : str
+        Path where the model should be saved.
     """
 
     lr_pipe = make_pipeline(
@@ -433,11 +468,19 @@ def add_lr_scores_to_results_and_save(
 
     dump(
         lr_grid_search.best_estimator_,
-        "./results/trained_models/logistic_regression.joblib",
+        write_model_path + "logistic_regression.joblib",
     )
 
 
-if not os.path.exists("./results/trained_models"):
-    os.makedirs("./results/trained_models")
+if __name__ == "__main__":
+    if not os.path.exists(opt["--write_model_path"]):
+        os.makedirs(opt["--write_model_path"])
 
-main()
+    if not os.path.exists(opt["--write_score_path"]):
+        os.makedirs(opt["--write_score_path"])
+
+    main(
+        opt["--read_training_path"],
+        opt["--write_model_path"],
+        opt["--write_score_path"],
+    )
