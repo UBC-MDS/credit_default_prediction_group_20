@@ -7,7 +7,7 @@ from sklearn.neighbors import KNeighborsClassifier
 from sklearn.dummy import DummyClassifier
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import (
-    GridSearchCV,
+    # GridSearchCV,
     RandomizedSearchCV,
     cross_validate,
 )
@@ -278,16 +278,18 @@ def add_knn_scores_to_results_and_save(
 
     grid_params = {
         "kneighborsclassifier__weights": ["uniform", "distance"],
-        "kneighborsclassifier__n_neighbors": np.arange(4, 220, 4),
+        "kneighborsclassifier__n_neighbors": np.arange(4, 100, 4),
     }
 
     # Hyperparameter Optimization
-    knn_grid_search = GridSearchCV(
+    knn_grid_search = RandomizedSearchCV(
         knn_pipe,
-        param_grid=grid_params,
+        param_distributions=grid_params,
         cv=10,
         scoring="f1",
         n_jobs=-1,
+        random_state=522,
+        n_iter=1,
     )
 
     knn_grid_search.fit(x_train, y_train)
@@ -331,6 +333,7 @@ def add_svc_scores_to_results_and_save(
         n_jobs=-1,
         random_state=522,
         scoring="f1",
+        n_iter=1,
     )
 
     svc_random_search.fit(x_train, y_train)
@@ -365,12 +368,18 @@ def add_lr_scores_to_results_and_save(
 
     grid_params = {
         "logisticregression__class_weight": [None, "balanced"],
-        "logisticregression__C": 10.0 ** np.arange(-3, 4),
+        "logisticregression__C": 10.0 ** np.arange(-3, 3),
     }
 
     # Hyperparameter Optimization
-    lr_grid_search = GridSearchCV(
-        lr_pipe, param_grid=grid_params, cv=10, scoring="f1", n_jobs=-1
+    lr_grid_search = RandomizedSearchCV(
+        lr_pipe,
+        param_distributions=grid_params,
+        cv=10,
+        scoring="f1",
+        n_jobs=-1,
+        n_iter=1,
+        random_state=522,
     )
 
     lr_grid_search.fit(x_train, y_train)
