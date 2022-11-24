@@ -1,4 +1,4 @@
-# Author: Arjun
+# Author: Arjun Radhakrishnan
 # Date: 2022-11-24
 
 """Python script to train various models on the Credit Default Training Data.
