@@ -9,7 +9,7 @@
 Usage: model_summary.py --model=<model>  --test_data=<test_data> --output_dir=<output_dir>
 
 Options:
---model=<model> prediction model pickle file 
+--model=<model> prediction model pickle file
 --X_test=<X_test>  test feature data file in csv format
 --y_test=<y_test>  test target data file in csv format
 --output_dir=<output_dir>  output directory to put summary figures in
@@ -19,7 +19,7 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 from docopt import docopt
-from joblib import dump, load
+from joblib import load as joblib_load
 
 from sklearn.dummy import DummyClassifier
 from sklearn.model_selection import cross_val_score, cross_validate
@@ -38,7 +38,7 @@ def load_test_data(test_data_csv=None):
     return X_test, y_test
 
 def load_model(model_path):
-    model = load(model_path)
+    model = joblib_load(model_path)
     return model
 
 def main(model_path=None, test_data_path=None, output_dir_path=None):
