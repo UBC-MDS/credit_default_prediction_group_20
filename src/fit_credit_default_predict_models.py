@@ -308,6 +308,24 @@ def add_knn_scores_to_results_and_save(
 def add_svc_scores_to_results_and_save(
     results, scoring_metrics, x_train, y_train, column_transformer
 ):
+    """
+    Helper function to add the SVC Classifier cross validation scores
+    to the final results and to save the model in the local file system.
+
+    Parameters
+    ----------
+    results : dict
+        Dictionary containing the final results
+    scoring_metrics : list
+        List of scoring metrics
+    x_train : numpy array or pandas DataFrame
+        X in the training data
+    y_train : numpy array
+        y in the training data
+    column_transformer : sklearn column transformer
+        the column transformer needed to transform the features.
+    """
+
     svc_pipe = make_pipeline(column_transformer, SVC())
 
     # Add scores with default hyperparameters
@@ -352,6 +370,24 @@ def add_svc_scores_to_results_and_save(
 def add_lr_scores_to_results_and_save(
     results, scoring_metrics, x_train, y_train, column_transformer
 ):
+    """
+    Helper function to add the Logistic Regression Classifier cross validation scores
+    to the final results and to save the model in the local file system.
+
+    Parameters
+    ----------
+    results : dict
+        Dictionary containing the final results
+    scoring_metrics : list
+        List of scoring metrics
+    x_train : numpy array or pandas DataFrame
+        X in the training data
+    y_train : numpy array
+        y in the training data
+    column_transformer : sklearn column transformer
+        the column transformer needed to transform the features.
+    """
+
     lr_pipe = make_pipeline(
         column_transformer,
         LogisticRegression(random_state=522, n_jobs=-1, max_iter=1000),
