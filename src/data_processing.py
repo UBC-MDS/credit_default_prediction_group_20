@@ -34,6 +34,8 @@ def main(input_path, out_dir, test_size):
         The URL from where the excel can be downloaded from.
     out_dir : string
         The path where the file needs to be saved.
+    test_size: string
+        Test size for spliting data.
     """
     
     # read the raw data and skip the first row, and make id column as index
