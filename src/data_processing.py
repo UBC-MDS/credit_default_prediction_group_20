@@ -42,21 +42,14 @@ def main(input_path, out_dir, test_size):
     # change a column name
     credit_cleaned_df = credit_df.rename(columns={'default payment next month': 'default_payment_next_month'})
     
-    # split the data in to 20% test data set and 80% train data set with random_state=522
-    credit_train_df, credit_test_df = train_test_split(credit_cleaned_df, test_size=float(test_size), random_state=522)
-    
-    X_train = credit_train_df.drop(columns=["default_payment_next_month"])
-    y_train = credit_test_df.drop(columns=["default_payment_next_month"])
-    
     # combine 0, 5, 6 into the 4 for EDUCATION
     # Education (1 = graduate school; 2 = university; 3 = high school; 4 = others)
     def com_edu(col):
         for i in range(len(col)):
             if col.iloc[i] in {0, 5, 6}:
                 col.iloc[i] = 4
-        return col
     
-    credit_df["EDUCATION"] = com_edu(credit_df["EDUCATION"])
+    com_edu(credit_cleaned_df["EDUCATION"])
     
     # combine 0 into 3 for MARRIAGE
     # Marrige (1 = single; 2 = married; 3 = others)
@@ -64,9 +57,14 @@ def main(input_path, out_dir, test_size):
         for i in range(len(col)):
             if col.iloc[i] == 0:
                 col.iloc[i] = 3
-        return col
     
-    credit_df["MARRIAGE"] = com_mar(credit_df["MARRIAGE"])
+    com_mar(credit_cleaned_df["MARRIAGE"])
+    
+    # split the data in to 20% test data set and 80% train data set with random_state=522
+    credit_train_df, credit_test_df = train_test_split(credit_cleaned_df, test_size=float(test_size), random_state=522)
+    
+    X_train = credit_train_df.drop(columns=["default_payment_next_month"])
+    y_train = credit_test_df.drop(columns=["default_payment_next_month"])
     
     # set director
     if not os.path.exists(out_dir):
