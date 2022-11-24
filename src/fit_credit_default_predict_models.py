@@ -77,9 +77,7 @@ def main():
         results, scoring_metrics, x_train, y_train, column_transformer
     )
 
-    pd.DataFrame.to_csv(
-        pd.DataFrame(results), "../results/cross_validation_results.csv"
-    )
+    pd.DataFrame.to_csv(pd.DataFrame(results), "./results/cross_validation_results.csv")
 
     return
 
@@ -148,10 +146,10 @@ def add_dummy_scores_to_results_and_save(
 
     dummy_pipe.fit(x_train, y_train)
 
-    dump(dummy_pipe, "../results/trained_models/dummy_classifier.joblib")
+    dump(dummy_pipe, "./results/trained_models/dummy_classifier.joblib")
 
 
-if not os.path.exists("../results/trained_models"):
-    os.makedirs("../results/trained_models")
+if not os.path.exists("./results/trained_models"):
+    os.makedirs("./results/trained_models")
 
 main()
