@@ -1,3 +1,7 @@
+# Example:
+# python model_summary.py --model='../results/trained_models/svc.joblib'  --test_data='../data/processed/credit_test_df.csv' --output_dir=output_dir_value
+
+
 # author: Ken Wang
 # date: 2022-11-24
 
