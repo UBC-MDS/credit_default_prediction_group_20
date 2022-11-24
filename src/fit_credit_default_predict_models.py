@@ -29,7 +29,7 @@ def main():
 
     target = "default_payment_next_month"
 
-    train_df = pd.read_csv("../data/processed/credit_train_df.csv")
+    train_df = pd.read_csv("./data/processed/credit_train_df.csv")
 
     x_train, y_train = train_df.drop(columns=[target]), train_df[target]
 
