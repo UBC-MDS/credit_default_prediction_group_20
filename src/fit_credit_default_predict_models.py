@@ -77,6 +77,16 @@ def main():
         results, scoring_metrics, x_train, y_train, column_transformer
     )
 
+    # RandomForestClassifier
+    add_rfc_scores_to_results_and_save(
+        results, scoring_metrics, x_train, y_train, column_transformer
+    )
+
+    # kNN
+    add_knn_scores_to_results_and_save(
+        results, scoring_metrics, x_train, y_train, column_transformer
+    )
+
     pd.DataFrame.to_csv(pd.DataFrame(results), "./results/cross_validation_results.csv")
 
     return
@@ -147,6 +157,105 @@ def add_dummy_scores_to_results_and_save(
     dummy_pipe.fit(x_train, y_train)
 
     dump(dummy_pipe, "./results/trained_models/dummy_classifier.joblib")
+
+
+def add_rfc_scores_to_results_and_save(
+    results, scoring_metrics, x_train, y_train, column_transformer
+):
+
+    forest_pipe = make_pipeline(column_transformer, RandomForestClassifier())
+
+    # Add scores with default hyperparameters
+    results["RandomForestClassifier"] = mean_std_cross_val_scores(
+        forest_pipe,
+        x_train,
+        y_train,
+        scoring=scoring_metrics,
+        return_train_score=True,
+    )
+
+    distributions = {
+        "randomforestclassifier__class_weight": [None, "balanced"],
+        "randomforestclassifier__max_depth": np.arange(6, 26, 2),
+        "randomforestclassifier__max_features": [
+            "sqrt",
+            "log2",
+            None,
+            0.2,
+            0.4,
+            0.6,
+            0.8,
+            0.9,
+        ],
+    }
+
+    # Hyperparameter Optimization
+    forest_random_search = RandomizedSearchCV(
+        forest_pipe,
+        param_distributions=distributions,
+        cv=10,
+        n_jobs=-1,
+        random_state=522,
+        verbose=0,
+        n_iter=100,
+        scoring="f1",
+    )
+
+    forest_random_search.fit(x_train, y_train)
+
+    results["RandomForestClassifier Optimized"] = mean_std_cross_val_scores(
+        forest_random_search.best_estimator_,
+        x_train,
+        y_train,
+        scoring=scoring_metrics,
+        return_train_score=True,
+    )
+
+    dump(
+        forest_random_search.best_estimator_,
+        "./results/trained_models/random_forest.joblib",
+    )
+
+
+def add_knn_scores_to_results_and_save(
+    results, scoring_metrics, x_train, y_train, column_transformer
+):
+    knn_pipe = make_pipeline(column_transformer, KNeighborsClassifier())
+
+    # Add scores with default hyperparameters
+    results["kNN"] = mean_std_cross_val_scores(
+        knn_pipe,
+        x_train,
+        y_train,
+        scoring=scoring_metrics,
+        return_train_score=True,
+    )
+
+    grid_params = {
+        "kneighborsclassifier__weights": ["uniform", "distance"],
+        "kneighborsclassifier__n_neighbors": np.arange(4, 220, 4),
+    }
+
+    # Hyperparameter Optimization
+    knn_grid_search = GridSearchCV(
+        knn_pipe,
+        param_grid=grid_params,
+        cv=10,
+        scoring="f1",
+        n_jobs=-1,
+    )
+
+    knn_grid_search.fit(x_train, y_train)
+
+    results["kNN Optimized"] = mean_std_cross_val_scores(
+        knn_grid_search.best_estimator_,
+        x_train,
+        y_train,
+        scoring=scoring_metrics,
+        return_train_score=True,
+    )
+
+    dump(knn_grid_search.best_estimator_, "./results/trained_models/knn.joblib")
 
 
 if not os.path.exists("./results/trained_models"):
