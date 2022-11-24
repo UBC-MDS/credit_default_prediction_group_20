@@ -1,13 +1,17 @@
-"""This script prints out docopt args.
-Usage: model_summary.py <arg1> [<new_arg>] --arg2=<arg2> [--arg3=<arg3>]
+# author: Ken Wang
+# date: 2022-11-24
+
+"""This script generate evaluation figures for a binary classification model.
+Usage: model_summary.py --model=<model> --X_test=<X_test> --y_test=<y_test> --output_dir=<output_dir>
 
 Options:
-<arg1>            Takes any value (this is a required positional argument)
-[<new_arg>]       Takes any value (this is a optional positional argument)
---arg2=<arg2>     Takes any value (this is a required option)
-[--arg3=<arg3>]   Takes any value (this is an optional option)
+--model=<model> prediction model pickle file 
+--X_test=<X_test>  test feature data file in csv format
+--y_test=<y_test>  test target data file in csv format
+--output_dir=<output_dir>  output directory to put summary figures in
 """
 
+import pickle
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
@@ -23,9 +27,20 @@ from sklearn.metrics import roc_curve
 
 opt = docopt(__doc__)
 
-def main(opt):
-    print(opt)
-    print(type(opt))
+def main(model=None, X_test=None, y_test=None, output_dir=None):
+    print(
+        f"""
+        model={model},
+        X_test={X_test},
+        y_test={y_test},
+        output_dir={output_dir}
+        """
+    )
 
 if __name__ == "__main__":
-    main(opt)
+    main(
+        model=opt['--model'],
+        X_test=opt['--X_test'],
+        y_test=opt['--y_test'],
+        output_dir=opt['--output_dir']
+    )
