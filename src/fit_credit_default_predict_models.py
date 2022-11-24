@@ -87,6 +87,16 @@ def main():
         results, scoring_metrics, x_train, y_train, column_transformer
     )
 
+    # SVC
+    add_svc_scores_to_results_and_save(
+        results, scoring_metrics, x_train, y_train, column_transformer
+    )
+
+    # Logistic Regression
+    add_lr_scores_to_results_and_save(
+        results, scoring_metrics, x_train, y_train, column_transformer
+    )
+
     pd.DataFrame.to_csv(pd.DataFrame(results), "./results/cross_validation_results.csv")
 
     return
@@ -214,7 +224,7 @@ def add_rfc_scores_to_results_and_save(
         n_jobs=-1,
         random_state=522,
         verbose=0,
-        n_iter=100,
+        n_iter=1,
         scoring="f1",
     )
 
@@ -291,6 +301,92 @@ def add_knn_scores_to_results_and_save(
     )
 
     dump(knn_grid_search.best_estimator_, "./results/trained_models/knn.joblib")
+
+
+def add_svc_scores_to_results_and_save(
+    results, scoring_metrics, x_train, y_train, column_transformer
+):
+    svc_pipe = make_pipeline(column_transformer, SVC())
+
+    # Add scores with default hyperparameters
+    results["SCV"] = mean_std_cross_val_scores(
+        svc_pipe,
+        x_train,
+        y_train,
+        scoring=scoring_metrics,
+        return_train_score=True,
+    )
+
+    distributions = {
+        "svc__class_weight": [None, "balanced"],
+        "svc__gamma": 10.0 ** np.arange(-3, 5),
+        "svc__C": 10.0 ** np.arange(-3, 5),
+    }
+
+    # Hyperparameter Optimization
+    svc_random_search = RandomizedSearchCV(
+        svc_pipe,
+        param_distributions=distributions,
+        cv=10,
+        n_jobs=-1,
+        random_state=522,
+        scoring="f1",
+    )
+
+    svc_random_search.fit(x_train, y_train)
+
+    results["SCV Optimized"] = mean_std_cross_val_scores(
+        svc_random_search.best_estimator_,
+        x_train,
+        y_train,
+        scoring=scoring_metrics,
+        return_train_score=True,
+    )
+
+    dump(svc_random_search.best_estimator_, "./results/trained_models/svc.joblib")
+
+
+def add_lr_scores_to_results_and_save(
+    results, scoring_metrics, x_train, y_train, column_transformer
+):
+    lr_pipe = make_pipeline(
+        column_transformer,
+        LogisticRegression(random_state=522, n_jobs=-1, max_iter=1000),
+    )
+
+    # Add scores with default hyperparameters
+    results["Logistic Regression"] = mean_std_cross_val_scores(
+        lr_pipe,
+        x_train,
+        y_train,
+        scoring=scoring_metrics,
+        return_train_score=True,
+    )
+
+    grid_params = {
+        "logisticregression__class_weight": [None, "balanced"],
+        "logisticregression__C": 10.0 ** np.arange(-3, 4),
+    }
+
+    # Hyperparameter Optimization
+    lr_grid_search = GridSearchCV(
+        lr_pipe, param_grid=grid_params, cv=10, scoring="f1", n_jobs=-1
+    )
+
+    lr_grid_search.fit(x_train, y_train)
+
+    results["Logistic Regression Otimized"] = mean_std_cross_val_scores(
+        lr_grid_search.best_estimator_,
+        x_train,
+        y_train,
+        scoring=scoring_metrics,
+        return_train_score=True,
+    )
+
+    dump(
+        lr_grid_search.best_estimator_,
+        "./results/trained_models/logistic_regression.joblib",
+    )
 
 
 if not os.path.exists("./results/trained_models"):
