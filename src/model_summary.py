@@ -1,15 +1,16 @@
 # Example:
-# python model_summary.py --model='../results/trained_models/svc.joblib'  --test_data='../data/processed/credit_test_df.csv' --output_dir=output_dir_value
+# python model_summary.py --model_dir='../results/trained_models/svc.joblib'  --test_data='../data/processed/credit_test_df.csv' --output_dir=output_dir_value
 
 
 # author: Ken Wang
 # date: 2022-11-24
 
 """This script generate evaluation figures for a binary classification model.
-Usage: model_summary.py --model=<model>  --test_data=<test_data> --output_dir=<output_dir>
+Usage: model_summary.py --model_dir=<model_dir>  --model_name=<model_name> --test_data=<test_data> --output_dir=<output_dir>
 
 Options:
---model=<model> prediction model pickle file
+--model_dir=<model_dir> folder with joblib model files on disk
+--model_name=<model_name> the best model to evaluate, e.x `logistic_regression`
 --X_test=<X_test>  test feature data file in csv format
 --y_test=<y_test>  test target data file in csv format
 --output_dir=<output_dir>  output directory to put summary figures in
@@ -93,7 +94,8 @@ def load_model(model_path):
     model = joblib_load(model_path)
     return model
 
-def main(model_path=None, test_data_path=None, output_dir_path=None):
+def main(model_dir=None, model_name=None, test_data_path=None, output_dir_path=None):
+    model_path = os.path.join(model_dir, model_name + '.joblib')
     model = load_model(model_path)
     X_test, y_test = load_test_data(test_data_path)
     y_hat_test = model.predict(X_test)
@@ -102,21 +104,22 @@ def main(model_path=None, test_data_path=None, output_dir_path=None):
     print(f'type(y_hat_test) = {type(y_hat_test)}')
     print(f'y_hat_test.shape = {y_hat_test.shape}')
 
-    get_confusion_matrix(model, X_test, y_test, os.path.join(output_dir_path, 'confusion_matrix.png'))
+    get_confusion_matrix(model, X_test, y_test, os.path.join(output_dir_path, model_name + '_confusion_matrix.png'))
     print('saved confusion matrix png')
 
-    get_pr_curve(model, X_test, y_test, os.path.join(output_dir_path, 'precision_recall_curve.png'))
+    get_pr_curve(model, X_test, y_test, os.path.join(output_dir_path, model_name + '_precision_recall_curve.png'))
     print('saved precision recall curve png')
 
-    get_roc_auc(model, X_test, y_test, os.path.join(output_dir_path, 'roc_auc.png'))
+    get_roc_auc(model, X_test, y_test, os.path.join(output_dir_path, model_name + '_roc_auc.png'))
     print('saved ROC AUC png')
 
-    get_classification_report(model, X_test, y_test, os.path.join(output_dir_path, 'classification_report.csv'))
+    get_classification_report(model, X_test, y_test, os.path.join(output_dir_path, model_name + '_classification_report.csv'))
     print('saved classification report')
 
 if __name__ == "__main__":
     main(
-        model_path=opt['--model'],
+        model_dir=opt['--model_dir'],
+        model_name=opt['--model_name'],
         test_data_path=opt['--test_data'],
         output_dir_path=opt['--output_dir']
     )
