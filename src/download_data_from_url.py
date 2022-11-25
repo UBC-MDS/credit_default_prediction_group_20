@@ -23,8 +23,29 @@ import os
 import requests
 from docopt import docopt
 import pandas as pd
+import re
 
 opt = docopt(__doc__)
+
+
+def check_if_url_exists(url):
+    """
+    Checks if the url provided is an acutual URL.
+
+    Parameters:
+    ------
+    url: (str)
+    the input url
+
+    Returns:
+    -------
+     Bool indicating the validity of the url
+    """
+
+    # Regex from https://www.geeksforgeeks.org/check-if-an-url-is-valid-or-not-using-regular-expression/
+
+    regex = r"(?i)\b((?:https?://|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:'\".,<>?«»“”‘’]))"
+    return re.search(regex, url) is not None
 
 
 def main(url, download_path, file_name, file_type):
@@ -43,6 +64,8 @@ def main(url, download_path, file_name, file_type):
     file_type : string
         The type in which the file will be locally saved.
     """
+
+    assert check_if_url_exists(url), "It is not a valid url"
 
     # Test if the URL exists and returns Status OK
     try:
@@ -72,6 +95,8 @@ def main(url, download_path, file_name, file_type):
         pd.DataFrame.to_excel(data, full_path, index=False)
     else:
         pd.DataFrame.to_csv(data, full_path, index=False)
+
+    assert os.path.isfile(full_path), "The downloaded file does not exist"
 
 
 # Execute only when run as a script.
