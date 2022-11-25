@@ -27,11 +27,11 @@ This data set is including data points of Taiwan's credit card client defaulting
 
 Below is the detail on each column.
 
-`ID` is the ID of each client, which is unique. `LIMIT_BAL` is amount of given credit in NT dollars. `SEX` is gender. 1 for male, 2 for female. `EDUCATION` is the education levels, 3 for high school, 2 for university, 3 for graduate school. `MARRIAGE`is the marital status, 1 for married, 2 for single, 3 for others. `AGE` is age in years. `PAY_i` (for i = 0 for September, 2 for August, ... 6 for April) is repayment status in i month of 2005 (-1 for pay duly, 1 for payment delay for one month, 2 for payment delay for two months, ... 9 for payment delay for nine months and above).`BILL_AMTi` (for i = 1 for September, 2 for August, ... 6 for April) is amount of bill statement in i month, 2005 (NT dollar). `PAY_AMTi` (for i = 1 for September, 2 for August, ... 6 for April) is amount of previous payment in i month, 2005 (NT dollar). default_payment_next_month is defaulting payment next month (1 for defaulting, 0 for not defaulting).
+`ID` is the ID of each client, which is unique. `LIMIT_BAL` is amount of given credit in NT dollars. `SEX` is gender. 1 for male, 2 for female. `EDUCATION` is the education levels, 1 for high school, 2 for university, 3 for graduate school, and 4 for others. We combined the classes 0, 5, 6 into the 4 (these values are unknown, so we combined them with others), and reverse the order (setting the lowest value to high school). `MARRIAGE`is the marital status, 1 for married, 2 for single, 3 for others. We combined 0 into 3, because 0 is unknown. `AGE` is age in years. `PAY_i` (for i = 0 for September, 2 for August, ... 6 for April) is repayment status in i month of 2005 (-1 for pay duly, 1 for payment delay for one month, 2 for payment delay for two months, ... 9 for payment delay for nine months and above).`BILL_AMTi` (for i = 1 for September, 2 for August, ... 6 for April) is amount of bill statement in i month, 2005 (NT dollar). `PAY_AMTi` (for i = 1 for September, 2 for August, ... 6 for April) is amount of previous payment in i month, 2005 (NT dollar). default_payment_next_month is defaulting payment next month (1 for defaulting, 0 for not defaulting).
 
 ## Data Analysis
 
-As shown in the figure 1. pie chart for target, the target (default payment next month) is an imbalanced feature. There are more cases of not defaulting than defaulting. We may need to apply class-weight or another method to solve the problem.
+As shown in the figure 1. pie chart for target, the target (default payment next month) is an imbalanced feature. There are more cases of not defaulting than defaulting. We apply class-weight to improve the model.
 
 Figure 1. pie chart for target
 
