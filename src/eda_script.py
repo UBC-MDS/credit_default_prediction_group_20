@@ -28,7 +28,7 @@ warnings.filterwarnings('ignore')
 # Save a vega-lite spec and a PNG blob for each plot in the notebook
 alt.renderers.enable('mimetype')
 # Handle large data sets without embedding them in the notebook
-# alt.data_transformers.enable('data_server')
+
 alt.data_transformers.disable_max_rows()
 
 opt = docopt(__doc__)
@@ -115,7 +115,7 @@ def main(processed_data_path, eda_result_path):
      alt.X(alt.repeat(), type='quantitative', bin=alt.Bin(maxbins=30)),
      y='count()',
     color=alt.Color('default_payment_next_month', scale=alt.Scale( scheme='purpleorange'))).properties( width=200,height=150).repeat(num_cols,columns=3)
-    save_chart(numeric_dis, './'+eda_result_path+'/images/numeric_dis.png', 2)
+    save_chart(numeric_dis, './'+eda_result_path+'/eda/images/numeric_dis.png', 2)
     
     ##test assert if numeric_dis created
     assert numeric_dis is not None
