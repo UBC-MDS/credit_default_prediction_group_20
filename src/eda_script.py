@@ -116,8 +116,8 @@ def main(processed_data_path, eda_result_path):
     assert corr_plot is not None
     
     ##default-undefualt
-    train_df['whether default next month'] = 'undefault'
-    train_df.loc[train_df['default_payment_next_month'] == 1, 'whether default next month'] = 'default'
+    train_df['whether default next month'] = 'not defaulting'
+    train_df.loc[train_df['default_payment_next_month'] == 1, 'whether default next month'] = 'defaulting'
     
     
     
