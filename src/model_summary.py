@@ -1,5 +1,5 @@
 # Example:
-# python model_summary.py --model_dir='../results/trained_models'  --test_data='../data/processed/credit_test_df.csv' --output_dir=output_dir_value
+# python src/model_summary.py --model_dir='results/trained_models' --test_data='data/processed/credit_test_df.csv' --output_dir='results/test_scores'
 
 
 # author: Ken Wang
@@ -175,7 +175,7 @@ def main(model_dir=None, test_data_path=None, output_dir_path=None):
     get_train_f1_scores('results/cross_validation_results.csv', train_f1_scores_path)
     get_test_f1_scores(model_dir, test_data_path, test_f1_scores_path)
     get_train_test_f1_socres(train_f1_scores_path, test_f1_scores_path, train_test_f1_scores_path)
-    
+
     f1_score_plot_path = os.path.join(output_dir_path, 'train_test_f1_scores.png')
     plot_f1_scores(train_test_f1_scores_path, f1_score_plot_path)
 
