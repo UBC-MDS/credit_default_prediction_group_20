@@ -13,17 +13,38 @@ knitr::opts_chunk$set(echo = FALSE)
 library(reticulate)
 ```
 
-```{python setup, include=FALSE}
-import pandas
-import pickle
-import matplotlib.pyplot as plt
-from sklearn.metrics import ConfusionMatrixDisplay, classification_report, accuracy_score, average_precision_score, roc_auc_score
+```{python code block, include=FALSE}
+
 ```
 
 ## Introduction
 
+For the project, we are trying to answer the question that given a credit card customer's payment history and demographic information like gender, age, and education level, would the customer defaulting on the next bill payment? Answering this question is important because, with an effective predictive model, financial institutions can evaluate a customer's credit level and grant appropriate credit amount limits. This analysis would be crucial in credit score calculation and risk management. We are considering the class credit defaulting (clients make a default payment) as the main interest of our model. Therefore, we are treating the class credit defaulting as the positive class and the class not defaulting as the negative class. Our goal is to correctly predict as many default payments as possible. In another word, we are maximizing the number of true positives, which is the same as maximizing recall. In this case, it is important for financial institutions to identify potential clients that may make a default payment. Thus, they can prevent asset loss in advance. Moreover, precision is also important since it will be costly for the institutions when there is too many false positive. For example, an incorrect perdition of a defaulting or a not defaulting client can potentially create a loss of assets for financial institutions. In conclusion, in order to balance recall and precision, we are using the f1 score as our primary scoring metric.
+
+## Data
+
+This data set is including data points of Taiwan's credit card client defaulting cases, demographic factors, credit data, history of payment, and bill statements of credit card clients between April 2005 and September 2005. There are 30,000 observations in the data set, 23 features, and a single target, which is a binary variable. The target (credit defaulting) has two classes: class 1 (client will make a defaulting next month), and 0 (client will not make a defaulting next month). There are no missing values in the data set.
+
+Below is the detail on each column.
+
+`ID` is the ID of each client, which is unique. `LIMIT_BAL` is amount of given credit in NT dollars. `SEX` is gender. 1 for male, 2 for female. `EDUCATION` is the education levels, 3 for high school, 2 for university, 3 for graduate school. `MARRIAGE`is the marital status, 1 for married, 2 for single, 3 for others. `AGE` is age in years. `PAY_i` (for i = 0 for September, 2 for August, ... 6 for April) is repayment status in i month of 2005 (-1 for pay duly, 1 for payment delay for one month, 2 for payment delay for two months, ... 9 for payment delay for nine months and above).`BILL_AMTi` (for i = 1 for September, 2 for August, ... 6 for April) is amount of bill statement in i month, 2005 (NT dollar). `PAY_AMTi` (for i = 1 for September, 2 for August, ... 6 for April) is amount of previous payment in i month, 2005 (NT dollar). default_payment_next_month is defaulting payment next month (1 for defaulting, 0 for not defaulting).
+
+## Data Analysis
+
+As shown in the figure 1. pie chart for target, the target (default payment next month) is an imbalanced feature. There are more cases of not defaulting than defaulting. We may need to apply class-weight or another method to solve the problem.
+
+Figure 1. pie chart for target
+
+![](../results//eda/images/target_proportion.jpg)
+
+As shown in figure 2. correlation graph, We can see that the `PAY_0`, `PAY_2`, `PAY_3`, `PAY_4`, `PAY_5`, and `PAY_6` have a quite high correlation with each other. In addition, `BILL_AMT1`, `BILL_AMT2`, `BILL_AMT3`, `BILL_AMT4`, `BILL_AMT5`, and `BILL_AMT6` have the same pattern.
+
+Figure 2. Correlation graph
+
+![](../results//eda/images/corr_plot.png)
+
 ## Result
 
-## Inprovement and limitation
+## Improvement and limitation
 
 ## References
