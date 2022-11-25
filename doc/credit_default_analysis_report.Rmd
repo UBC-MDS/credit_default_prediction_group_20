@@ -43,9 +43,13 @@ Figure 2. Correlation graph
 
 ![](../results//eda/images/corr_plot.png)
 
+## Methods
+This project is based on Python[@python] and including the following python packages:pandas[@pandas],scikit-learn[@scikit-learn],altair[@altair],matplotlib[@matplotlib],numpy[@numpy],uci_ml_data_set[@uci_ml_data_set]
+
 ## Result
 
 ## Improvement and limitation
 Understanding the limitations and assumptions made during the prediction process plays a crucial role in understanding the validity and reliability of the results. One of the critical limitations that blocks us from extrapolating the results to the present day is that the data is old (taken in 2005), and there have been significant change in human nature and patterns since 2005. There are limitations also introduced due to the presence of data that was absent in the metadata for the features EDUCATION and MARRIAGE. These features contain unknown levels which are not described in the documentation. With number of defaulters at approximately at 25%, the number of defaulters is relatively large compared to what we would expect in real life. This could be due an efffect of Taiwanese economy this time period or could be due to improper data collection. To improve the analysis, we could perform feature enginneering based on expert domain knowledge that could boost the model performance. Although we have analyzed the performance of RFC, KNN, SVC, and LR, we could try analyzing the performance GradientBoostingClassifier. We could have also tried using SMOTE or a different method of handling class imbalance. To generalize the analysis to the current years, the first step would be to take more recent data that includes more features such as asset to debt ratio, occupation, income, and household size. It would also be better to get the data across varias other countries to better train our model on the trends in credit default payments. 
+
 
 ## References
