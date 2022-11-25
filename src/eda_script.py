@@ -97,7 +97,7 @@ def main(processed_data_path, eda_result_path):
     train_df, test_df = train_test_split(credit_df, test_size=0.2, random_state=522)
     #pie chart
     plt.pie(credit_df['default_payment_next_month'].value_counts(), 
-        labels=['undefualt','default'],
+        labels=['not defaulting','defaulting'],
         colors=["#d5695d", "#5d8ca8"],
         autopct='%.2f%%',)
     plt.title('proportion of target classes')
