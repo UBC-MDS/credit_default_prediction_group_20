@@ -49,8 +49,6 @@ def main(read_training_path, write_model_path, write_score_path):
         Path (excluding filename) to save the training results [default: ./results/]
     """
 
-    run_tests(write_model_path, write_score_path)
-
     results = {}
 
     scoring_metrics = ["f1", "accuracy", "precision", "recall"]
