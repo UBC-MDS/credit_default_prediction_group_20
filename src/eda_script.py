@@ -107,6 +107,14 @@ def main(processed_data_path, eda_result_path):
     ##test assert if pie chart
     assert plt is not None
     
+    #heatmap
+    corr_df = train_df.corr().stack().reset_index(name='corr')
+    corr_plot=alt.Chart(corr_df,title="Correlation graph").mark_rect().encode(x='level_0',y='level_1',color=alt.Color('corr')).properties(width=400, height=400)
+    save_chart(corr_plot,'./'+eda_result_path+'/eda/images/corr_plot.png', 2)
+    
+    ##test assert if heatmap created
+    assert corr_plot is not None
+    
     ##default-undefualt
     train_df['whether default next month'] = 'undefault'
     train_df.loc[train_df['default_payment_next_month'] == 1, 'whether default next month'] = 'default'
@@ -137,13 +145,7 @@ def main(processed_data_path, eda_result_path):
     ##test assert if categorical dis created
     assert categorical_dis is not None
     
-    #heatmap
-    corr_df = train_df.corr().stack().reset_index(name='corr')
-    corr_plot=alt.Chart(corr_df,title="Correlation graph").mark_rect().encode(x='level_0',y='level_1',color=alt.Color('corr')).properties(width=400, height=400)
-    save_chart(corr_plot,'./'+eda_result_path+'/eda/images/corr_plot.png', 2)
     
-    ##test assert if heatmap created
-    assert corr_plot is not None
     
     print('output saved every things done')
 
