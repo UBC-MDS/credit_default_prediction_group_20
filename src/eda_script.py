@@ -97,7 +97,7 @@ def main(processed_data_path, eda_result_path):
     train_df, test_df = train_test_split(credit_df, test_size=0.2, random_state=522)
     #pie chart
     plt.pie(credit_df['default_payment_next_month'].value_counts(), 
-        labels=['0','1'],
+        labels=['undefualt','default'],
         colors=["#d5695d", "#5d8ca8"],
         autopct='%.2f%%',)
     plt.title('proportion of target classes')
@@ -107,6 +107,12 @@ def main(processed_data_path, eda_result_path):
     ##test assert if pie chart
     assert plt is not None
     
+    ##default-undefualt
+    train_df['whether default next month'] = 'undefault'
+    train_df.loc[train_df['default_payment_next_month'] == 1, 'whether default next month'] = 'default'
+    
+    
+    
     #numeric dis
     num_cols = ["LIMIT_BAL", "AGE", "BILL_AMT1", "BILL_AMT2", "BILL_AMT3", "BILL_AMT4", 
             "BILL_AMT5", "BILL_AMT6", "PAY_AMT1",  "PAY_AMT2",  "PAY_AMT3", 
@@ -114,17 +120,17 @@ def main(processed_data_path, eda_result_path):
     numeric_dis=alt.Chart(train_df).mark_bar().encode(
      alt.X(alt.repeat(), type='quantitative', bin=alt.Bin(maxbins=30)),
      y='count()',
-    color=alt.Color('default_payment_next_month', scale=alt.Scale( scheme='purpleorange'))).properties( width=200,height=150).repeat(num_cols,columns=3)
+    color=alt.Color('whether default next month', scale=alt.Scale( scheme='purpleorange'))).properties( width=200,height=150).repeat(num_cols,columns=3)
     save_chart(numeric_dis, './'+eda_result_path+'/eda/images/numeric_dis.png', 2)
     
     ##test assert if numeric_dis created
     assert numeric_dis is not None
-    
+ 
     #categorical dis
     cat_col = ["EDUCATION", "MARRIAGE", "SEX", "PAY_0", "PAY_2", "PAY_3", "PAY_4", "PAY_5", "PAY_6"]
     categorical_dis=alt.Chart(train_df).mark_bar().encode(
         alt.X(alt.repeat(), type='quantitative', bin=alt.Bin(maxbins=20)),y='count()',
-      color=alt.Color('default_payment_next_month', scale=alt.Scale( scheme='dark2'))
+      color=alt.Color('whether default next month', scale=alt.Scale( scheme='dark2'))
     ).properties(width=200,height=150).repeat(cat_col,columns=3)
     save_chart(categorical_dis,'./'+eda_result_path+'/eda/images/categorical_dis.png', 2)
     
