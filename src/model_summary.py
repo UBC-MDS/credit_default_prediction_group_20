@@ -15,6 +15,7 @@ Options:
 --output_dir=<output_dir>  output directory to put summary figures in
 """
 
+import os.path
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
@@ -101,16 +102,16 @@ def main(model_path=None, test_data_path=None, output_dir_path=None):
     print(f'type(y_hat_test) = {type(y_hat_test)}')
     print(f'y_hat_test.shape = {y_hat_test.shape}')
 
-    get_confusion_matrix(model, X_test, y_test, '../results/confusion_matrix.png')
+    get_confusion_matrix(model, X_test, y_test, os.path.join(output_dir_path, 'confusion_matrix.png'))
     print('saved confusion matrix png')
 
-    get_pr_curve(model, X_test, y_test, '../results/precision_recall_curve.png')
+    get_pr_curve(model, X_test, y_test, os.path.join(output_dir_path, 'precision_recall_curve.png'))
     print('saved precision recall curve png')
 
-    get_roc_auc(model, X_test, y_test, '../results/roc_auc.png')
+    get_roc_auc(model, X_test, y_test, os.path.join(output_dir_path, 'roc_auc.png'))
     print('saved ROC AUC png')
 
-    get_classification_report(model, X_test, y_test,  '../results/classification_report.csv')
+    get_classification_report(model, X_test, y_test, os.path.join(output_dir_path, 'classification_report.csv'))
     print('saved classification report')
 
 if __name__ == "__main__":
