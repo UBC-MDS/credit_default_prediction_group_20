@@ -57,7 +57,6 @@ def get_roc_auc(model, X_test, y_test, figure_path):
     plt.savefig(figure_path)
     plt.clf()
 
-
 def get_pr_curve(model, X_test, y_test, figure_path):
     precision, recall, thresholds = precision_recall_curve(
         y_test, model.predict_proba(X_test)[:, 1]
@@ -94,32 +93,59 @@ def load_model(model_path):
     model = joblib_load(model_path)
     return model
 
-
-def get_test_f1_scores(model_dir=None, test_data_path=None, output_dir_path=None):
+def get_test_f1_scores(model_dir=None, test_data_path=None, sheet_path=None):
     X_test, y_test = load_test_data(test_data_path)
-
     # for all models plot the F-1 score
     model_name_list = ['svc', 'logistic_regression', 'dummy_classifier', 'random_forest', 'knn']
+    # model_name -> test f1 score
+    test_f1_score_dict = {}
     for model_name in model_name_list:
         print(f'\n---------- model_name = {model_name} ------------\n')
         model_path = os.path.join(model_dir, model_name + '.joblib')
         model = load_model(model_path)
 
         y_hat_test = model.predict(X_test)
-        print(f'y_hat_test = {y_hat_test}')
-        print(f'type(y_hat_test) = {type(y_hat_test)}')
-        print(f'y_hat_test.shape = {y_hat_test.shape}')
 
         my_f1_score = f1_score(y_test, y_hat_test)
-        print(f'f1_score = {my_f1_score}')
+        print(f'my_f1_score = {my_f1_score}')
+        test_f1_score_dict[model_name] = [my_f1_score]
+    test_f1_score_df = pd.DataFrame.from_dict(test_f1_score_dict, orient='index', columns=['test_f1_score'])
+    pd.DataFrame.to_csv(test_f1_score_df, sheet_path)
 
+def get_train_f1_scores(cv_scores_sheet_path=None, output_sheet_path=None):
+    cv_scores_df = pd.read_csv(cv_scores_sheet_path, index_col=0)
+    train_f1_scores_raw = cv_scores_df.loc['test_f1',:]
+    model_names_map = {
+        'Dummy': 'dummy_classifier',
+        'SCV Optimized': 'svc',
+        'kNN Optimized': 'knn',
+        'Logistic Regression Otimized': 'logistic_regression',
+        'RandomForestClassifier Optimized': 'random_forest'
+    }
+    model_names_list = list(model_names_map.keys())
+    train_f1_scores_series = train_f1_scores_raw[model_names_list]
+    train_f1_scores_series = train_f1_scores_series.str.split(' ', expand=True).iloc[:, 0].rename('train_f1_score')
+    train_f1_scores_series = train_f1_scores_series.rename(model_names_map)
+    train_f1_scores_series = train_f1_scores_series.astype(np.float64)
+    train_f1_scores_df = pd.DataFrame(train_f1_scores_series)
+    pd.DataFrame.to_csv(train_f1_scores_df, output_sheet_path)
 
+def get_train_test_f1_socres(train_scores_sheet, test_scores_sheet, train_test_scores_sheet):
+    train_scores = pd.read_csv(train_scores_sheet, index_col=0)
+    test_scores = pd.read_csv(test_scores_sheet, index_col=0)
+    train_test_scores = pd.concat([train_scores, test_scores], axis=1)
+    pd.DataFrame.to_csv(train_test_scores, train_test_scores_sheet)
 
 def main(model_dir=None, test_data_path=None, output_dir_path=None):
-    X_test, y_test = load_test_data(test_data_path)
+    train_f1_scores_path = os.path.join(output_dir_path, 'train_f1_scores.csv')
+    test_f1_scores_path = os.path.join(output_dir_path, 'test_f1_scores.csv')
+    train_test_f1_scores_path = os.path.join(output_dir_path, 'train_test_f1_scores.csv')
 
-    # for all the models plot the f-1 score for both validation/test data
-    get_test_f1_scores(model_dir, test_data_path, output_dir_path)
+    get_train_f1_scores('results/cross_validation_results.csv', train_f1_scores_path)
+    get_test_f1_scores(model_dir, test_data_path, test_f1_scores_path)
+    get_train_test_f1_socres(train_f1_scores_path, test_f1_scores_path, train_test_f1_scores_path)
+
+    X_test, y_test = load_test_data(test_data_path)
 
     # for the best model `logistic regression` make some figures
     best_model_name = 'logistic_regression'
@@ -139,12 +165,9 @@ def main(model_dir=None, test_data_path=None, output_dir_path=None):
     get_roc_auc(model, X_test, y_test, os.path.join(output_dir_path, best_model_name + '_roc_auc.png'))
     print('saved ROC AUC png')
 
-
 if __name__ == "__main__":
     main(
         model_dir=opt['--model_dir'],
         test_data_path=opt['--test_data'],
         output_dir_path=opt['--output_dir']
     )
-
-
