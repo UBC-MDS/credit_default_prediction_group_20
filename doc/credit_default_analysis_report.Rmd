@@ -1,0 +1,29 @@
+---
+title: "Credit Default Analysis Report"
+author: "Morris Zhao"
+date: "2022-11-25"
+output:
+  github_document:
+    toc: true
+bibliography: default_credit_references.bib
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+library(reticulate)
+```
+
+```{python setup, include=FALSE}
+import pandas
+import pickle
+import matplotlib.pyplot as plt
+from sklearn.metrics import ConfusionMatrixDisplay, classification_report, accuracy_score, average_precision_score, roc_auc_score
+```
+
+## Introduction
+
+## Result
+
+## Inprovement and limitation
+
+## References
