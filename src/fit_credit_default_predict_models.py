@@ -49,6 +49,8 @@ def main(read_training_path, write_model_path, write_score_path):
         Path (excluding filename) to save the training results [default: ./results/]
     """
 
+    run_tests(write_model_path, write_score_path)
+
     results = {}
 
     scoring_metrics = ["f1", "accuracy", "precision", "recall"]
@@ -126,6 +128,8 @@ def main(read_training_path, write_model_path, write_score_path):
     pd.DataFrame.to_csv(
         pd.DataFrame(results), write_score_path + "cross_validation_results.csv"
     )
+
+    run_tests(write_model_path, write_score_path)
 
     return
 
@@ -470,6 +474,65 @@ def add_lr_scores_to_results_and_save(
         lr_grid_search.best_estimator_,
         write_model_path + "logistic_regression.joblib",
     )
+
+
+def run_tests(write_model_path, write_score_path):
+    """
+    Tests to ensure all the required artifacts are created.
+
+    Parameters
+    ----------
+    write_model_path : str
+        Path where the models are saved.
+    write_score_path : str
+        Path where the score is saved.
+    """
+
+    assert os.path.isfile(
+        write_score_path + "cross_validation_results.csv"
+    ), "The cross validation results does not exist"
+
+    assert os.path.isfile(
+        write_model_path + "dummy_classifier.joblib"
+    ), "The dummy_classifier model does not exist"
+
+    assert os.path.isfile(
+        write_model_path + "random_forest.joblib"
+    ), "The random_forest model does not exist"
+
+    assert os.path.isfile(
+        write_model_path + "knn.joblib"
+    ), "The knn model does not exist"
+
+    assert os.path.isfile(
+        write_model_path + "svc.joblib"
+    ), "The svc model does not exist"
+
+    assert os.path.isfile(
+        write_model_path + "logistic_regression.joblib",
+    ), "The logistic_regression model does not exist"
+
+    cv_results_df = pd.read_csv(write_score_path + "cross_validation_results.csv")
+
+    assert cv_results_df.shape == (
+        10,
+        10,
+    ), "The shape of the final result dataframe is wrong."
+
+    assert set(cv_results_df.columns) == set(
+        [
+            "Unnamed: 0",
+            "Dummy",
+            "RandomForestClassifier",
+            "RandomForestClassifier Optimized",
+            "kNN",
+            "kNN Optimized",
+            "SCV",
+            "SCV Optimized",
+            "Logistic Regression",
+            "Logistic Regression Otimized",
+        ]
+    ), "The output file does not have all the results."
 
 
 if __name__ == "__main__":
