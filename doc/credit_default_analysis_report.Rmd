@@ -31,7 +31,7 @@ Below is the detail on each column.
 
 ## Data Analysis
 
-As shown in the figure 1. pie chart for target, the target (default payment next month) is an imbalanced feature. There are more cases of not defaulting than defaulting. We may need to apply class-weight or another method to solve the problem.
+As shown in the figure 1. pie chart for target, the target (default payment next month) is an imbalanced feature. There are more cases of not defaulting than defaulting. We apply class-weight to improve the model.
 
 Figure 1. pie chart for target
 
