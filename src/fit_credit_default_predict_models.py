@@ -103,31 +103,31 @@ def main(read_training_path, write_model_path, write_score_path):
         results, scoring_metrics, x_train, y_train, column_transformer, write_model_path
     )
 
-    # RandomForestClassifier
-    add_rfc_scores_to_results_and_save(
-        results, scoring_metrics, x_train, y_train, column_transformer, write_model_path
-    )
+    # # RandomForestClassifier
+    # add_rfc_scores_to_results_and_save(
+    #     results, scoring_metrics, x_train, y_train, column_transformer, write_model_path
+    # )
 
-    # kNN
-    add_knn_scores_to_results_and_save(
-        results, scoring_metrics, x_train, y_train, column_transformer, write_model_path
-    )
+    # # kNN
+    # add_knn_scores_to_results_and_save(
+    #     results, scoring_metrics, x_train, y_train, column_transformer, write_model_path
+    # )
 
-    # SVC
-    add_svc_scores_to_results_and_save(
-        results, scoring_metrics, x_train, y_train, column_transformer, write_model_path
-    )
+    # # SVC
+    # add_svc_scores_to_results_and_save(
+    #     results, scoring_metrics, x_train, y_train, column_transformer, write_model_path
+    # )
 
-    # Logistic Regression
-    add_lr_scores_to_results_and_save(
-        results, scoring_metrics, x_train, y_train, column_transformer, write_model_path
-    )
+    # # Logistic Regression
+    # add_lr_scores_to_results_and_save(
+    #     results, scoring_metrics, x_train, y_train, column_transformer, write_model_path
+    # )
 
     pd.DataFrame.to_csv(
         pd.DataFrame(results), write_score_path + "cross_validation_results.csv"
     )
 
-    run_tests(write_model_path, write_score_path)
+    # run_tests(write_model_path, write_score_path)
 
     return
 
