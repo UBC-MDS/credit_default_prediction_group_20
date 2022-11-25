@@ -27,6 +27,7 @@ from sklearn.metrics import ConfusionMatrixDisplay
 from sklearn.metrics import precision_recall_curve, precision_score, recall_score
 from sklearn.metrics import roc_curve
 from sklearn.metrics import classification_report
+from sklearn.metrics import f1_score
 
 opt = docopt(__doc__)
 
@@ -94,9 +95,9 @@ def load_model(model_path):
     return model
 
 
-def main(model_dir=None, test_data_path=None, output_dir_path=None):
+def get_test_f1_scores(model_dir=None, test_data_path=None, output_dir_path=None):
     X_test, y_test = load_test_data(test_data_path)
-    
+
     # for all models plot the F-1 score
     model_name_list = ['svc', 'logistic_regression', 'dummy_classifier', 'random_forest', 'knn']
     for model_name in model_name_list:
@@ -109,13 +110,26 @@ def main(model_dir=None, test_data_path=None, output_dir_path=None):
         print(f'type(y_hat_test) = {type(y_hat_test)}')
         print(f'y_hat_test.shape = {y_hat_test.shape}')
 
+        my_f1_score = f1_score(y_test, y_hat_test)
+        print(f'f1_score = {my_f1_score}')
+
+
+
+def main(model_dir=None, test_data_path=None, output_dir_path=None):
+    X_test, y_test = load_test_data(test_data_path)
+
+    # for all the models plot the f-1 score for both validation/test data
+    get_test_f1_scores(model_dir, test_data_path, output_dir_path)
+
     # for the best model `logistic regression` make some figures
     best_model_name = 'logistic_regression'
     print(f'\n---------- best_model_name = {best_model_name} ------------\n')
+    model_path = os.path.join(model_dir, best_model_name + '.joblib')
+    model = load_model(model_path)
 
     get_classification_report(model, X_test, y_test, os.path.join(output_dir_path, best_model_name + '_classification_report.csv'))
     print('saved classification report')
-    
+
     get_confusion_matrix(model, X_test, y_test, os.path.join(output_dir_path, best_model_name + '_confusion_matrix.png'))
     print('saved confusion matrix png')
 
@@ -132,3 +146,5 @@ if __name__ == "__main__":
         test_data_path=opt['--test_data'],
         output_dir_path=opt['--output_dir']
     )
+
+
