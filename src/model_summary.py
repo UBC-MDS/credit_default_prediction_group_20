@@ -21,6 +21,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from docopt import docopt
 from joblib import load as joblib_load
+import altair as alt
 
 from sklearn.metrics import confusion_matrix
 from sklearn.metrics import ConfusionMatrixDisplay
@@ -136,6 +137,36 @@ def get_train_test_f1_socres(train_scores_sheet, test_scores_sheet, train_test_s
     train_test_scores = pd.concat([train_scores, test_scores], axis=1)
     pd.DataFrame.to_csv(train_test_scores, train_test_scores_sheet)
 
+def plot_f1_scores(train_test_scores_path, plot_path):
+    train_test_scores = pd.read_csv(train_test_scores_path, index_col=0)
+    train_test_scores.index.name = 'model'
+    train_test_scores = train_test_scores.reset_index()
+    train_test_scores = train_test_scores.rename(columns={'train_f1_score': 'train', 'test_f1_score': 'test'})
+    train_test_scores = train_test_scores.sort_values('test')
+    train_test_scores = pd.melt(train_test_scores, id_vars='model', var_name='score_type', value_name='score').sort_values('model')
+
+    my_chart = alt.Chart(
+        train_test_scores,
+        title='F-1 Scores for Different Models'
+    ).mark_bar().encode(
+        x=alt.X('score_type', title=None),
+        y='score',
+        color=alt.Color('score_type', title=None),
+        column=alt.Column('model:N', title='Model', spacing=40, sort=['random_forest', 'knn', 'logistic_regression', 'svc', 'dummy_classifier'])
+    ).configure_axis(
+        labelFontSize=15,
+        titleFontSize=15,
+    ).configure_legend(
+        labelFontSize=15,
+    ).configure_header(
+        labelFontSize=13
+    ).configure_title(
+        fontSize=20
+    )
+
+    my_chart.save(plot_path)
+
+
 def main(model_dir=None, test_data_path=None, output_dir_path=None):
     train_f1_scores_path = os.path.join(output_dir_path, 'train_f1_scores.csv')
     test_f1_scores_path = os.path.join(output_dir_path, 'test_f1_scores.csv')
@@ -144,6 +175,9 @@ def main(model_dir=None, test_data_path=None, output_dir_path=None):
     get_train_f1_scores('results/cross_validation_results.csv', train_f1_scores_path)
     get_test_f1_scores(model_dir, test_data_path, test_f1_scores_path)
     get_train_test_f1_socres(train_f1_scores_path, test_f1_scores_path, train_test_f1_scores_path)
+    
+    f1_score_plot_path = os.path.join(output_dir_path, 'train_test_f1_scores.png')
+    plot_f1_scores(train_test_f1_scores_path, f1_score_plot_path)
 
     X_test, y_test = load_test_data(test_data_path)
 
