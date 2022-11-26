@@ -11,6 +11,9 @@ Options:
     --read_training_path=<read_training_path>               Path to the training data.
     --write_model_path=<write_model_path>                   Path (excluding filename) to save the serialized model file [default: ./results/trained_models/]
     --write_score_path=<write_score_path>                   Path (excluding filename) to save the training results [default: ./results/]
+
+From the root of the repository, run:
+ python src/fit_credit_default_predict_models.py --read_training_path data/processed/credit_train_df.csv --write_model_path results/trained_models/ --write_score_path results/
 """
 
 import os
