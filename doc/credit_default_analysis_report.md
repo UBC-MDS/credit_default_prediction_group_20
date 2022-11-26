@@ -1,0 +1,182 @@
+Credit Default Analysis Report
+================
+Arjun Radhakrishnan, Morris Zhao, Althrun Sun, Ken Wang
+2022-11-25
+
+-   <a href="#introduction" id="toc-introduction">Introduction</a>
+-   <a href="#data" id="toc-data">Data</a>
+-   <a href="#data-analysis" id="toc-data-analysis">Data Analysis</a>
+-   <a href="#methods" id="toc-methods">Methods</a>
+-   <a href="#result" id="toc-result">Result</a>
+-   <a href="#improvement-and-limitation"
+    id="toc-improvement-and-limitation">Improvement and limitation</a>
+-   <a href="#references" id="toc-references">References</a>
+
+## Introduction
+
+For the project, we are trying to answer the question that given a
+credit card customer’s payment history and demographic information like
+gender, age, and education level, would the customer defaulting on the
+next bill payment? Answering this question is important because, with an
+effective predictive model, financial institutions can evaluate a
+customer’s credit level and grant appropriate credit amount limits. This
+analysis would be crucial in credit score calculation and risk
+management. We are considering the class credit defaulting (clients make
+a default payment) as the main interest of our model. Therefore, we are
+treating the class credit defaulting as the positive class and the class
+not defaulting as the negative class. Our goal is to correctly predict
+as many default payments as possible. In another word, we are maximizing
+the number of true positives, which is the same as maximizing recall. In
+this case, it is important for financial institutions to identify
+potential clients that may make a default payment. Thus, they can
+prevent asset loss in advance. Moreover, precision is also important
+since it will be costly for the institutions when there is too many
+false positive. For example, an incorrect perdition of a defaulting or a
+not defaulting client can potentially create a loss of assets for
+financial institutions. In conclusion, in order to balance recall and
+precision, we are using the f1 score as our primary scoring metric.
+
+## Data
+
+This data set is including data points of Taiwan’s credit card client
+defaulting cases, demographic factors, credit data, history of payment,
+and bill statements of credit card clients between April 2005 and
+September 2005. There are 30,000 observations in the data set, 23
+features, and a single target, which is a binary variable. The target
+(credit defaulting) has two classes: class 1 (client will make a
+defaulting next month), and 0 (client will not make a defaulting next
+month). There are no missing values in the data set.
+
+Below is the detail on each column.
+
+`ID` is the ID of each client, which is unique. `LIMIT_BAL` is amount of
+given credit in NT dollars. `SEX` is gender. 1 for male, 2 for female.
+`EDUCATION` is the education levels, 1 for high school, 2 for
+university, 3 for graduate school, and 4 for others. We combined the
+classes 0, 5, 6 into the 4 (these values are unknown, so we combined
+them with others), and reverse the order (setting the lowest value to
+high school). `MARRIAGE`is the marital status, 1 for married, 2 for
+single, 3 for others. We combined 0 into 3, because 0 is unknown. `AGE`
+is age in years. `PAY_i` (for i = 0 for September, 2 for August, … 6 for
+April) is repayment status in i month of 2005 (-1 for pay duly, 1 for
+payment delay for one month, 2 for payment delay for two months, … 9 for
+payment delay for nine months and above).`BILL_AMTi` (for i = 1 for
+September, 2 for August, … 6 for April) is amount of bill statement in i
+month, 2005 (NT dollar). `PAY_AMTi` (for i = 1 for September, 2 for
+August, … 6 for April) is amount of previous payment in i month, 2005
+(NT dollar). default_payment_next_month is defaulting payment next month
+(1 for defaulting, 0 for not defaulting).
+
+## Data Analysis
+
+As shown in the figure 1. pie chart for target, the target (default
+payment next month) is an imbalanced feature. There are more cases of
+not defaulting than defaulting. We apply class-weight to improve the
+model.
+
+Figure 1. pie chart for target
+
+![](../results//eda/images/target_proportion.jpg)
+
+As shown in figure 2. correlation graph, We can see that the `PAY_0`,
+`PAY_2`, `PAY_3`, `PAY_4`, `PAY_5`, and `PAY_6` have a quite high
+correlation with each other. In addition, `BILL_AMT1`, `BILL_AMT2`,
+`BILL_AMT3`, `BILL_AMT4`, `BILL_AMT5`, and `BILL_AMT6` have the same
+pattern.
+
+Figure 2. Correlation graph
+
+![](../results//eda/images/corr_plot.png)
+
+## Methods
+
+This project is based on Python(Python 2021) and including the following
+python packages:pandas(Snider and Swedo 2004),scikit-learn(Kramer
+2016),altair(VanderPlas et al. 2018),matplotlib(Bisong
+2019),numpy(Bressert 2012),uci_ml_data_set(n.d.)
+
+## Result
+
+## Improvement and limitation
+
+Understanding the limitations and assumptions made during the prediction
+process plays a crucial role in understanding the validity and
+reliability of the results. One of the critical limitations that blocks
+us from extrapolating the results to the present day is that the data is
+old (taken in 2005), and there have been significant change in human
+nature and patterns since 2005. There are limitations also introduced
+due to the presence of data that was absent in the metadata for the
+features EDUCATION and MARRIAGE. These features contain unknown levels
+which are not described in the documentation. With number of defaulters
+at approximately at 25%, the number of defaulters is relatively large
+compared to what we would expect in real life. This could be due an
+efffect of Taiwanese economy this time period or could be due to
+improper data collection. To improve the analysis, we could perform
+feature enginneering based on expert domain knowledge that could boost
+the model performance. Although we have analyzed the performance of RFC,
+KNN, SVC, and LR, we could try analyzing the performance
+GradientBoostingClassifier. We could have also tried using SMOTE or a
+different method of handling class imbalance. To generalize the analysis
+to the current years, the first step would be to take more recent data
+that includes more features such as asset to debt ratio, occupation,
+income, and household size. It would also be better to get the data
+across varias other countries to better train our model on the trends in
+credit default payments.
+
+## References
+
+<div id="refs" class="references csl-bib-body hanging-indent">
+
+<div id="ref-uci_ml_data_set" class="csl-entry">
+
+n.d. *UCI Machine Learning Repository: Default of Credit Card Clients
+Data Set*.
+<https://archive.ics.uci.edu/ml/datasets/default+of+credit+card+clients>.
+
+</div>
+
+<div id="ref-matplotlib" class="csl-entry">
+
+Bisong, Ekaba. 2019. “Matplotlib and Seaborn.” In *Building Machine
+Learning and Deep Learning Models on Google Cloud Platform*, 151–65.
+Springer.
+
+</div>
+
+<div id="ref-numpy" class="csl-entry">
+
+Bressert, Eli. 2012. “SciPy and NumPy: An Overview for Developers.”
+
+</div>
+
+<div id="ref-scikit-learn" class="csl-entry">
+
+Kramer, Oliver. 2016. “Scikit-Learn.” In *Machine Learning for Evolution
+Strategies*, 45–53. Springer.
+
+</div>
+
+<div id="ref-python" class="csl-entry">
+
+Python, Why. 2021. “Python.” *Python Releases for Windows* 24.
+
+</div>
+
+<div id="ref-pandas" class="csl-entry">
+
+Snider, LA, and SE Swedo. 2004. “PANDAS: Current Status and Directions
+for Research.” *Molecular Psychiatry* 9 (10): 900–907.
+
+</div>
+
+<div id="ref-altair" class="csl-entry">
+
+VanderPlas, Jacob, Brian Granger, Jeffrey Heer, Dominik Moritz, Kanit
+Wongsuphasawat, Arvind Satyanarayan, Eitan Lees, Ilia Timofeev, Ben
+Welsh, and Scott Sievert. 2018. “Altair: Interactive Statistical
+Visualizations for Python.” *Journal of Open Source Software* 3 (32):
+1057.
+
+</div>
+
+</div>
