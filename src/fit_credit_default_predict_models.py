@@ -261,7 +261,7 @@ def add_rfc_scores_to_results_and_save(
         n_jobs=-1,
         random_state=522,
         verbose=0,
-        n_iter=1,
+        n_iter=10,
         scoring="f1",
     )
 
@@ -328,7 +328,7 @@ def add_knn_scores_to_results_and_save(
         scoring="f1",
         n_jobs=-1,
         random_state=522,
-        n_iter=1,
+        n_iter=10,
     )
 
     knn_grid_search.fit(x_train, y_train)
@@ -392,7 +392,7 @@ def add_svc_scores_to_results_and_save(
         n_jobs=-1,
         random_state=522,
         scoring="f1",
-        n_iter=1,
+        n_iter=10,
     )
 
     svc_random_search.fit(x_train, y_train)
@@ -457,7 +457,7 @@ def add_lr_scores_to_results_and_save(
         cv=10,
         scoring="f1",
         n_jobs=-1,
-        n_iter=1,
+        n_iter=10,
         random_state=522,
     )
 
