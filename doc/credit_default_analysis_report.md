@@ -4,10 +4,9 @@ Arjun Radhakrishnan, Morris Zhao, Althrun Sun, Ken Wang
 2022-11-25
 
 -   <a href="#introduction" id="toc-introduction">Introduction</a>
--   <a href="#data" id="toc-data">Data</a>
--   <a href="#data-analysis" id="toc-data-analysis">Data Analysis</a>
 -   <a href="#methods" id="toc-methods">Methods</a>
--   <a href="#result" id="toc-result">Result</a>
+    -   <a href="#data" id="toc-data">Data</a>
+    -   <a href="#analysis" id="toc-analysis">Analysis</a>
 -   <a href="#improvement-and-limitation"
     id="toc-improvement-and-limitation">Improvement and limitation</a>
 -   <a href="#references" id="toc-references">References</a>
@@ -16,86 +15,121 @@ Arjun Radhakrishnan, Morris Zhao, Althrun Sun, Ken Wang
 
 For the project, we are trying to answer the question that given a
 credit card customer’s payment history and demographic information like
-gender, age, and education level, would the customer defaulting on the
-next bill payment? Answering this question is important because, with an
-effective predictive model, financial institutions can evaluate a
-customer’s credit level and grant appropriate credit amount limits. This
-analysis would be crucial in credit score calculation and risk
-management. We are considering the class credit defaulting (clients make
-a default payment) as the main interest of our model. Therefore, we are
-treating the class credit defaulting as the positive class and the class
-not defaulting as the negative class. Our goal is to correctly predict
-as many default payments as possible. In another word, we are maximizing
-the number of true positives, which is the same as maximizing recall. In
-this case, it is important for financial institutions to identify
-potential clients that may make a default payment. Thus, they can
-prevent asset loss in advance. Moreover, precision is also important
-since it will be costly for the institutions when there is too many
-false positive. For example, an incorrect perdition of a defaulting or a
-not defaulting client can potentially create a loss of assets for
-financial institutions. In conclusion, in order to balance recall and
-precision, we are using the f1 score as our primary scoring metric.
+gender, age, and education level, would the customer default on the next
+bill payment? A borrower is said to be in default when they are unable
+to make their interest or principal payments on time, miss installments,
+or cease making them altogether. The answer to this query is crucial
+since it allows financial organizations to assess a customer’s
+creditworthiness and set suitable credit limit ranges using an efficient
+predictive model. It also helps them take preemptive actions to secure
+their assets. Due to the class imbalance, we must evaluate the model’s
+effectiveness using different metrics, such as precision, recall, or F1
+score. Our model’s primary focus is the class “default payment,” which
+refers to payment defaults made by clients. As a result, we are treating
+`default` as the positive class, and `not defaulting` as the negative
+class. In this case, it is important for financial institutions to
+identify potential clients that may make a default payment.
 
-## Data
+Our objective is to predict as many default payments as we can with
+accuracy. In other words, we are maximizing the number of true positives
+while reducing false positives as much as possible. Thus, they can
+prevent asset loss in advance. Additionally, Type II errors are also
+important since it will be costly for the institutions to assume people,
+who can make the payment, would default as it would affect the
+organization’s reputation. Therefore, we need to balance both Types of
+errors and the best way would be to score the model on the F1 score as
+it is the harmonic mean of recall which shows many among all positive
+examples are correctly identified and precision which shows how many
+among the positive examples are truly positive.
 
-This data set is including data points of Taiwan’s credit card client
-defaulting cases, demographic factors, credit data, history of payment,
-and bill statements of credit card clients between April 2005 and
-September 2005. There are 30,000 observations in the data set, 23
-features, and a single target, which is a binary variable. The target
-(credit defaulting) has two classes: class 1 (client will make a
-defaulting next month), and 0 (client will not make a defaulting next
-month). There are no missing values in the data set.
-
-Below is the detail on each column.
-
-`ID` is the ID of each client, which is unique. `LIMIT_BAL` is amount of
-given credit in NT dollars. `SEX` is gender. 1 for male, 2 for female.
-`EDUCATION` is the education levels, 1 for high school, 2 for
-university, 3 for graduate school, and 4 for others. We combined the
-classes 0, 5, 6 into the 4 (these values are unknown, so we combined
-them with others), and reverse the order (setting the lowest value to
-high school). `MARRIAGE`is the marital status, 1 for married, 2 for
-single, 3 for others. We combined 0 into 3, because 0 is unknown. `AGE`
-is age in years. `PAY_i` (for i = 0 for September, 2 for August, … 6 for
-April) is repayment status in i month of 2005 (-1 for pay duly, 1 for
-payment delay for one month, 2 for payment delay for two months, … 9 for
-payment delay for nine months and above).`BILL_AMTi` (for i = 1 for
-September, 2 for August, … 6 for April) is amount of bill statement in i
-month, 2005 (NT dollar). `PAY_AMTi` (for i = 1 for September, 2 for
-August, … 6 for April) is amount of previous payment in i month, 2005
-(NT dollar). default_payment_next_month is defaulting payment next month
-(1 for defaulting, 0 for not defaulting).
-
-## Data Analysis
-
-As shown in the figure 1. pie chart for target, the target (default
-payment next month) is an imbalanced feature. There are more cases of
-not defaulting than defaulting. We apply class-weight to improve the
-model.
-
-Figure 1. pie chart for target
-
-![](../results//eda/images/target_proportion.jpg)
-
-As shown in figure 2. correlation graph, We can see that the `PAY_0`,
-`PAY_2`, `PAY_3`, `PAY_4`, `PAY_5`, and `PAY_6` have a quite high
-correlation with each other. In addition, `BILL_AMT1`, `BILL_AMT2`,
-`BILL_AMT3`, `BILL_AMT4`, `BILL_AMT5`, and `BILL_AMT6` have the same
-pattern.
-
-Figure 2. Correlation graph
-
-![](../results//eda/images/corr_plot.png)
+In this report, we attempt to use machine-learning algorithms to predict
+whether a client would default a payment or not, given a set of the
+client’s information.
 
 ## Methods
 
-This project is based on Python(Python 2021) and including the following
+This project is based on Python(**python?**) and including the following
 python packages:pandas(Snider and Swedo 2004),scikit-learn(Kramer
 2016),altair(VanderPlas et al. 2018),matplotlib(Bisong
-2019),numpy(Bressert 2012),uci_ml_data_set(n.d.)
+2019),numpy(Bressert 2012),uci_ml_data_set(“Default of Credit Card
+Clients,” n.d.)
 
-## Result
+### Data
+
+The data set used in the project was produced by Yeh, I. C., and Lien,
+C. H., and it is freely accessible for download at the UCI Machine
+Learning Repository (“Default of Credit Card Clients,” n.d.) (with the
+title “default of credit card clients” in 2016). The
+[dataset](https://github.com/UBC-MDS/credit_default_prediction_group_20/tree/main/data/raw)
+is based on examples of Taiwanese credit card clients defaulting from
+April to September. Each observation in the 30000-observation dataset
+reflects the data of a certain client. The dataset has no missing values
+and has 24 features which are gender, age, marital status, ID, Repayment
+Status, and Bill and Pay amounts. The final target indicates whether the
+client will default or not. The 24 features can be groups as
+categorical, numeric, and binary.
+
+Some of the key pre-processings performed in the data includes: - As ID
+is the ID of each client, which is unique, feature is dropped. - Despite
+being categorical in nature, SEX will be regarded as a binary value. -
+As there are unknown values in the `EDUCATION` feature, they were
+combined and grouped along with “Others”. Finally, the categories were
+encoded as 1 for high school, 2 for university, 3 for graduate school,
+and 4 for others. - As there are unknown values in the `MARRIAGE`
+feature, they were combined and grouped along with “Others”. Finally,
+the categories were encoded as 1 for married, 2 for single, 3 for
+others.
+
+As shown in the figure 1. pie chart for target, the target (default
+payment next month) is an imbalanced feature. There are more cases of
+not defaulting than defaulting.
+
+Figure 1. pie chart for target
+![](../results//eda/images/target_proportion.jpg)
+
+The BILL AMT features, the features that reflect the bill amount for
+each month during the six months from April to September 2005, where
+BILL AMT1 indicates the bill amount for April, show strong positive
+correlations. From this, we can infer that larger monthly bill amounts
+would probably result in higher monthly bill amounts the following
+month. Also, this could be due to the accumulation of debt as a result
+of late payments. Although BILL AMT features have a high correlation
+amongst themselves, most features have poor linear correlation against
+the target since Pearson Correlation Coefficient against the target for
+most features is low.
+
+Figure 2. Correlation graph ![](../results//eda/images/corr_plot.png)
+
+### Analysis
+
+The prediction problem at hand is a binary classification problem where
+we’re asked to predict whether the client would default a payment or
+not. As part of the machine learning process, we split the data into
+training and test split at a 50% split followed by which we train 4
+classification models, the Dummy Classifier for baseline, Random Forest
+Classifier, KNN, SVC, and Logistic Regression. As we’re performing
+hyperparameter optimization on all models, a split of 50% is optimum in
+ensuring the training of models along with finding the right
+hyperparameters, while keeping a significant chunk of the data for
+testing.
+
+The best hyperparameters for each of the models (apart from the dummy
+classifier) were done with a randomized search to have control over the
+number of iterations performed. Additionally, the randomized search was
+done with the intention of optimizing the “F1” score. Once the model was
+refit on the training data with the best parameters from the randomized
+search, we performed a 10-fold cross validation with metrics “f1”,
+“accuracy”, “precision”, and “recall” to understand how each model is
+performing in terms of both Type I and Type II errors.
+
+For the purposes of machine learning and report generation, the Python
+programming language (**Python?**) and the following Python packages
+docopt (Keleshev 2014), sklearn (Kramer 2016), altair (VanderPlas et al.
+2018), pandas (Snider and Swedo 2004), numpy (**numpy-Array?**), os
+(**Python?**), requests (Van Rossum and Drake 1995), joblib (Van Rossum
+and Drake 1995), matplot (Bisong 2019) were used. Additionally, we used
+R programming language (**R?**) and the following packages: knitr (Xie
+2022), tidyverse (Wickham et al. 2019) for generating this report.
 
 ## Improvement and limitation
 
@@ -127,14 +161,6 @@ credit default payments.
 
 <div id="refs" class="references csl-bib-body hanging-indent">
 
-<div id="ref-uci_ml_data_set" class="csl-entry">
-
-n.d. *UCI Machine Learning Repository: Default of Credit Card Clients
-Data Set*.
-<https://archive.ics.uci.edu/ml/datasets/default+of+credit+card+clients>.
-
-</div>
-
 <div id="ref-matplotlib" class="csl-entry">
 
 Bisong, Ekaba. 2019. “Matplotlib and Seaborn.” In *Building Machine
@@ -149,16 +175,25 @@ Bressert, Eli. 2012. “SciPy and NumPy: An Overview for Developers.”
 
 </div>
 
+<div id="ref-uci_ml_data_set" class="csl-entry">
+
+“Default of Credit Card Clients.” n.d. *UCI Machine Learning Repository:
+Default of Credit Card Clients Data Set*.
+<https://archive.ics.uci.edu/ml/datasets/default+of+credit+card+clients>.
+
+</div>
+
+<div id="ref-docoptpython" class="csl-entry">
+
+Keleshev, Vladimir. 2014. *Docopt: Command-Line Interface Description
+Language*. <https://github.com/docopt/docopt>.
+
+</div>
+
 <div id="ref-scikit-learn" class="csl-entry">
 
 Kramer, Oliver. 2016. “Scikit-Learn.” In *Machine Learning for Evolution
 Strategies*, 45–53. Springer.
-
-</div>
-
-<div id="ref-python" class="csl-entry">
-
-Python, Why. 2021. “Python.” *Python Releases for Windows* 24.
 
 </div>
 
@@ -169,6 +204,13 @@ for Research.” *Molecular Psychiatry* 9 (10): 900–907.
 
 </div>
 
+<div id="ref-van1995python" class="csl-entry">
+
+Van Rossum, Guido, and Fred L Drake. 1995. “Python Library Reference.”
+Centrum voor Wiskunde en Informatica.
+
+</div>
+
 <div id="ref-altair" class="csl-entry">
 
 VanderPlas, Jacob, Brian Granger, Jeffrey Heer, Dominik Moritz, Kanit
@@ -176,6 +218,22 @@ Wongsuphasawat, Arvind Satyanarayan, Eitan Lees, Ilia Timofeev, Ben
 Welsh, and Scott Sievert. 2018. “Altair: Interactive Statistical
 Visualizations for Python.” *Journal of Open Source Software* 3 (32):
 1057.
+
+</div>
+
+<div id="ref-tidyverse" class="csl-entry">
+
+Wickham, Hadley, Mara Averick, Jennifer Bryan, Winston Chang, Lucy
+D’Agostino McGowan, Romain François, Garrett Grolemund, et al. 2019.
+“Welcome to the <span class="nocase">tidyverse</span>.” *Journal of Open
+Source Software* 4 (43): 1686. <https://doi.org/10.21105/joss.01686>.
+
+</div>
+
+<div id="ref-knitr" class="csl-entry">
+
+Xie, Yihui. 2022. *Knitr: A General-Purpose Package for Dynamic Report
+Generation in r*. <https://yihui.org/knitr/>.
 
 </div>
 

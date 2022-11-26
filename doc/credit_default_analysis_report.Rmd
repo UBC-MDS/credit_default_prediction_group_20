@@ -52,8 +52,17 @@ Figure 2. Correlation graph
 ![](../results//eda/images/corr_plot.png)
 
 
-### Analysis
+### Process and Analysis
 
+The prediction problem at hand is a binary classification problem where we're asked to predict whether the client would default a payment or not. As part of the machine learning process, we split the data into training and test split at a 50% split followed by which we train 4 classification models, the Dummy Classifier for baseline, Random Forest Classifier, KNN, SVC, and Logistic Regression. As we're performing hyperparameter optimization on all models, a split of 50% is optimum in ensuring the training of models along with finding the right hyperparameters, while keeping a significant chunk of the data for testing.
+
+The best hyperparameters for each of the models (apart from the dummy classifier) were done with a randomized search to have control over the number of iterations performed. Additionally, the randomized search was done with the intention of optimizing the “F1” score.  Once the model was refit on the training data with the best parameters from the randomized search, we performed a 10-fold cross validation with metrics "f1", "accuracy", "precision", and "recall" to understand how each model is performing in terms of both Type I and Type II errors.
+
+Once, we narrow down on the model that is performing that best on the training data, we finally score the model on the test data. 
+
+For the purposes of machine learning and report generation, the Python programming language [@pilgrim2009dive] and the following Python packages docopt [@docoptpython], sklearn [@scikit-learn], altair [@altair], pandas [@pandas], numpy [@numpy-Array], os [@pilgrim2009dive], requests [@van1995python], joblib [@van1995python], matplot [@matplotlib] were used. Additionally, we used R programming language [@R] and the following packages: knitr [@knitr], tidyverse [@tidyverse] for generating this report. 
+
+## Results & Discussion
 
 
 
