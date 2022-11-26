@@ -1,0 +1,5 @@
+data/.ipynb_checkpoints/
+.ipynb_checkpoints
+*.log
+.OTTER_LOG
+__pycache__/
