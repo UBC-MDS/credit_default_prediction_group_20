@@ -37,21 +37,24 @@ Some of the key pre-processings performed in the data includes:
 - As ID is the ID of each client, which is unique, feature is dropped. 
 - Despite being categorical in nature, SEX will be regarded as a binary value. 
 - As there are unknown values in the `EDUCATION` feature, they were combined and grouped along with "Others". Finally, the categories were encoded as 1 for high school, 2 for university, 3 for graduate school, and 4 for others. 
-- As there are unknown values in the `MARRIAGE` feature, they were combined and grouped along with "Others". Finally, the categories were encoded as 1 for married, 2 for single, 3 for others. 
+- As there are unknown values in the `MARRIAGE` feature, they were combined and grouped along with "Others". Finally, the categories were encoded as 1 for married, 2 for single, 3 for others.
+
+As shown in the figure 1. pie chart for target, the target (default payment next month) is an imbalanced feature. There are more cases of not defaulting than defaulting. 
+
+Figure 1. pie chart for target
+![](../results//eda/images/target_proportion.jpg)
+
+
+The BILL AMT features, the features that reflect the bill amount for each month during the six months from April to September 2005, where BILL AMT1 indicates the bill amount for April, show strong positive correlations. From this, we can infer that larger monthly bill amounts would probably result in higher monthly bill amounts the following month. Also, this could be due to the accumulation of debt as a result of late payments. Although BILL AMT features have a high correlation amongst themselves, most features have poor linear correlation against the target since Pearson Correlation Coefficient against the target for most features is low. 
+
+
+Figure 2. Correlation graph
+![](../results//eda/images/corr_plot.png)
+
 
 ### Analysis
 
-As shown in the figure 1. pie chart for target, the target (default payment next month) is an imbalanced feature. There are more cases of not defaulting than defaulting. We apply class-weight to improve the model.
 
-Figure 1. pie chart for target
-
-![](../results//eda/images/target_proportion.jpg)
-
-As shown in figure 2. correlation graph, We can see that the `PAY_0`, `PAY_2`, `PAY_3`, `PAY_4`, `PAY_5`, and `PAY_6` have a quite high correlation with each other. In addition, `BILL_AMT1`, `BILL_AMT2`, `BILL_AMT3`, `BILL_AMT4`, `BILL_AMT5`, and `BILL_AMT6` have the same pattern.
-
-Figure 2. Correlation graph
-
-![](../results//eda/images/corr_plot.png)
 
 ## Methods
 
