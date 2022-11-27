@@ -77,16 +77,16 @@ python ./src/download_data_from_url.py --url "https://archive.ics.uci.edu/ml/mac
 
 ```
 # preprocessing
-python ./src/data_processing.py --input_path=<input_path> --out_dir=<out_dir> [--test_size=<test_size>]
+python ./src/data_processing.py --input_path='data/raw/credit_default_data.csv' --out_dir='data/processed' [--test_size=<test_size>]
 
 # EDA
-python ./src/eda_script.py --processed_data_path=<processed_data_path> --eda_result_path=<eda_result_path>
+python ./src/eda_script.py --processed_data_path='data/processed' --eda_result_path='results/eda'
 
 # tune models
-python ./src/fit_credit_default_predict_models.py --read_training_path=<read_training_path> [--write_model_path=<write_model_path>] [--write_score_path=<write_score_path>]
+python ./src/fit_credit_default_predict_models.py --read_training_path='data/processed/credit_train_df.csv'[--write_model_path='results/trained_models'] [--write_score_path='results/cross_validation_reuslts.csv']
 
 # test models
-python ./src/model_summary.py --model_dir=<model_dir>  --test_data=<test_data> --output_dir=<output_dir>
+python ./src/model_summary.py --model_dir='results/trained _models'  --test_data='data/processed/credit_test_df.csv' --output_dir='results/model_summary'
 
 # render final report
 Rscript -e "rmarkdown::render('doc/credit_default_analysis_report.Rmd', output_format = 'github_document')"
