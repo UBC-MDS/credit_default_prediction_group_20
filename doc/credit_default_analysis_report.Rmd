@@ -29,7 +29,7 @@ test_score_lr = round(final_test_results.loc['logistic_regression'].iloc[0], 3)
 
 For the project, we are trying to answer the question that given a credit card customer's payment history and demographic information like gender, age, and education level, would the customer default on the next bill payment? A borrower is said to be in default when they are unable to make their interest or principal payments on time, miss installments, or cease making them altogether. The answer to this query is crucial since it allows financial organizations to assess a customer's creditworthiness and set suitable credit limit ranges using an efficient predictive model. It also helps them take preemptive actions to secure their assets. Due to the class imbalance, we must evaluate the model's effectiveness using different metrics, such as precision, recall, or F1 score. Our model's primary focus is the class "default payment," which refers to payment defaults made by clients. As a result, we are treating `default` as the positive class, and `not defaulting` as the negative class. In this case, it is important for financial institutions to identify potential clients that may make a default payment. 
 
-Our objective is to predict as many default payments as we can with accuracy. In other words, we are maximizing the number of true positives while reducing false positives as much as possible. Thus, they can prevent asset loss in advance. Additionally, Type II errors are also important since it will be costly for the institutions to assume people, who can make the payment, would default as it would affect the organization's reputation. Therefore, we need to balance both Types of errors and the best way would be to score the model on the F1 score as it is the harmonic mean of recall which shows many among all positive examples are correctly identified and precision which shows how many among the positive examples are truly positive.
+Our objective is to predict as many default payments as we can with accuracy. In other words, we are maximizing the number of true positives while reducing false positives as much as possible. Thus, they can prevent asset loss in advance. Additionally, Type II errors are also important since it will be costly for the institutions to assume people, who can make the payment, would default as it would affect the organization's reputation. Therefore, we need to balance both Types of errors and the best way would be to score the model on the F1 score as it is the harmonic mean of recall which shows many among all positive examples are correctly identified and precision which shows how many among the positive examples are truly positive. If there is a tie in the F1 score, we aim to reduce the number of Type II errrors or false negatives. 
 
 In this report, we attempt to use machine-learning algorithms to predict whether a client would default a payment or not, given a set of the client's information. 
 
@@ -72,7 +72,7 @@ The best hyperparameters for each of the models (apart from the dummy classifier
 
 Once, we narrow down on the model that is performing that best on the training data, we finally score the model on the test data. 
 
-For the purposes of machine learning and report generation, the Python programming language [@pilgrim2009dive] and the following Python packages docopt [@docoptpython], sklearn [@scikit-learn], altair [@altair], pandas [@pandas], numpy [@numpy-Array], os [@pilgrim2009dive], requests [@van1995python], joblib [@van1995python], matplot [@matplotlib] were used. Additionally, we used R programming language [@R] and the following packages: knitr [@knitr], tidyverse [@tidyverse] for generating this report. 
+For the purposes of machine learning and report generation, the Python programming language [@pilgrim2009dive] and the following Python packages docopt [@docoptpython], sklearn [@scikit-learn], altair [@altair], pandas [@pandas], numpy [@numpy], os [@pilgrim2009dive], requests [@van1995python], joblib [@van1995python], matplot [@matplotlib] were used. Additionally, we used R programming language [@team2013r] and the following packages: knitr [@knitr], tidyverse [@tidyverse] for generating this report. 
 
 ## Results & Discussion
 
@@ -81,18 +81,22 @@ To set the baseline of each of the model performances, we first trained the dumm
 
 ### Comparing RandomForestClassifier, KNeighborsClassifier, SVC, LogisticRegression
 
-Since we're it is crucial to reduce both Type I and Type II errors, we'll evaluate all the models based on the F1 score. From the initial cross-validation results, we can see that both RandomForestClassifier and SVC have better F1 scores when compared to KNeighborsClassifier and LogisticRegression. Hence, for our final model, we eliminate KNeighborsClassifier and LogisticRegression. On comparing RandomForestClassifier and SVC, we see that both of them have approximately the same F1 scores. RandomForestClassifier and SVC differ in the fact that SVC can lower Type II errors better than RandomForestClassifier as SVC has a higher recall score. Conversely, RandomForestClassifier is performing well in terms of lowering the Type I errors. Since it is of paramount importance to reduce the false negatives introduced by the model, pick SVC to move forward. 
+Since we're it is crucial to reduce both Type I and Type II errors, we'll evaluate all the models based on the F1 score. From the initial cross-validation results, we can see that both RandomForestClassifier and SVC have better F1 scores when compared to KNeighborsClassifier and LogisticRegression. Hence, for our final model, we eliminate KNeighborsClassifier and LogisticRegression.  
+
+On comparing RandomForestClassifier and SVC, we see that both of them have approximately the same F1 scores. As there is a tie in the F1 scores, we pick the model with lower Type II errors. RandomForestClassifier and SVC differ in the fact that SVC can lower Type II errors better than RandomForestClassifier as SVC has a higher recall score. Conversely, RandomForestClassifier is performing well in terms of lowering the Type I errors. Since it is of paramount importance to reduce the false negatives introduced by the model, we pick SVC to move forward. 
 
 
 <center>
 
 ![](../results/cv_scores_table.png)   
 
-Table 3. Cross Validation Results of the optimized Models.
+Table 1. Cross Validation Results of the optimized Models.
 
 </center>
 
-After fixing our primary model, we analyze how each of the models are scoring againt the test data. Showcasing our top models first, we see that SVC had a final F1 test score of `r py$test_score_svc` while RandomForestClassifier has a F1 test score of `r py$test_score_rfc`. As expected, RandomForestClassifier is performing better in terms of F1. The models KNN and LogisticRegression has F1 test scores of `r py$test_score_knn` and `r py$test_score_lr` respectively. 
+### Score Analysis and Discussion
+
+After fixing our primary model as SVC, we analyze how each of the models is scoring against the test data. Showcasing our top models first, we see that SVC had a final F1 test score of `r py$test_score_svc` while RandomForestClassifier has an F1 test score of `r py$test_score_rfc`. As expected, RandomForestClassifier is performing better in terms of F1. Although this is the case, as we saw previously, SVC has lower Type II errors. The models KNN and LogisticRegression have F1 test scores of `r py$test_score_knn` and `r py$test_score_lr` respectively.
 
 <center>
 
@@ -102,6 +106,7 @@ Figure 3. RandomForestClassifier and SVC outperforms other models.
 
 </center>
 
+From the confusion matrix for the SVC model, we see that the number of Type II errors or false negatives (actually defaulting but predicting not-defaulting) is lower than the number of Type I errors (actually not-defaulting but predicting defaulting). 
 
 <center>
 
@@ -111,8 +116,9 @@ Figure 4. Confusion matrix of SVC.
 
 </center>
 
-## Improvement and limitation
-Understanding the limitations and assumptions made during the prediction process plays a crucial role in understanding the validity and reliability of the results. One of the critical limitations that blocks us from extrapolating the results to the present day is that the data is old (taken in 2005), and there have been significant change in human nature and patterns since 2005. There are limitations also introduced due to the presence of data that was absent in the metadata for the features EDUCATION and MARRIAGE. These features contain unknown levels which are not described in the documentation. With number of defaulters at approximately at 25%, the number of defaulters is relatively large compared to what we would expect in real life. This could be due an efffect of Taiwanese economy this time period or could be due to improper data collection. To improve the analysis, we could perform feature enginneering based on expert domain knowledge that could boost the model performance. Although we have analyzed the performance of RFC, KNN, SVC, and LR, we could try analyzing the performance GradientBoostingClassifier. We could have also tried using SMOTE or a different method of handling class imbalance. To generalize the analysis to the current years, the first step would be to take more recent data that includes more features such as asset to debt ratio, occupation, income, and household size. It would also be better to get the data across varias other countries to better train our model on the trends in credit default payments. 
+
+## Limitations, Assumptions, and Future Work
+Understanding the limitations and assumptions made during the prediction process plays a crucial role in understanding the validity and reliability of the results. One of the critical limitations that block us from extrapolating the results to the present day is that the data is old (taken in 2005), and there have been significant changes in human nature and patterns since 2005. There are limitations also introduced due to the presence of data that was absent in the metadata for the features EDUCATION and MARRIAGE. These features contain unknown levels which are not described in the documentation. With the number of defaulters at approximately 25%, the number of defaulters is relatively large compared to what we would expect in real life. This could be due to an effect of the Taiwanese economy during this period or could be due to improper data collection. To improve the analysis, we could perform feature engineering based on expert domain knowledge that could boost the model performance. Although we have analyzed the performance of RFC, KNN, SVC, and LR, we could try analyzing the performance GradientBoostingClassifier. We could have also tried using SMOTE or a different method of handling class imbalance. To generalize the analysis to the current years, the first step would be to take more recent data that includes more features such as asset-to-debt ratio, occupation, income, and household size. It would also be better to get the data across various other countries to better train our model on the trends in credit default payments.
 
 
 ## References

@@ -4,7 +4,6 @@ Arjun Radhakrishnan, Morris Zhao, Althrun Sun, Ken Wang
 2022-11-25
 
 -   <a href="#introduction" id="toc-introduction">Introduction</a>
--   <a href="#methods" id="toc-methods">Methods</a>
     -   <a href="#data" id="toc-data">Data</a>
     -   <a href="#process-and-analysis" id="toc-process-and-analysis">Process
         and Analysis</a>
@@ -17,6 +16,8 @@ Arjun Radhakrishnan, Morris Zhao, Althrun Sun, Ken Wang
         id="toc-comparing-randomforestclassifier-kneighborsclassifier-svc-logisticregression">Comparing
         RandomForestClassifier, KNeighborsClassifier, SVC,
         LogisticRegression</a>
+    -   <a href="#score-analysis-and-discussion"
+        id="toc-score-analysis-and-discussion">Score Analysis and Discussion</a>
 -   <a href="#improvement-and-limitation"
     id="toc-improvement-and-limitation">Improvement and limitation</a>
 -   <a href="#references" id="toc-references">References</a>
@@ -50,19 +51,13 @@ organization’s reputation. Therefore, we need to balance both Types of
 errors and the best way would be to score the model on the F1 score as
 it is the harmonic mean of recall which shows many among all positive
 examples are correctly identified and precision which shows how many
-among the positive examples are truly positive.
+among the positive examples are truly positive. If there is a tie in the
+F1 score, we aim to reduce the number of Type II errrors or false
+negatives.
 
 In this report, we attempt to use machine-learning algorithms to predict
 whether a client would default a payment or not, given a set of the
 client’s information.
-
-## Methods
-
-This project is based on Python(**python?**) and including the following
-python packages:pandas(Snider and Swedo 2004),scikit-learn(Kramer
-2016),altair(VanderPlas et al. 2018),matplotlib(Bisong
-2019),numpy(Bressert 2012),uci_ml_data_set(“Default of Credit Card
-Clients,” n.d.)
 
 ### Data
 
@@ -148,13 +143,13 @@ training data, we finally score the model on the test data.
 
 For the purposes of machine learning and report generation, the Python
 programming language (Pilgrim and Willison 2009) and the following
-Python packages docopt (Keleshev 2014), sklearn (Kramer 2016), altair
-(VanderPlas et al. 2018), pandas (Snider and Swedo 2004), numpy
-(**numpy-Array?**), os (Pilgrim and Willison 2009), requests (Van Rossum
+Python packages docopt (Keleshev 2014), sklearn (Pedregosa et al. 2011),
+altair (VanderPlas et al. 2018), pandas (Snider and Swedo 2004), numpy
+(Bressert 2012), os (Pilgrim and Willison 2009), requests (Van Rossum
 and Drake 1995), joblib (Van Rossum and Drake 1995), matplot (Bisong
-2019) were used. Additionally, we used R programming language (**R?**)
-and the following packages: knitr (Xie 2022), tidyverse (Wickham et al.
-2019) for generating this report.
+2019) were used. Additionally, we used R programming language (Team et
+al. 2013) and the following packages: knitr (Xie 2014), tidyverse
+(Wickham et al. 2019) for generating this report.
 
 ## Results & Discussion
 
@@ -175,12 +170,13 @@ and SVC have better F1 scores when compared to KNeighborsClassifier and
 LogisticRegression. Hence, for our final model, we eliminate
 KNeighborsClassifier and LogisticRegression. On comparing
 RandomForestClassifier and SVC, we see that both of them have
-approximately the same F1 scores. RandomForestClassifier and SVC differ
-in the fact that SVC can lower Type II errors better than
+approximately the same F1 scores. As there is a tie in the F1 scores, we
+pick the model with lower Type II errors. RandomForestClassifier and SVC
+differ in the fact that SVC can lower Type II errors better than
 RandomForestClassifier as SVC has a higher recall score. Conversely,
 RandomForestClassifier is performing well in terms of lowering the Type
 I errors. Since it is of paramount importance to reduce the false
-negatives introduced by the model, pick SVC to move forward.
+negatives introduced by the model, we pick SVC to move forward.
 
 <center>
 
@@ -204,6 +200,12 @@ has F1 test scores of 0.44 and 0.47 respectively.
 Figure 3. RandomForestClassifier and SVC outperforms other models.
 
 </center>
+
+From the confusion matrix for the SVC model, we see that the number of
+Type II errors or false negatives (actually defaulting but predicting
+not-defaulting) is lower than the number of Type I errors (actually
+not-defaulting but predicting defaulting).
+
 <center>
 
 ![](../results/model_summary/svc_confusion_matrix.png)
@@ -212,31 +214,33 @@ Figure 4. Confusion matrix of SVC.
 
 </center>
 
+### Score Analysis and Discussion
+
 ## Improvement and limitation
 
 Understanding the limitations and assumptions made during the prediction
 process plays a crucial role in understanding the validity and
-reliability of the results. One of the critical limitations that blocks
+reliability of the results. One of the critical limitations that block
 us from extrapolating the results to the present day is that the data is
-old (taken in 2005), and there have been significant change in human
+old (taken in 2005), and there have been significant changes in human
 nature and patterns since 2005. There are limitations also introduced
 due to the presence of data that was absent in the metadata for the
 features EDUCATION and MARRIAGE. These features contain unknown levels
-which are not described in the documentation. With number of defaulters
-at approximately at 25%, the number of defaulters is relatively large
-compared to what we would expect in real life. This could be due an
-efffect of Taiwanese economy this time period or could be due to
-improper data collection. To improve the analysis, we could perform
-feature enginneering based on expert domain knowledge that could boost
+which are not described in the documentation. With the number of
+defaulters at approximately 25%, the number of defaulters is relatively
+large compared to what we would expect in real life. This could be due
+to an effect of the Taiwanese economy during this period or could be due
+to improper data collection. To improve the analysis, we could perform
+feature engineering based on expert domain knowledge that could boost
 the model performance. Although we have analyzed the performance of RFC,
 KNN, SVC, and LR, we could try analyzing the performance
 GradientBoostingClassifier. We could have also tried using SMOTE or a
 different method of handling class imbalance. To generalize the analysis
 to the current years, the first step would be to take more recent data
-that includes more features such as asset to debt ratio, occupation,
+that includes more features such as asset-to-debt ratio, occupation,
 income, and household size. It would also be better to get the data
-across varias other countries to better train our model on the trends in
-credit default payments.
+across various other countries to better train our model on the trends
+in credit default payments.
 
 ## References
 
@@ -273,8 +277,9 @@ Language*. <https://github.com/docopt/docopt>.
 
 <div id="ref-scikit-learn" class="csl-entry">
 
-Kramer, Oliver. 2016. “Scikit-Learn.” In *Machine Learning for Evolution
-Strategies*, 45–53. Springer.
+Pedregosa, F., G. Varoquaux, A. Gramfort, V. Michel, B. Thirion, O.
+Grisel, M. Blondel, et al. 2011. “Scikit-Learn: Machine Learning in
+Python.” *Journal of Machine Learning Research* 12: 2825–30.
 
 </div>
 
@@ -289,6 +294,13 @@ Springer.
 
 Snider, LA, and SE Swedo. 2004. “PANDAS: Current Status and Directions
 for Research.” *Molecular Psychiatry* 9 (10): 900–907.
+
+</div>
+
+<div id="ref-team2013r" class="csl-entry">
+
+Team, R Core et al. 2013. “R: A Language and Environment for Statistical
+Computing.”
 
 </div>
 
@@ -320,8 +332,10 @@ Source Software* 4 (43): 1686. <https://doi.org/10.21105/joss.01686>.
 
 <div id="ref-knitr" class="csl-entry">
 
-Xie, Yihui. 2022. *Knitr: A General-Purpose Package for Dynamic Report
-Generation in r*. <https://yihui.org/knitr/>.
+Xie, Yihui. 2014. “Knitr: A Comprehensive Tool for Reproducible Research
+in R.” In *Implementing Reproducible Computational Research*, edited by
+Victoria Stodden, Friedrich Leisch, and Roger D. Peng. Chapman;
+Hall/CRC. <http://www.crcpress.com/product/isbn/9781466561595>.
 
 </div>
 
