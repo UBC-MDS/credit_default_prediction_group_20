@@ -23,8 +23,6 @@ Arjun Radhakrishnan, Morris Zhao, Althrun Sun, Ken Wang
 
 ## Introduction
 
-10
-
 For the project, we are trying to answer the question that given a
 credit card customer’s payment history and demographic information like
 gender, age, and education level, would the customer default on the next
@@ -97,8 +95,11 @@ payment next month) is an imbalanced feature. There are more cases of
 not defaulting than defaulting.
 
 <center>
-Figure 1. pie chart for target
+
 ![](../results/eda/images/target_proportion.jpg)
+
+Figure 1. pie chart for target
+
 </center>
 
 The BILL AMT features, the features that reflect the bill amount for
@@ -113,7 +114,11 @@ the target since Pearson Correlation Coefficient against the target for
 most features is low.
 
 <center>
-Figure 2. Correlation graph ![](../results/eda/images/corr_plot.png)
+
+![](../results/eda/images/corr_plot.png)
+
+Figure 2. Correlation graph
+
 </center>
 
 ### Process and Analysis
@@ -163,9 +168,48 @@ False Positive to be 0 causing precision, recall, and F1 scores to be 0.
 
 ### Comparing RandomForestClassifier, KNeighborsClassifier, SVC, LogisticRegression
 
+Since we’re it is crucial to reduce both Type I and Type II errors,
+we’ll evaluate all the models based on the F1 score. From the initial
+cross-validation results, we can see that both RandomForestClassifier
+and SVC have better F1 scores when compared to KNeighborsClassifier and
+LogisticRegression. Hence, for our final model, we eliminate
+KNeighborsClassifier and LogisticRegression. On comparing
+RandomForestClassifier and SVC, we see that both of them have
+approximately the same F1 scores. RandomForestClassifier and SVC differ
+in the fact that SVC can lower Type II errors better than
+RandomForestClassifier as SVC has a higher recall score. Conversely,
+RandomForestClassifier is performing well in terms of lowering the Type
+I errors. Since it is of paramount importance to reduce the false
+negatives introduced by the model, pick SVC to move forward.
+
 <center>
-Figure 3. RandomForestClassifier and SVC outperforms other models.
+
+![](../results/cv_scores_table.png)
+
+Table 3. Cross Validation Results of the optimized Models.
+
+</center>
+
+After fixing our primary model, we analyze how each of the models are
+scoring againt the test data. Showcasing our top models first, we see
+that SVC had a final F1 test score of 0.523 while RandomForestClassifier
+has a F1 test score of 0.53. As expected, RandomForestClassifier is
+performing better in terms of F1. The models KNN and LogisticRegression
+has F1 test scores of 0.44 and 0.47 respectively.
+
+<center>
+
 ![](../results/model_summary/train_test_f1_scores.png)
+
+Figure 3. RandomForestClassifier and SVC outperforms other models.
+
+</center>
+<center>
+
+![](../results/model_summary/svc_confusion_matrix.png)
+
+Figure 4. Confusion matrix of SVC.
+
 </center>
 
 ## Improvement and limitation
