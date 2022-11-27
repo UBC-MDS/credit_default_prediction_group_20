@@ -29,7 +29,7 @@ The dataset this project uses is the [default of credit card payment by clients]
 
 ### Analysis Approach
 
-Given that this is a binary classification problem and we have both categorical and continuous numeric features, we plan to build different models including `logistic regression`, `support vector classifier`, `kNN classifier`, and `naive Bayes classifier`. We will carry out cross-validation for each model, optimize their hyper-parameters compare their performance using multiple evaluation metrics. Given that the sample data is imbalanced with about a 20% default rate, accuracy might not be a good enough scoring method to use. We will include other metrics like precision/recall, f1-score, and ROC AUC.
+Given that this is a binary classification problem and we have both categorical and continuous numeric features, we plan to build different models including `logistic regression`, `support vector classifier`, `kNN classifier`, and `random forest`. We carried out cross-validation for each model, optimize their hyper-parameters and compare their performance using multiple evaluation metrics. Given that the sample data is imbalanced with about a 20% default rate, accuracy might not be a good enough scoring method to use. We included other metrics like precision/recall, f1-score, and ROC AUC.
 
 ### Initial EDA
 
@@ -41,7 +41,7 @@ So far we have performed some basic exploratory data analysis which can be found
 
 ### Report
 
-As the project is in its development stages, we will be updating this section periodically. We aim to present the analysis report using tools such as `Jupyter notebooks` and `Github Pages`. We also aim to include tables and figures to showcase the performance of various models. Similarly, we aim to add visualizations of the hyper-parameter optimization process to better describe the fundamental tradeoff.
+We present the analysis report using tools such as `R markdown` and `Github Pages`. We also include tables and figures to showcase the performance of various models.
 
 ## Usage
 
