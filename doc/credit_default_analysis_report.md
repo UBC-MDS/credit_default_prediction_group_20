@@ -6,7 +6,17 @@ Arjun Radhakrishnan, Morris Zhao, Althrun Sun, Ken Wang
 -   <a href="#introduction" id="toc-introduction">Introduction</a>
 -   <a href="#methods" id="toc-methods">Methods</a>
     -   <a href="#data" id="toc-data">Data</a>
-    -   <a href="#analysis" id="toc-analysis">Analysis</a>
+    -   <a href="#process-and-analysis" id="toc-process-and-analysis">Process
+        and Analysis</a>
+-   <a href="#results--discussion" id="toc-results--discussion">Results
+    &amp; Discussion</a>
+    -   <a href="#baseline-model-and-discussion"
+        id="toc-baseline-model-and-discussion">Baseline Model and Discussion</a>
+    -   <a
+        href="#comparing-randomforestclassifier-kneighborsclassifier-svc-logisticregression"
+        id="toc-comparing-randomforestclassifier-kneighborsclassifier-svc-logisticregression">Comparing
+        RandomForestClassifier, KNeighborsClassifier, SVC,
+        LogisticRegression</a>
 -   <a href="#improvement-and-limitation"
     id="toc-improvement-and-limitation">Improvement and limitation</a>
 -   <a href="#references" id="toc-references">References</a>
@@ -84,8 +94,13 @@ As shown in the figure 1. pie chart for target, the target (default
 payment next month) is an imbalanced feature. There are more cases of
 not defaulting than defaulting.
 
+<center>
+
+![](../results/eda/images/target_proportion.jpg)
+
 Figure 1. pie chart for target
-![](../results//eda/images/target_proportion.jpg)
+
+</center>
 
 The BILL AMT features, the features that reflect the bill amount for
 each month during the six months from April to September 2005, where
@@ -98,9 +113,15 @@ amongst themselves, most features have poor linear correlation against
 the target since Pearson Correlation Coefficient against the target for
 most features is low.
 
-Figure 2. Correlation graph ![](../results//eda/images/corr_plot.png)
+<center>
 
-### Analysis
+![](../results/eda/images/corr_plot.png)
+
+Figure 2. Correlation graph
+
+</center>
+
+### Process and Analysis
 
 The prediction problem at hand is a binary classification problem where
 we’re asked to predict whether the client would default a payment or
@@ -122,14 +143,74 @@ search, we performed a 10-fold cross validation with metrics “f1”,
 “accuracy”, “precision”, and “recall” to understand how each model is
 performing in terms of both Type I and Type II errors.
 
+Once, we narrow down on the model that is performing that best on the
+training data, we finally score the model on the test data.
+
 For the purposes of machine learning and report generation, the Python
-programming language (**Python?**) and the following Python packages
-docopt (Keleshev 2014), sklearn (Kramer 2016), altair (VanderPlas et al.
-2018), pandas (Snider and Swedo 2004), numpy (**numpy-Array?**), os
-(**Python?**), requests (Van Rossum and Drake 1995), joblib (Van Rossum
-and Drake 1995), matplot (Bisong 2019) were used. Additionally, we used
-R programming language (**R?**) and the following packages: knitr (Xie
-2022), tidyverse (Wickham et al. 2019) for generating this report.
+programming language (Pilgrim and Willison 2009) and the following
+Python packages docopt (Keleshev 2014), sklearn (Kramer 2016), altair
+(VanderPlas et al. 2018), pandas (Snider and Swedo 2004), numpy
+(**numpy-Array?**), os (Pilgrim and Willison 2009), requests (Van Rossum
+and Drake 1995), joblib (Van Rossum and Drake 1995), matplot (Bisong
+2019) were used. Additionally, we used R programming language (**R?**)
+and the following packages: knitr (Xie 2022), tidyverse (Wickham et al.
+2019) for generating this report.
+
+## Results & Discussion
+
+### Baseline Model and Discussion
+
+To set the baseline of each of the model performances, we first trained
+the dummy classifier. For dummy classifier, most of the classification
+metrics apart from accuracy are 0 since dummy classifier would always
+predict `Not Defaulting` in this problem causing True Positives and
+False Positive to be 0 causing precision, recall, and F1 scores to be 0.
+
+### Comparing RandomForestClassifier, KNeighborsClassifier, SVC, LogisticRegression
+
+Since we’re it is crucial to reduce both Type I and Type II errors,
+we’ll evaluate all the models based on the F1 score. From the initial
+cross-validation results, we can see that both RandomForestClassifier
+and SVC have better F1 scores when compared to KNeighborsClassifier and
+LogisticRegression. Hence, for our final model, we eliminate
+KNeighborsClassifier and LogisticRegression. On comparing
+RandomForestClassifier and SVC, we see that both of them have
+approximately the same F1 scores. RandomForestClassifier and SVC differ
+in the fact that SVC can lower Type II errors better than
+RandomForestClassifier as SVC has a higher recall score. Conversely,
+RandomForestClassifier is performing well in terms of lowering the Type
+I errors. Since it is of paramount importance to reduce the false
+negatives introduced by the model, pick SVC to move forward.
+
+<center>
+
+![](../results/cv_scores_table.png)
+
+Table 3. Cross Validation Results of the optimized Models.
+
+</center>
+
+After fixing our primary model, we analyze how each of the models are
+scoring againt the test data. Showcasing our top models first, we see
+that SVC had a final F1 test score of 0.523 while RandomForestClassifier
+has a F1 test score of 0.53. As expected, RandomForestClassifier is
+performing better in terms of F1. The models KNN and LogisticRegression
+has F1 test scores of 0.44 and 0.47 respectively.
+
+<center>
+
+![](../results/model_summary/train_test_f1_scores.png)
+
+Figure 3. RandomForestClassifier and SVC outperforms other models.
+
+</center>
+<center>
+
+![](../results/model_summary/svc_confusion_matrix.png)
+
+Figure 4. Confusion matrix of SVC.
+
+</center>
 
 ## Improvement and limitation
 
@@ -194,6 +275,13 @@ Language*. <https://github.com/docopt/docopt>.
 
 Kramer, Oliver. 2016. “Scikit-Learn.” In *Machine Learning for Evolution
 Strategies*, 45–53. Springer.
+
+</div>
+
+<div id="ref-pilgrim2009dive" class="csl-entry">
+
+Pilgrim, Mark, and Simon Willison. 2009. *Dive into Python 3*. Vol. 2.
+Springer.
 
 </div>
 

@@ -13,7 +13,15 @@ knitr::opts_chunk$set(echo = FALSE)
 library(reticulate)
 ```
 
-```{python code block, include=FALSE}
+```{python load model results, include=FALSE}
+
+import pandas as pd
+
+final_test_results = pd.read_csv('../results/model_summary/test_f1_scores.csv', index_col=0)
+test_score_svc = round(final_test_results.loc['svc'].iloc[0], 3)
+test_score_rfc = round(final_test_results.loc['random_forest'].iloc[0], 3)
+test_score_knn = round(final_test_results.loc['knn'].iloc[0], 3)
+test_score_lr = round(final_test_results.loc['logistic_regression'].iloc[0], 3)
 
 ```
 
@@ -24,10 +32,6 @@ For the project, we are trying to answer the question that given a credit card c
 Our objective is to predict as many default payments as we can with accuracy. In other words, we are maximizing the number of true positives while reducing false positives as much as possible. Thus, they can prevent asset loss in advance. Additionally, Type II errors are also important since it will be costly for the institutions to assume people, who can make the payment, would default as it would affect the organization's reputation. Therefore, we need to balance both Types of errors and the best way would be to score the model on the F1 score as it is the harmonic mean of recall which shows many among all positive examples are correctly identified and precision which shows how many among the positive examples are truly positive.
 
 In this report, we attempt to use machine-learning algorithms to predict whether a client would default a payment or not, given a set of the client's information. 
-
-## Methods
-
-This project is based on Python[@python] and including the following python packages:pandas[@pandas],scikit-learn[@scikit-learn],altair[@altair],matplotlib[@matplotlib],numpy[@numpy],uci_ml_data_set[@uci_ml_data_set]
 
 ### Data
 
@@ -41,15 +45,23 @@ Some of the key pre-processings performed in the data includes:
 
 As shown in the figure 1. pie chart for target, the target (default payment next month) is an imbalanced feature. There are more cases of not defaulting than defaulting. 
 
-Figure 1. pie chart for target
-![](../results//eda/images/target_proportion.jpg)
+<center>  
 
+![](../results/eda/images/target_proportion.jpg)  
+
+Figure 1. pie chart for target
+
+</center>
 
 The BILL AMT features, the features that reflect the bill amount for each month during the six months from April to September 2005, where BILL AMT1 indicates the bill amount for April, show strong positive correlations. From this, we can infer that larger monthly bill amounts would probably result in higher monthly bill amounts the following month. Also, this could be due to the accumulation of debt as a result of late payments. Although BILL AMT features have a high correlation amongst themselves, most features have poor linear correlation against the target since Pearson Correlation Coefficient against the target for most features is low. 
 
+<center>
+
+![](../results/eda/images/corr_plot.png)  
 
 Figure 2. Correlation graph
-![](../results//eda/images/corr_plot.png)
+
+</center>
 
 
 ### Process and Analysis
@@ -69,6 +81,35 @@ To set the baseline of each of the model performances, we first trained the dumm
 
 ### Comparing RandomForestClassifier, KNeighborsClassifier, SVC, LogisticRegression
 
+Since we're it is crucial to reduce both Type I and Type II errors, we'll evaluate all the models based on the F1 score. From the initial cross-validation results, we can see that both RandomForestClassifier and SVC have better F1 scores when compared to KNeighborsClassifier and LogisticRegression. Hence, for our final model, we eliminate KNeighborsClassifier and LogisticRegression. On comparing RandomForestClassifier and SVC, we see that both of them have approximately the same F1 scores. RandomForestClassifier and SVC differ in the fact that SVC can lower Type II errors better than RandomForestClassifier as SVC has a higher recall score. Conversely, RandomForestClassifier is performing well in terms of lowering the Type I errors. Since it is of paramount importance to reduce the false negatives introduced by the model, pick SVC to move forward. 
+
+
+<center>
+
+![](../results/cv_scores_table.png)   
+
+Table 3. Cross Validation Results of the optimized Models.
+
+</center>
+
+After fixing our primary model, we analyze how each of the models are scoring againt the test data. Showcasing our top models first, we see that SVC had a final F1 test score of `r py$test_score_svc` while RandomForestClassifier has a F1 test score of `r py$test_score_rfc`. As expected, RandomForestClassifier is performing better in terms of F1. The models KNN and LogisticRegression has F1 test scores of `r py$test_score_knn` and `r py$test_score_lr` respectively. 
+
+<center>
+
+![](../results/model_summary/train_test_f1_scores.png)   
+
+Figure 3. RandomForestClassifier and SVC outperforms other models.
+
+</center>
+
+
+<center>
+
+![](../results/model_summary/svc_confusion_matrix.png)  
+
+Figure 4. Confusion matrix of SVC.
+
+</center>
 
 ## Improvement and limitation
 Understanding the limitations and assumptions made during the prediction process plays a crucial role in understanding the validity and reliability of the results. One of the critical limitations that blocks us from extrapolating the results to the present day is that the data is old (taken in 2005), and there have been significant change in human nature and patterns since 2005. There are limitations also introduced due to the presence of data that was absent in the metadata for the features EDUCATION and MARRIAGE. These features contain unknown levels which are not described in the documentation. With number of defaulters at approximately at 25%, the number of defaulters is relatively large compared to what we would expect in real life. This could be due an efffect of Taiwanese economy this time period or could be due to improper data collection. To improve the analysis, we could perform feature enginneering based on expert domain knowledge that could boost the model performance. Although we have analyzed the performance of RFC, KNN, SVC, and LR, we could try analyzing the performance GradientBoostingClassifier. We could have also tried using SMOTE or a different method of handling class imbalance. To generalize the analysis to the current years, the first step would be to take more recent data that includes more features such as asset to debt ratio, occupation, income, and household size. It would also be better to get the data across varias other countries to better train our model on the trends in credit default payments. 
