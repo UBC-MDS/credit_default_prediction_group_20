@@ -9,17 +9,16 @@ Arjun Radhakrishnan, Morris Zhao, Althrun Sun, Ken Wang
         and Analysis</a>
 -   <a href="#results--discussion" id="toc-results--discussion">Results
     &amp; Discussion</a>
-    -   <a href="#baseline-model-and-discussion"
-        id="toc-baseline-model-and-discussion">Baseline Model and Discussion</a>
+    -   <a href="#baseline-model" id="toc-baseline-model">Baseline Model</a>
     -   <a
         href="#comparing-randomforestclassifier-kneighborsclassifier-svc-logisticregression"
         id="toc-comparing-randomforestclassifier-kneighborsclassifier-svc-logisticregression">Comparing
         RandomForestClassifier, KNeighborsClassifier, SVC,
         LogisticRegression</a>
-    -   <a href="#score-analysis-and-discussion"
-        id="toc-score-analysis-and-discussion">Score Analysis and Discussion</a>
--   <a href="#improvement-and-limitation"
-    id="toc-improvement-and-limitation">Improvement and limitation</a>
+    -   <a href="#score-analysis" id="toc-score-analysis">Score Analysis</a>
+-   <a href="#limitations-assumptions-and-future-work"
+    id="toc-limitations-assumptions-and-future-work">Limitations,
+    Assumptions, and Future Work</a>
 -   <a href="#references" id="toc-references">References</a>
 
 ## Introduction
@@ -74,16 +73,17 @@ Status, and Bill and Pay amounts. The final target indicates whether the
 client will default or not. The 24 features can be groups as
 categorical, numeric, and binary.
 
-Some of the key pre-processings performed in the data includes: - As ID
-is the ID of each client, which is unique, feature is dropped. - Despite
-being categorical in nature, SEX will be regarded as a binary value. -
-As there are unknown values in the `EDUCATION` feature, they were
+Some of the key pre-processing performed in the data includes: - As ID
+is the ID of each client, which is unique, feature is dropped.  
+- Despite being categorical in nature, SEX will be regarded as a binary
+value.  
+- As there are unknown values in the `EDUCATION` feature, they were
 combined and grouped along with “Others”. Finally, the categories were
 encoded as 1 for high school, 2 for university, 3 for graduate school,
-and 4 for others. - As there are unknown values in the `MARRIAGE`
-feature, they were combined and grouped along with “Others”. Finally,
-the categories were encoded as 1 for married, 2 for single, 3 for
-others.
+and 4 for others.  
+- As there are unknown values in the `MARRIAGE` feature, they were
+combined and grouped along with “Others”. Finally, the categories were
+encoded as 1 for married, 2 for single, 3 for others.
 
 As shown in the figure 1. pie chart for target, the target (default
 payment next month) is an imbalanced feature. There are more cases of
@@ -93,7 +93,7 @@ not defaulting than defaulting.
 
 ![](../results/eda/images/target_proportion.jpg)
 
-Figure 1. pie chart for target
+Figure 1. The proportion of people who do not default is greater.
 
 </center>
 
@@ -112,7 +112,8 @@ most features is low.
 
 ![](../results/eda/images/corr_plot.png)
 
-Figure 2. Correlation graph
+Figure 2. Pearson Correlation Graph highlighting the linear dependency
+between features.
 
 </center>
 
@@ -138,8 +139,10 @@ search, we performed a 10-fold cross validation with metrics “f1”,
 “accuracy”, “precision”, and “recall” to understand how each model is
 performing in terms of both Type I and Type II errors.
 
-Once, we narrow down on the model that is performing that best on the
-training data, we finally score the model on the test data.
+If there is a tie in the F1 score, we pick the model with the lower Type
+II error. Once, we narrow down on the model that is performing that best
+on the training data, we finally score the model on the test data and
+present the findings.
 
 For the purposes of machine learning and report generation, the Python
 programming language (Pilgrim and Willison 2009) and the following
@@ -153,7 +156,7 @@ al. 2013) and the following packages: knitr (Xie 2014), tidyverse
 
 ## Results & Discussion
 
-### Baseline Model and Discussion
+### Baseline Model
 
 To set the baseline of each of the model performances, we first trained
 the dummy classifier. For dummy classifier, most of the classification
@@ -168,30 +171,36 @@ we’ll evaluate all the models based on the F1 score. From the initial
 cross-validation results, we can see that both RandomForestClassifier
 and SVC have better F1 scores when compared to KNeighborsClassifier and
 LogisticRegression. Hence, for our final model, we eliminate
-KNeighborsClassifier and LogisticRegression. On comparing
-RandomForestClassifier and SVC, we see that both of them have
-approximately the same F1 scores. As there is a tie in the F1 scores, we
-pick the model with lower Type II errors. RandomForestClassifier and SVC
-differ in the fact that SVC can lower Type II errors better than
-RandomForestClassifier as SVC has a higher recall score. Conversely,
-RandomForestClassifier is performing well in terms of lowering the Type
-I errors. Since it is of paramount importance to reduce the false
-negatives introduced by the model, we pick SVC to move forward.
+KNeighborsClassifier and LogisticRegression.
+
+On comparing RandomForestClassifier and SVC, we see that both of them
+have approximately the same F1 scores. As there is a tie in the F1
+scores, we pick the model with lower Type II errors.
+RandomForestClassifier and SVC differ in the fact that SVC can lower
+Type II errors better than RandomForestClassifier as SVC has a higher
+recall score. Conversely, RandomForestClassifier is performing well in
+terms of lowering the Type I errors. Since it is of paramount importance
+to reduce the false negatives introduced by the model, we pick SVC to
+move forward.
 
 <center>
 
 ![](../results/cv_scores_table.png)
 
-Table 3. Cross Validation Results of the optimized Models.
+Table 1. Cross Validation Results of the optimized Models.
 
 </center>
 
-After fixing our primary model, we analyze how each of the models are
-scoring againt the test data. Showcasing our top models first, we see
-that SVC had a final F1 test score of 0.523 while RandomForestClassifier
-has a F1 test score of 0.53. As expected, RandomForestClassifier is
-performing better in terms of F1. The models KNN and LogisticRegression
-has F1 test scores of 0.44 and 0.47 respectively.
+### Score Analysis
+
+After fixing our primary model as SVC, we analyze how each of the models
+is scoring against the test data. Showcasing our top models first, we
+see that SVC had a final F1 test score of 0.523 while
+RandomForestClassifier has an F1 test score of 0.53. As expected,
+RandomForestClassifier is performing better in terms of F1. Although
+this is the case, as we saw previously, SVC has lower Type II errors.
+The models KNN and LogisticRegression have F1 test scores of 0.44 and
+0.47 respectively.
 
 <center>
 
@@ -214,9 +223,7 @@ Figure 4. Confusion matrix of SVC.
 
 </center>
 
-### Score Analysis and Discussion
-
-## Improvement and limitation
+## Limitations, Assumptions, and Future Work
 
 Understanding the limitations and assumptions made during the prediction
 process plays a crucial role in understanding the validity and
