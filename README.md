@@ -29,7 +29,7 @@ The dataset this project uses is the [default of credit card payment by clients]
 
 ### Analysis Approach
 
-Given that this is a binary classification problem and we have both categorical and continuous numeric features, we plan to build different models including `logistic regression`, `support vector classifier`, `kNN classifier`, and `naive Bayes classifier`. We will carry out cross-validation for each model, optimize their hyper-parameters compare their performance using multiple evaluation metrics. Given that the sample data is imbalanced with about a 20% default rate, accuracy might not be a good enough scoring method to use. We will include other metrics like precision/recall, f1-score, and ROC AUC.
+Given that this is a binary classification problem and we have both categorical and continuous numeric features, we plan to build different models including `logistic regression`, `support vector classifier`, `kNN classifier`, and `random forest`. We carried out cross-validation for each model, optimize their hyper-parameters and compare their performance using multiple evaluation metrics. Given that the sample data is imbalanced with about a 20% default rate, accuracy might not be a good enough scoring method to use. We included other metrics like precision/recall, and f1-score.
 
 ### Initial EDA
 
@@ -41,7 +41,7 @@ So far we have performed some basic exploratory data analysis which can be found
 
 ### Report
 
-As the project is in its development stages, we will be updating this section periodically. We aim to present the analysis report using tools such as `Jupyter notebooks` and `Github Pages`. We also aim to include tables and figures to showcase the performance of various models. Similarly, we aim to add visualizations of the hyper-parameter optimization process to better describe the fundamental tradeoff.
+We present the analysis report using a markdown file. The final report can be found [here](https://github.com/UBC-MDS/credit_default_prediction_group_20/tree/main/doc)
 
 ## Usage
 
@@ -73,9 +73,28 @@ conda env create -f environment.yaml
 python ./src/download_data_from_url.py --url "https://archive.ics.uci.edu/ml/machine-learning-databases/00350/default%20of%20credit%20card%20clients.xls" --download_path "./data/raw" --file_name "credit_default_data" --file_type "xlsx"
 ```
 
-- Analyze the EDA: Run the [EDA notebook](https://github.com/UBC-MDS/credit_default_prediction_group_20/blob/main/src/eda_credit_default_data.ipynb) to get the initial EDA results
+- Run the following commands in the same order to preprocess the data, gerenerate EDA artifacts, ML artifacts, and finally final report.
+
+```
+# preprocessing
+python ./src/data_processing.py --input_path='data/raw/credit_default_data.csv' --out_dir='data/processed' [--test_size=<test_size>]
+
+# EDA
+python ./src/eda_script.py --processed_data_path='data/processed' --eda_result_path='results/eda'
+
+# tune models
+python ./src/fit_credit_default_predict_models.py --read_training_path='data/processed/credit_train_df.csv'[--write_model_path='results/trained_models'] [--write_score_path='results/cross_validation_reuslts.csv']
+
+# test models
+python ./src/model_summary.py --model_dir='results/trained _models'  --test_data='data/processed/credit_test_df.csv' --output_dir='results/model_summary'
+
+# render final report
+Rscript -e "rmarkdown::render('doc/credit_default_analysis_report.Rmd', output_format = 'github_document')"
+```
 
 ## Dependencies
+
+For overall list of dependencies, please check [here](https://github.com/UBC-MDS/credit_default_prediction_group_20/blob/main/environment.yaml)
 
 - Python 3.10.6 and Python packages:
   - xlrd>=2.0.1
