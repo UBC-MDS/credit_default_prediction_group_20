@@ -41,7 +41,7 @@ So far we have performed some basic exploratory data analysis which can be found
 
 ### Report
 
-We present the analysis report using tools such as `R markdown` and `Github Pages`. We also include tables and figures to showcase the performance of various models.
+We present the analysis report using tools such as `R markdown` and `Github Pages`. We also include tables and figures to showcase the performance of various models. The final report can be found [here](https://github.com/UBC-MDS/credit_default_prediction_group_20/blob/main/doc/credit_default_analysis_report.md)
 
 ## Usage
 
@@ -73,7 +73,27 @@ conda env create -f environment.yaml
 python ./src/download_data_from_url.py --url "https://archive.ics.uci.edu/ml/machine-learning-databases/00350/default%20of%20credit%20card%20clients.xls" --download_path "./data/raw" --file_name "credit_default_data" --file_type "xlsx"
 ```
 
-- Analyze the EDA: Run the [EDA notebook](https://github.com/UBC-MDS/credit_default_prediction_group_20/blob/main/src/eda_credit_default_data.ipynb) to get the initial EDA results
+- Process data and run the analysis scripts
+
+```
+# preprocessing
+python ./src/data_processing.py --input_path=<input_path> --out_dir=<out_dir> [--test_size=<test_size>]
+
+# EDA
+python ./src/eda_script.py --processed_data_path=<processed_data_path> --eda_result_path=<eda_result_path>
+
+# tune models
+python ./src/fit_credit_default_predict_models.py --read_training_path=<read_training_path> [--write_model_path=<write_model_path>] [--write_score_path=<write_score_path>]
+
+# test models
+python ./src/model_summary.py --model_dir=<model_dir>  --test_data=<test_data> --output_dir=<output_dir>
+
+# render final report
+Rscript -e "rmarkdown::render('doc/credit_default_analysis_report.Rmd', output_format = 'github_document')"
+```
+
+
+
 
 ## Dependencies
 
