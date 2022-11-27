@@ -6,12 +6,24 @@ Arjun Radhakrishnan, Morris Zhao, Althrun Sun, Ken Wang
 -   <a href="#introduction" id="toc-introduction">Introduction</a>
 -   <a href="#methods" id="toc-methods">Methods</a>
     -   <a href="#data" id="toc-data">Data</a>
-    -   <a href="#analysis" id="toc-analysis">Analysis</a>
+    -   <a href="#process-and-analysis" id="toc-process-and-analysis">Process
+        and Analysis</a>
+-   <a href="#results--discussion" id="toc-results--discussion">Results
+    &amp; Discussion</a>
+    -   <a href="#baseline-model-and-discussion"
+        id="toc-baseline-model-and-discussion">Baseline Model and Discussion</a>
+    -   <a
+        href="#comparing-randomforestclassifier-kneighborsclassifier-svc-logisticregression"
+        id="toc-comparing-randomforestclassifier-kneighborsclassifier-svc-logisticregression">Comparing
+        RandomForestClassifier, KNeighborsClassifier, SVC,
+        LogisticRegression</a>
 -   <a href="#improvement-and-limitation"
     id="toc-improvement-and-limitation">Improvement and limitation</a>
 -   <a href="#references" id="toc-references">References</a>
 
 ## Introduction
+
+10
 
 For the project, we are trying to answer the question that given a
 credit card customer’s payment history and demographic information like
@@ -84,8 +96,10 @@ As shown in the figure 1. pie chart for target, the target (default
 payment next month) is an imbalanced feature. There are more cases of
 not defaulting than defaulting.
 
+<center>
 Figure 1. pie chart for target
-![](../results//eda/images/target_proportion.jpg)
+![](../results/eda/images/target_proportion.jpg)
+</center>
 
 The BILL AMT features, the features that reflect the bill amount for
 each month during the six months from April to September 2005, where
@@ -98,9 +112,11 @@ amongst themselves, most features have poor linear correlation against
 the target since Pearson Correlation Coefficient against the target for
 most features is low.
 
-Figure 2. Correlation graph ![](../results//eda/images/corr_plot.png)
+<center>
+Figure 2. Correlation graph ![](../results/eda/images/corr_plot.png)
+</center>
 
-### Analysis
+### Process and Analysis
 
 The prediction problem at hand is a binary classification problem where
 we’re asked to predict whether the client would default a payment or
@@ -122,14 +138,35 @@ search, we performed a 10-fold cross validation with metrics “f1”,
 “accuracy”, “precision”, and “recall” to understand how each model is
 performing in terms of both Type I and Type II errors.
 
+Once, we narrow down on the model that is performing that best on the
+training data, we finally score the model on the test data.
+
 For the purposes of machine learning and report generation, the Python
-programming language (**Python?**) and the following Python packages
-docopt (Keleshev 2014), sklearn (Kramer 2016), altair (VanderPlas et al.
-2018), pandas (Snider and Swedo 2004), numpy (**numpy-Array?**), os
-(**Python?**), requests (Van Rossum and Drake 1995), joblib (Van Rossum
-and Drake 1995), matplot (Bisong 2019) were used. Additionally, we used
-R programming language (**R?**) and the following packages: knitr (Xie
-2022), tidyverse (Wickham et al. 2019) for generating this report.
+programming language (Pilgrim and Willison 2009) and the following
+Python packages docopt (Keleshev 2014), sklearn (Kramer 2016), altair
+(VanderPlas et al. 2018), pandas (Snider and Swedo 2004), numpy
+(**numpy-Array?**), os (Pilgrim and Willison 2009), requests (Van Rossum
+and Drake 1995), joblib (Van Rossum and Drake 1995), matplot (Bisong
+2019) were used. Additionally, we used R programming language (**R?**)
+and the following packages: knitr (Xie 2022), tidyverse (Wickham et al.
+2019) for generating this report.
+
+## Results & Discussion
+
+### Baseline Model and Discussion
+
+To set the baseline of each of the model performances, we first trained
+the dummy classifier. For dummy classifier, most of the classification
+metrics apart from accuracy are 0 since dummy classifier would always
+predict `Not Defaulting` in this problem causing True Positives and
+False Positive to be 0 causing precision, recall, and F1 scores to be 0.
+
+### Comparing RandomForestClassifier, KNeighborsClassifier, SVC, LogisticRegression
+
+<center>
+Figure 3. RandomForestClassifier and SVC outperforms other models.
+![](../results/model_summary/train_test_f1_scores.png)
+</center>
 
 ## Improvement and limitation
 
@@ -194,6 +231,13 @@ Language*. <https://github.com/docopt/docopt>.
 
 Kramer, Oliver. 2016. “Scikit-Learn.” In *Machine Learning for Evolution
 Strategies*, 45–53. Springer.
+
+</div>
+
+<div id="ref-pilgrim2009dive" class="csl-entry">
+
+Pilgrim, Mark, and Simon Willison. 2009. *Dive into Python 3*. Vol. 2.
+Springer.
 
 </div>
 
