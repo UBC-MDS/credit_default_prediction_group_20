@@ -64,6 +64,10 @@ For the purposes of machine learning and report generation, the Python programmi
 
 ## Results & Discussion
 
+### Baseline Model and Discussion
+To set the baseline of each of the model performances, we first trained the dummy classifier. For dummy classifier, most of the classification metrics apart from accuracy are 0 since dummy classifier would always predict `Not Defaulting` in this problem causing True Positives and False Positive to be 0 causing precision, recall, and F1 scores to be 0. 
+
+### Comparing RandomForestClassifier, KNeighborsClassifier, SVC, LogisticRegression
 
 
 ## Improvement and limitation

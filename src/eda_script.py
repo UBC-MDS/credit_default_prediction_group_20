@@ -48,7 +48,7 @@ def main(processed_data_path, eda_result_path):
     eda_result_path : string
         Local File Path where the result of eda  saved in.
     """
-
+    # Referenced from Joel.
     def save_chart(chart, filename, scale_factor=1):
         """
         Save an Altair chart using vl-convert
@@ -72,13 +72,13 @@ def main(processed_data_path, eda_result_path):
         else:
             raise ValueError("Only svg and png formats are supported")
 
-    # Test if the URL exists and returns Status OK
     try:
         df = pd.read_csv(processed_data_path)
         print("successfully read the data")
     except:
         print("Unable to read data from the path.")
         return
+
     ##test assert
     assert df is not None
     ##create folder
@@ -103,15 +103,15 @@ def main(processed_data_path, eda_result_path):
     credit_df["default_payment_next_month"] = credit_df[
         "default_payment_next_month"
     ].astype("category")
-    train_df, test_df = train_test_split(credit_df, test_size=0.2, random_state=522)
+
     # pie chart
     plt.pie(
         credit_df["default_payment_next_month"].value_counts(),
-        labels=["not defaulting", "defaulting"],
+        labels=["Not defaulting the payment", "Defaulting the payment"],
         colors=["#d5695d", "#5d8ca8"],
         autopct="%.2f%%",
     )
-    plt.title("proportion of target classes")
+    plt.title("Proportion of Target Classes")
     plt.plot()
     plt.savefig("./" + eda_result_path + "/eda/images/target_proportion.jpg")
 
@@ -119,9 +119,9 @@ def main(processed_data_path, eda_result_path):
     assert plt is not None
 
     # heatmap
-    corr_df = train_df.corr().stack().reset_index(name="corr")
+    corr_df = credit_df.corr().stack().reset_index(name="corr")
     corr_plot = (
-        alt.Chart(corr_df, title="Correlation graph")
+        alt.Chart(corr_df, title="Correlation Graph")
         .mark_rect()
         .encode(x="level_0", y="level_1", color=alt.Color("corr"))
         .properties(width=400, height=400)
@@ -132,9 +132,9 @@ def main(processed_data_path, eda_result_path):
     assert corr_plot is not None
 
     ##default-undefualt
-    train_df["whether default next month"] = "not defaulting"
-    train_df.loc[
-        train_df["default_payment_next_month"] == 1, "whether default next month"
+    credit_df["Defaulting or not"] = "not defaulting"
+    credit_df.loc[
+        credit_df["default_payment_next_month"] == 1, "Defaulting or not"
     ] = "defaulting"
 
     # numeric dis
@@ -155,13 +155,13 @@ def main(processed_data_path, eda_result_path):
         "PAY_AMT6",
     ]
     numeric_dis = (
-        alt.Chart(train_df)
+        alt.Chart(credit_df)
         .mark_bar()
         .encode(
             alt.X(alt.repeat(), type="quantitative", bin=alt.Bin(maxbins=30)),
             y="count()",
             color=alt.Color(
-                "whether default next month", scale=alt.Scale(scheme="purpleorange")
+                "Defaulting or not", scale=alt.Scale(scheme="purpleorange")
             ),
         )
         .properties(width=200, height=150)
@@ -185,14 +185,12 @@ def main(processed_data_path, eda_result_path):
         "PAY_6",
     ]
     categorical_dis = (
-        alt.Chart(train_df)
+        alt.Chart(credit_df)
         .mark_bar()
         .encode(
             alt.X(alt.repeat(), type="quantitative", bin=alt.Bin(maxbins=20)),
             y="count()",
-            color=alt.Color(
-                "whether default next month", scale=alt.Scale(scheme="dark2")
-            ),
+            color=alt.Color("Defaulting or not", scale=alt.Scale(scheme="dark2")),
         )
         .properties(width=200, height=150)
         .repeat(cat_col, columns=3)
@@ -210,4 +208,3 @@ def main(processed_data_path, eda_result_path):
 # Execute only when run as a script.
 if __name__ == "__main__":
     main(opt["--processed_data_path"], opt["--eda_result_path"])
-    # main("./data/processed/credit_train_df.csv", "./results")

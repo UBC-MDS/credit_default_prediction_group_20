@@ -14,7 +14,7 @@ Options:
 --output_dir=<output_dir>  output directory to put summary figures in
 
 From the root of the repository, run:
- python src/model_summary.py --model_dir results/trained_models/ --test_data data/processed/credit_test_df.csv --output_dir results/
+ python src/model_summary.py --model_dir results/trained_models/ --test_data data/processed/credit_test_df.csv --output_dir results/model_summary
 """
 
 import os.path
@@ -31,8 +31,33 @@ from sklearn.metrics import precision_recall_curve, precision_score, recall_scor
 from sklearn.metrics import roc_curve
 from sklearn.metrics import classification_report
 from sklearn.metrics import f1_score
+import vl_convert as vlc
 
 opt = docopt(__doc__)
+
+# Referenced from Joel
+def save_chart(chart, filename, scale_factor=1):
+    """
+    Save an Altair chart using vl-convert
+
+    Parameters
+    ----------
+    chart : altair.Chart
+    Altair chart to save
+    ilename : str
+    The path to save the chart to
+    scale_factor: int or float
+    The factor to scale the image resolution by.
+    E.g. A value of `2` means two times the default resolution.
+    """
+    if filename.split(".")[-1] == "svg":
+        with open(filename, "w") as f:
+            f.write(vlc.vegalite_to_svg(chart.to_dict()))
+    elif filename.split(".")[-1] == "png":
+        with open(filename, "wb") as f:
+            f.write(vlc.vegalite_to_png(chart.to_dict(), scale=scale_factor))
+    else:
+        raise ValueError("Only svg and png formats are supported")
 
 
 def get_classification_report(model, X_test, y_test, sheet_path):
@@ -61,7 +86,7 @@ def get_roc_auc(model, X_test, y_test, figure_path):
         tpr[default_threshold],
         "or",
         markersize=10,
-        label="threshold 0.5",
+        label="Threshold 0.5",
     )
     plt.legend(loc="best")
     plt.savefig(figure_path)
@@ -80,7 +105,7 @@ def get_pr_curve(model, X_test, y_test, figure_path):
         recall_score(y_test, model.predict(X_test)),
         "or",
         markersize=10,
-        label="threshold 0.5",
+        label="Threshold 0.5",
     )
     plt.legend(loc="best")
     plt.savefig(figure_path)
@@ -211,18 +236,31 @@ def plot_f1_scores(train_test_scores_path, plot_path):
         .configure_title(fontSize=20)
     )
 
-    my_chart.save(plot_path)
+    save_chart(my_chart, plot_path, 2)
 
 
 def main(model_dir=None, test_data_path=None, output_dir_path=None):
+    """
+    Driver function to get the output of the summary
+    and save it in the local file system.
+    Parameters
+    ----------
+    model_dir : string
+    test_data_path : string
+    output_dir_path: string
+    """
+
     train_f1_scores_path = os.path.join(output_dir_path, "train_f1_scores.csv")
     test_f1_scores_path = os.path.join(output_dir_path, "test_f1_scores.csv")
+
     train_test_f1_scores_path = os.path.join(
         output_dir_path, "train_test_f1_scores.csv"
     )
 
     get_train_f1_scores("results/cross_validation_results.csv", train_f1_scores_path)
+
     get_test_f1_scores(model_dir, test_data_path, test_f1_scores_path)
+
     get_train_test_f1_socres(
         train_f1_scores_path, test_f1_scores_path, train_test_f1_scores_path
     )
@@ -234,7 +272,7 @@ def main(model_dir=None, test_data_path=None, output_dir_path=None):
 
     # for the best model `logistic regression` make some figures
     best_model_name = "logistic_regression"
-    print(f"\n---------- best_model_name = {best_model_name} ------------\n")
+
     model_path = os.path.join(model_dir, best_model_name + ".joblib")
     model = load_model(model_path)
 
@@ -260,6 +298,7 @@ def main(model_dir=None, test_data_path=None, output_dir_path=None):
         y_test,
         os.path.join(output_dir_path, best_model_name + "_precision_recall_curve.png"),
     )
+
     print("saved precision recall curve png")
 
     get_roc_auc(
@@ -272,6 +311,9 @@ def main(model_dir=None, test_data_path=None, output_dir_path=None):
 
 
 if __name__ == "__main__":
+    if not os.path.exists(opt["--output_dir"]):
+        os.makedirs(opt["--output_dir"])
+
     main(
         model_dir=opt["--model_dir"],
         test_data_path=opt["--test_data"],
