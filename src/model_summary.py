@@ -74,7 +74,7 @@ def get_classification_report(model, X_test, y_test, sheet_path):
 
 
 def get_roc_auc(model, X_test, y_test, figure_path):
-    fpr, tpr, thresholds = roc_curve(y_test, model.predict_proba(X_test)[:, 1])
+    fpr, tpr, thresholds = roc_curve(y_test, model.decision_function(X_test))
     plt.plot(fpr, tpr, label="ROC Curve")
     plt.xlabel("FPR")
     plt.ylabel("TPR (recall)")
@@ -95,7 +95,7 @@ def get_roc_auc(model, X_test, y_test, figure_path):
 
 def get_pr_curve(model, X_test, y_test, figure_path):
     precision, recall, thresholds = precision_recall_curve(
-        y_test, model.predict_proba(X_test)[:, 1]
+        y_test, model.decision_function(X_test)
     )
     plt.plot(precision, recall, label="PR curve")
     plt.xlabel("Precision")
@@ -270,8 +270,8 @@ def main(model_dir=None, test_data_path=None, output_dir_path=None):
 
     X_test, y_test = load_test_data(test_data_path)
 
-    # for the best model `logistic regression` make some figures
-    best_model_name = "logistic_regression"
+    # for the best model `svc` make some figures
+    best_model_name = "svc"
 
     model_path = os.path.join(model_dir, best_model_name + ".joblib")
     model = load_model(model_path)
