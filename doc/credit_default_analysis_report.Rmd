@@ -39,11 +39,11 @@ The data set used in the project was produced by Yeh, I. C., and Lien, C. H., an
 
 Some of the key pre-processing performed in the data includes:
 - As ID is the ID of each client, which is unique, feature is dropped.  
-- Despite being categorical in nature, `SEX` will be regarded as a binary value.  
+- `SEX` will be regarded as a binary value since the data contains binary values.  
 - As there are unknown values in the `EDUCATION` feature, they were combined and grouped along with "Others". Finally, the categories were encoded as 1 for high school, 2 for university, 3 for graduate school, and 4 for others.  
 - As there are unknown values in the `MARRIAGE` feature, they were combined and grouped along with "Others". Finally, the categories were encoded as 1 for married, 2 for single, 3 for others.  
 
-As shown in the figure 1. pie chart for target, the target (default payment next month) is an imbalanced feature. There are more cases of not defaulting than defaulting. 
+As shown in the Figure 1, the target is an imbalanced feature. 
 
 <center>  
 
@@ -106,7 +106,9 @@ Figure 3. `RandomForestClassifier` and `SVC` outperforms other models.
 
 </center>
 
-From the confusion matrix for the `SVC` model, we see that the number of Type II errors or false negatives (actually defaulting but predicting not-defaulting) is lower than the number of Type I errors (actually not-defaulting but predicting defaulting). 
+From the confusion matrix for the `SVC` model, we see that the number of Type II errors or false negatives (actually defaulting but predicting not-defaulting) is lower than the number of Type I errors (actually not-defaulting but predicting defaulting).  
+
+Hence, among the models that we analyzed, `SCV` performs the best in terms of lowering the Type II errors while simultaneously optimizing the F1 and precision scores. If the organization is more interested in lowering the Type I errors to improve customer satisfaction, we recommend using `RandomForestClassifier` over `SVC` as both have comparable F1 scores. 
 
 <center>
 

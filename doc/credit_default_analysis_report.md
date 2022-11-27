@@ -75,8 +75,8 @@ categorical, numeric, and binary.
 
 Some of the key pre-processing performed in the data includes: - As ID
 is the ID of each client, which is unique, feature is dropped.  
-- Despite being categorical in nature, SEX will be regarded as a binary
-value.  
+- `SEX` will be regarded as a binary value since the data contains
+binary values.  
 - As there are unknown values in the `EDUCATION` feature, they were
 combined and grouped along with “Others”. Finally, the categories were
 encoded as 1 for high school, 2 for university, 3 for graduate school,
@@ -85,9 +85,7 @@ and 4 for others.
 combined and grouped along with “Others”. Finally, the categories were
 encoded as 1 for married, 2 for single, 3 for others.
 
-As shown in the figure 1. pie chart for target, the target (default
-payment next month) is an imbalanced feature. There are more cases of
-not defaulting than defaulting.
+As shown in the Figure 1, the target is an imbalanced feature.
 
 <center>
 
@@ -168,20 +166,19 @@ False Positive to be 0 causing precision, recall, and F1 scores to be 0.
 
 Since we’re it is crucial to reduce both Type I and Type II errors,
 we’ll evaluate all the models based on the F1 score. From the initial
-cross-validation results, we can see that both RandomForestClassifier
-and SVC have better F1 scores when compared to KNeighborsClassifier and
-LogisticRegression. Hence, for our final model, we eliminate
-KNeighborsClassifier and LogisticRegression.
+cross-validation results, we can see that both `RandomForestClassifier`
+and `SVC` have better F1 scores when compared to `KNeighborsClassifier`
+and `LogisticRegression`. Hence, for our final model, we will eliminate
+`KNeighborsClassifier` and `LogisticRegression`.
 
-On comparing RandomForestClassifier and SVC, we see that both of them
-have approximately the same F1 scores. As there is a tie in the F1
-scores, we pick the model with lower Type II errors.
-RandomForestClassifier and SVC differ in the fact that SVC can lower
-Type II errors better than RandomForestClassifier as SVC has a higher
-recall score. Conversely, RandomForestClassifier is performing well in
-terms of lowering the Type I errors. Since it is of paramount importance
-to reduce the false negatives introduced by the model, we pick SVC to
-move forward.
+On comparing `RandomForestClassifier` and `SVC`, we see that both of
+them have approximately the same F1 scores. As there is a tie in the F1
+scores, we pick the model with lower Type II errors. As as `SVC` has a
+higher recall score, `SVC` can lower Type II errors better than
+`RandomForestClassifier`. Conversely, `RandomForestClassifier` is
+performing well in terms of lowering the Type I errors. Since it is of
+paramount importance to reduce the false negatives introduced by the
+model, we pick `SVC` to move forward.
 
 <center>
 
@@ -193,12 +190,12 @@ Table 1. Cross Validation Results of the optimized Models.
 
 ### Score Analysis
 
-After fixing our primary model as SVC, we analyze how each of the models
-is scoring against the test data. Showcasing our top models first, we
-see that SVC had a final F1 test score of 0.523 while
-RandomForestClassifier has an F1 test score of 0.53. As expected,
-RandomForestClassifier is performing better in terms of F1. Although
-this is the case, as we saw previously, SVC has lower Type II errors.
+After fixing our primary model as `SVC`, we analyze how each of the
+models is scoring against the test data. Showcasing our top models
+first, we see that SVC had a final F1 test score of 0.523 while
+`RandomForestClassifier` has an F1 test score of 0.53. As expected,
+`RandomForestClassifier` is performing better in terms of F1. Although
+this is the case, as we saw previously, `SVC` has lower Type II errors.
 The models KNN and LogisticRegression have F1 test scores of 0.44 and
 0.47 respectively.
 
@@ -206,20 +203,27 @@ The models KNN and LogisticRegression have F1 test scores of 0.44 and
 
 ![](../results/model_summary/train_test_f1_scores.png)
 
-Figure 3. RandomForestClassifier and SVC outperforms other models.
+Figure 3. `RandomForestClassifier` and `SVC` outperforms other models.
 
 </center>
 
-From the confusion matrix for the SVC model, we see that the number of
+From the confusion matrix for the `SVC` model, we see that the number of
 Type II errors or false negatives (actually defaulting but predicting
 not-defaulting) is lower than the number of Type I errors (actually
 not-defaulting but predicting defaulting).
+
+Hence, among the models that we analyzed, `SCV` performs the best in
+terms of lowering the Type II errors while simultaneously optimizing the
+F1 and precision scores. If the organization is more interested in
+lowering the Type I errors to improve customer satisfaction, we
+recommend using `RandomForestClassifier` over `SVC` as both have
+comparable F1 scores.
 
 <center>
 
 ![](../results/model_summary/svc_confusion_matrix.png)
 
-Figure 4. Confusion matrix of SVC.
+Figure 4. Confusion matrix of `SVC`.
 
 </center>
 
@@ -232,16 +236,17 @@ us from extrapolating the results to the present day is that the data is
 old (taken in 2005), and there have been significant changes in human
 nature and patterns since 2005. There are limitations also introduced
 due to the presence of data that was absent in the metadata for the
-features EDUCATION and MARRIAGE. These features contain unknown levels
-which are not described in the documentation. With the number of
+features `EDUCATION` and `MARRIAGE`. These features contain unknown
+levels which are not described in the documentation. With the number of
 defaulters at approximately 25%, the number of defaulters is relatively
 large compared to what we would expect in real life. This could be due
 to an effect of the Taiwanese economy during this period or could be due
 to improper data collection. To improve the analysis, we could perform
 feature engineering based on expert domain knowledge that could boost
-the model performance. Although we have analyzed the performance of RFC,
-KNN, SVC, and LR, we could try analyzing the performance
-GradientBoostingClassifier. We could have also tried using SMOTE or a
+the model performance. Although we have analyzed the performance of
+`RandomForestClassifier`, `KNeighborsClassifier`, `SVC`, and
+`LogisticRegression`, we could try analyzing the performance
+`GradientBoostingClassifier`. We could have also tried using SMOTE or a
 different method of handling class imbalance. To generalize the analysis
 to the current years, the first step would be to take more recent data
 that includes more features such as asset-to-debt ratio, occupation,
