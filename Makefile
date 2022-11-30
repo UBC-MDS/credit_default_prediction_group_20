@@ -26,6 +26,6 @@ data/processed/credit_cleaned_df.csv data/processed/credit_test_df.csv data/proc
 	
 # clean
 clean :
-	rm -f data
-	rm -f results
+	rm -rf data
+	rm -rf results
 	rm -f doc/credit_default_analysis_report.md
