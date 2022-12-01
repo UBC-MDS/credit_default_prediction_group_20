@@ -3,7 +3,7 @@
 # Date: 2022-11-30
 
 # all
-all : doc/count_report.html 
+all : doc/credit_default_analysis_report.md
 
 # download the data
 
