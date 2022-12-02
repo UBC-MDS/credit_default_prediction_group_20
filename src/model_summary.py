@@ -23,6 +23,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from docopt import docopt
 from joblib import load as joblib_load
+import dataframe_image as dfi
 
 from sklearn.metrics import confusion_matrix
 from sklearn.metrics import ConfusionMatrixDisplay
