@@ -53,66 +53,38 @@ To reproduce this analysis you will need to:
 git clone git@github.com:UBC-MDS/credit_default_prediction_group_20.git
 ```
 
-- Install the dependencies listed below
+- Install the dependencies:
+  - Python 3.10.6
+  - Conda 22.9.0
+  - R 4.2.2
+  - R package 'reticulate'
+  - pandoc
+  - pandoc-citeproc
 
-- Create the environment
+- Create and activate the environment
 
 ```
 conda env create -f environment.yaml
+conda activate credit_default_predict
 ```
 
-- To activate the created environment, execute the below command:
+- Run `Makefile` from the project root directory
 
 ```
-    conda activate credit_default_predict
-```
-
-- Download the data: Run the [python script](https://github.com/UBC-MDS/credit_default_prediction_group_20/blob/main/src/download_data_from_url.py) to download the data from UCI ML repository:
-
-```
-python ./src/download_data_from_url.py --url "https://archive.ics.uci.edu/ml/machine-learning-databases/00350/default%20of%20credit%20card%20clients.xls" --download_path "./data/raw" --file_name "credit_default_data" --file_type "xlsx"
-```
-
-- Run the following commands in the same order to preprocess the data, gerenerate EDA artifacts, ML artifacts, and finally final report.
-
-```
-# preprocessing
-python ./src/data_processing.py --input_path='data/raw/credit_default_data.csv' --out_dir='data/processed' [--test_size=<test_size>]
-
-# EDA
-python ./src/eda_script.py --processed_data_path='data/processed' --eda_result_path='results/eda'
-
-# tune models
-python ./src/fit_credit_default_predict_models.py --read_training_path='data/processed/credit_train_df.csv'[--write_model_path='results/trained_models'] [--write_score_path='results/cross_validation_reuslts.csv']
-
-# test models
-python ./src/model_summary.py --model_dir='results/trained _models'  --test_data='data/processed/credit_test_df.csv' --output_dir='results/model_summary'
-
-# render final report
-Rscript -e "rmarkdown::render('doc/credit_default_analysis_report.Rmd', output_format = 'github_document')"
+make clean
+make
 ```
 
 ## Dependencies
 
 For overall list of dependencies, please check [here](https://github.com/UBC-MDS/credit_default_prediction_group_20/blob/main/environment.yaml)
 
-- Python 3.10.6 and Python packages:
-  - xlrd>=2.0.1
-  - xlwt>=1.3.0
-  - ipykernel>=6.16.0
-  - mglearn>=0.1.9
-  - altair_saver>=0.5.0
-  - vega_datasets>=0.9.0
-  - docopt=0.6.2
-  - ipython>=7.15
-  - selenium<4.3.0
-  - matplotlib>=3.2.2
-  - scikit-learn>=1.0
-  - pandas>=1.3.*
-  - requests>=2.24.0
-  - joblib==1.1.0
-  - psutil>=5.7.2
-  - openpyxl>=3.0.0
+- Python 3.10.6
+- Conda 22.9.0
+- R 4.2.2
+- R package 'reticulate'
+- pandoc
+- pandoc-citeproc
 
 ## License
 
