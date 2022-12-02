@@ -45,6 +45,9 @@ doc/credit_default_analysis_report.md : doc/credit_default_analysis_report.Rmd r
 clean :
 	rm -f data/processed/*
 	rm -f data/raw/*
-	rm -f results/*
-	rm -f results/*/*/*
+	rm -f results/cross_validation_results.csv
+	rm -f results/trained_models/*
+	rm -f results/eda/eda_tables/*
+	rm -f results/eda/images/*
+	rm -f results/model_summary/*
 	rm -f doc/credit_default_analysis_report.md
