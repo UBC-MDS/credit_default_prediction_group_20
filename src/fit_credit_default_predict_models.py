@@ -17,8 +17,8 @@ From the root of the repository, run:
 """
 
 # hardcode optimization parameters
-CONST_N_ITER=3
-CONST_CV=3
+CONST_N_ITER=2
+CONST_CV=2
 
 import os
 import numpy as np
