@@ -90,6 +90,7 @@ def get_confusion_matrix(model, X_test, y_test, figure_path):
     ConfusionMatrixDisplay(
         my_confusion_matrix, display_labels=["Non Default", "Default"]
     ).plot()
+    plt.tight_layout()
     plt.savefig(figure_path)
     plt.clf()
 
