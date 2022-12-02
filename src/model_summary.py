@@ -223,6 +223,10 @@ def main(model_dir=None, test_data_path=None, output_dir_path=None):
     model_path = os.path.join(model_dir, best_model_name + ".joblib")
     model = load_model(model_path)
 
+    rfc_model_name = 'random_forest'
+    rfc_model_path = os.path.join(model_dir, rfc_model_name + '.joblib')
+    rfc_model = load_model(rfc_model_path)
+
     get_classification_report(
         model,
         X_test,
@@ -237,7 +241,16 @@ def main(model_dir=None, test_data_path=None, output_dir_path=None):
         y_test,
         os.path.join(output_dir_path, best_model_name + "_confusion_matrix.png"),
     )
-    print("saved confusion matrix png")
+    print("saved svc confusion matrix png")
+
+    get_confusion_matrix(
+        rfc_model,
+        X_test,
+        y_test,
+        os.path.join(output_dir_path, rfc_model_name + "_confusion_matrix.png"),
+    )
+
+    print("saved rfc confusion matrix png")
 
     get_pr_curve(
         model,
