@@ -1,13 +1,17 @@
 #! /bin/bash
+DUMMY_DATA_URL='https://github.com/kenuiuc/gcm-encryption-demo/raw/master/data/ken_dummy_data.xls'
+REAL_DATA_URL='https://archive.ics.uci.edu/ml/machine-learning-databases/00350/default%20of%20credit%20card%20clients.xls'
+
+DATA_URL=${DUMMY_DATA_URL}
 
 # download csv
 echo 'start download_data_from_url.py'
-python -W ignore ./src/download_data_from_url.py --url 'https://archive.ics.uci.edu/ml/machine-learning-databases/00350/default%20of%20credit%20card%20clients.xls' --download_path './data/raw' --file_name 'credit_default_data' --file_type 'csv' &&
+python -W ignore ./src/download_data_from_url.py --url ${DATA_URL} --download_path './data/raw' --file_name 'credit_default_data' --file_type 'csv' &&
 echo 'end download_data_from_url.py'
 
 # download xlsx
 echo 'start download_data_from_url.py'
-python -W ignore ./src/download_data_from_url.py --url 'https://archive.ics.uci.edu/ml/machine-learning-databases/00350/default%20of%20credit%20card%20clients.xls' --download_path './data/raw' --file_name 'credit_default_data' --file_type 'xlsx' &&
+python -W ignore ./src/download_data_from_url.py --url ${DATA_URL} --download_path './data/raw' --file_name 'credit_default_data' --file_type 'xlsx' &&
 echo 'start download_data_from_url.py'
 
 # preprocess data and train/test split
