@@ -88,7 +88,7 @@ On comparing `RandomForestClassifier` and `SVC`, we see that both of them have a
 
 <center>
 
-![](../results/cv_scores_table.png)   
+**TODO: Ken -> put csv result here**
 
 Table 1. Cross Validation Results of the optimized Models.
 
