@@ -2,6 +2,10 @@
 # Author: Morris Zhao
 # Date: 2022-11-30
 
+# Notice that currently I'm using a dummy mini size dataset with only 1k rows from this URL: 'https://github.com/kenuiuc/gcm-encryption-demo/raw/master/data/ken_dummy_data.xls'
+
+# The real data set with 30k rows can be downloaded from: 'https://archive.ics.uci.edu/ml/machine-learning-databases/00350/default%20of%20credit%20card%20clients.xls'
+
 # This file runs all of the script by order, to reproduce all the results in the repository folder.
 # `Make all` will run all of the scripts and render the final report of the project.
 # 'Make clean` will remove all generated files and folders.
