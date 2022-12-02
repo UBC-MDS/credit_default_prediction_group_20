@@ -1,6 +1,0 @@
-,test_f1_score
-svc,0.4064460924130062
-logistic_regression,0.46890270990670807
-dummy_classifier,0.0
-random_forest,0.5323866106361397
-knn,0.43963331382874976
