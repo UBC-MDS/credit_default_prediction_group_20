@@ -23,7 +23,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 from docopt import docopt
 from joblib import load as joblib_load
-import dataframe_image as dfi
 
 from sklearn.metrics import confusion_matrix
 from sklearn.metrics import ConfusionMatrixDisplay
@@ -147,10 +146,6 @@ def get_train_f1_scores(cv_scores_sheet_path=None, output_sheet_path=None):
     }
     model_names_list = list(model_names_map.keys())
     train_f1_scores_series = train_f1_scores_raw[model_names_list]
-
-    dfi.export(
-        pd.DataFrame(cv_scores_df[model_names_list]), "results/cv_scores_table.png"
-    )
 
     train_f1_scores_series = (
         train_f1_scores_series.str.split(" ", expand=True)
