@@ -19,20 +19,13 @@ python ./src/eda_script.py --processed_data_path "./data/processed/credit_train_
 import os
 from docopt import docopt
 import pandas as pd
-import altair as alt
 from sklearn.model_selection import train_test_split
 import warnings
 import os
-from altair_data_server import data_server
 import matplotlib.pyplot as plt
-import vl_convert as vlc
-
+import seaborn as sns
 warnings.filterwarnings("ignore")
-# Save a vega-lite spec and a PNG blob for each plot in the notebook
-alt.renderers.enable("mimetype")
-# Handle large data sets without embedding them in the notebook
 
-alt.data_transformers.disable_max_rows()
 
 opt = docopt(__doc__)
 
@@ -118,15 +111,14 @@ def main(processed_data_path, eda_result_path):
     ##test assert if pie chart
     assert plt is not None
 
+
+
     # heatmap
-    corr_df = credit_df.corr().stack().reset_index(name="corr")
-    corr_plot = (
-        alt.Chart(corr_df, title="Correlation Graph")
-        .mark_rect()
-        .encode(x="level_0", y="level_1", color=alt.Color("corr"))
-        .properties(width=400, height=400)
-    )
-    save_chart(corr_plot, "./" + eda_result_path + "/eda/images/corr_plot.png", 2)
+    # corr_df = credit_df.corr().stack().reset_index(name="corr")
+    
+    plt.figure(figsize=(30, 30))
+    corr_plot=sns.heatmap(credit_df.corr(), annot=True).get_figure()
+    corr_plot.savefig("./" + eda_result_path + "/eda/images/corr_plot.png")
 
     ##test assert if heatmap created
     assert corr_plot is not None
@@ -154,26 +146,19 @@ def main(processed_data_path, eda_result_path):
         "PAY_AMT5",
         "PAY_AMT6",
     ]
-    numeric_dis = (
-        alt.Chart(credit_df)
-        .mark_bar()
-        .encode(
-            alt.X(alt.repeat(), type="quantitative", bin=alt.Bin(maxbins=30)),
-            y="count()",
-            color=alt.Color(
-                "Defaulting or not", scale=alt.Scale(scheme="purpleorange")
-            ),
-        )
-        .properties(width=200, height=150)
-        .repeat(num_cols, columns=3)
-    )
-    save_chart(numeric_dis, "./" + eda_result_path + "/eda/images/numeric_dis.png", 2)
-
-    ##test assert if numeric_dis created
+    fig = plt.figure(figsize=(16, 16))
+    index_num=0
+    for num_col in num_cols:
+        index_num+=1
+        ax = fig.add_subplot(4, 4, index_num)
+        sns.distplot(credit_df[num_col])
+        plt.tight_layout()
+    numeric_dis=ax
+    plt.savefig("./" + eda_result_path + "/eda/images/numeric_dis.png")
     assert numeric_dis is not None
 
     # categorical dis
-    cat_col = [
+    cat_cols = [
         "EDUCATION",
         "MARRIAGE",
         "SEX",
@@ -184,20 +169,16 @@ def main(processed_data_path, eda_result_path):
         "PAY_5",
         "PAY_6",
     ]
-    categorical_dis = (
-        alt.Chart(credit_df)
-        .mark_bar()
-        .encode(
-            alt.X(alt.repeat(), type="quantitative", bin=alt.Bin(maxbins=20)),
-            y="count()",
-            color=alt.Color("Defaulting or not", scale=alt.Scale(scheme="dark2")),
-        )
-        .properties(width=200, height=150)
-        .repeat(cat_col, columns=3)
-    )
-    save_chart(
-        categorical_dis, "./" + eda_result_path + "/eda/images/categorical_dis.png", 2
-    )
+    fig = plt.figure(figsize=(16, 16))
+    index_cat=0
+    for cat_col in cat_cols:
+        index_cat+=1
+        ay = fig.add_subplot(4, 4, index_cat)
+        sns.distplot(credit_df[cat_col])
+        plt.tight_layout()
+    categorical_dis=ay
+    plt.savefig("./" + eda_result_path + "/eda/images/categorical_dis.png")
+
 
     ##test assert if categorical dis created
     assert categorical_dis is not None
