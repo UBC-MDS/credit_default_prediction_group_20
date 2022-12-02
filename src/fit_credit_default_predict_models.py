@@ -16,6 +16,10 @@ From the root of the repository, run:
  python src/fit_credit_default_predict_models.py --read_training_path data/processed/credit_train_df.csv --write_model_path results/trained_models/ --write_score_path results/
 """
 
+# hardcode optimization parameters
+CONST_N_ITER=3
+CONST_CV=3
+
 import os
 import numpy as np
 import pandas as pd
@@ -257,11 +261,11 @@ def add_rfc_scores_to_results_and_save(
     forest_random_search = RandomizedSearchCV(
         forest_pipe,
         param_distributions=distributions,
-        cv=10,
+        cv=CONST_CV,
         n_jobs=-1,
         random_state=522,
         verbose=0,
-        n_iter=10,
+        n_iter=CONST_N_ITER,
         scoring="f1",
     )
 
@@ -324,11 +328,11 @@ def add_knn_scores_to_results_and_save(
     knn_grid_search = RandomizedSearchCV(
         knn_pipe,
         param_distributions=grid_params,
-        cv=10,
+        cv=CONST_CV,
         scoring="f1",
         n_jobs=-1,
         random_state=522,
-        n_iter=10,
+        n_iter=CONST_N_ITER,
     )
 
     knn_grid_search.fit(x_train, y_train)
@@ -388,11 +392,11 @@ def add_svc_scores_to_results_and_save(
     svc_random_search = RandomizedSearchCV(
         svc_pipe,
         param_distributions=distributions,
-        cv=10,
+        cv=CONST_CV,
         n_jobs=-1,
         random_state=522,
         scoring="f1",
-        n_iter=10,
+        n_iter=CONST_N_ITER,
     )
 
     svc_random_search.fit(x_train, y_train)
@@ -454,10 +458,10 @@ def add_lr_scores_to_results_and_save(
     lr_grid_search = RandomizedSearchCV(
         lr_pipe,
         param_distributions=grid_params,
-        cv=10,
+        cv=CONST_CV,
         scoring="f1",
         n_jobs=-1,
-        n_iter=10,
+        n_iter=CONST_N_ITER,
         random_state=522,
     )
 
