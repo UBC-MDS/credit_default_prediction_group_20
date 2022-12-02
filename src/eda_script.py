@@ -41,29 +41,7 @@ def main(processed_data_path, eda_result_path):
     eda_result_path : string
         Local File Path where the result of eda  saved in.
     """
-    # Referenced from Joel.
-    def save_chart(chart, filename, scale_factor=1):
-        """
-        Save an Altair chart using vl-convert
 
-        Parameters
-        ----------
-        chart : altair.Chart
-        Altair chart to save
-        ilename : str
-        The path to save the chart to
-        scale_factor: int or float
-        The factor to scale the image resolution by.
-        E.g. A value of `2` means two times the default resolution.
-        """
-        if filename.split(".")[-1] == "svg":
-            with open(filename, "w") as f:
-                f.write(vlc.vegalite_to_svg(chart.to_dict()))
-        elif filename.split(".")[-1] == "png":
-            with open(filename, "wb") as f:
-                f.write(vlc.vegalite_to_png(chart.to_dict(), scale=scale_factor))
-        else:
-            raise ValueError("Only svg and png formats are supported")
 
     try:
         df = pd.read_csv(processed_data_path)
@@ -98,13 +76,17 @@ def main(processed_data_path, eda_result_path):
     ].astype("category")
 
     # pie chart
+    plt.figure(figsize=(15, 15))
     plt.pie(
         credit_df["default_payment_next_month"].value_counts(),
         labels=["Not defaulting the payment", "Defaulting the payment"],
-        colors=["#d5695d", "#5d8ca8"],
+        colors=["#d2b48c", "#808080"],
         autopct="%.2f%%",
+        textprops={'fontsize': 18}
     )
-    plt.title("Proportion of Target Classes")
+    plt.legend(fontsize=15)
+
+    plt.title("Proportion of Target Classes",fontsize=25)
     plt.plot()
     plt.savefig("./" + eda_result_path + "/eda/images/target_proportion.jpg")
 
@@ -113,15 +95,7 @@ def main(processed_data_path, eda_result_path):
 
 
 
-    # heatmap
-    # corr_df = credit_df.corr().stack().reset_index(name="corr")
-    
-    plt.figure(figsize=(30, 30))
-    corr_plot=sns.heatmap(credit_df.corr(), annot=True).get_figure()
-    corr_plot.savefig("./" + eda_result_path + "/eda/images/corr_plot.png")
 
-    ##test assert if heatmap created
-    assert corr_plot is not None
 
     ##default-undefualt
     credit_df["Defaulting or not"] = "not defaulting"
@@ -182,6 +156,24 @@ def main(processed_data_path, eda_result_path):
 
     ##test assert if categorical dis created
     assert categorical_dis is not None
+    
+    
+    
+    # heatmap
+    # corr_df = credit_df.corr().stack().reset_index(na me="corr")
+    
+    plt.figure(figsize=(35, 35))
+    corr_plot=sns.heatmap(credit_df.loc[:,num_cols].drop('AGE',axis=1).corr(), annot=True,annot_kws={"fontsize":30},cbar=False).get_figure()
+    
+    plt.title('Heatmap of numeric features', fontsize = 50)
+    plt.xticks(fontsize=25)
+    plt.yticks(fontsize=25)
+
+    corr_plot.savefig("./" + eda_result_path + "/eda/images/corr_plot.png")
+    # annot_kws={"fontsize":20}
+    ##test assert if heatmap created
+    assert corr_plot is not None
+    
 
     print("output saved every things done")
 
