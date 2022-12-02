@@ -1,0 +1,6 @@
+,train_f1_score,test_f1_score
+dummy_classifier,0.0,0.0
+svc,0.0,0.0
+knn,0.128,0.097560975609756
+logistic_regression,0.267,0.2553191489361702
+random_forest,0.389,0.4666666666666666
