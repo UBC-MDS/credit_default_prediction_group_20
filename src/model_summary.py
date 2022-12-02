@@ -23,7 +23,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 from docopt import docopt
 from joblib import load as joblib_load
-import altair as alt
 
 from sklearn.metrics import confusion_matrix
 from sklearn.metrics import ConfusionMatrixDisplay
@@ -31,35 +30,8 @@ from sklearn.metrics import precision_recall_curve, precision_score, recall_scor
 from sklearn.metrics import roc_curve
 from sklearn.metrics import classification_report
 from sklearn.metrics import f1_score
-import vl_convert as vlc
-import dataframe_image as dfi
 
 opt = docopt(__doc__)
-
-# Referenced from Joel
-def save_chart(chart, filename, scale_factor=1):
-    """
-    Save an Altair chart using vl-convert
-
-    Parameters
-    ----------
-    chart : altair.Chart
-    Altair chart to save
-    ilename : str
-    The path to save the chart to
-    scale_factor: int or float
-    The factor to scale the image resolution by.
-    E.g. A value of `2` means two times the default resolution.
-    """
-    if filename.split(".")[-1] == "svg":
-        with open(filename, "w") as f:
-            f.write(vlc.vegalite_to_svg(chart.to_dict()))
-    elif filename.split(".")[-1] == "png":
-        with open(filename, "wb") as f:
-            f.write(vlc.vegalite_to_png(chart.to_dict(), scale=scale_factor))
-    else:
-        raise ValueError("Only svg and png formats are supported")
-
 
 def get_classification_report(model, X_test, y_test, sheet_path):
     class_report = classification_report(
@@ -201,48 +173,20 @@ def get_train_test_f1_socres(
 
 def plot_f1_scores(train_test_scores_path, plot_path):
     train_test_scores = pd.read_csv(train_test_scores_path, index_col=0)
-    train_test_scores.index.name = "model"
-    train_test_scores = train_test_scores.reset_index()
-    train_test_scores = train_test_scores.rename(
-        columns={"train_f1_score": "train", "test_f1_score": "test"}
-    )
-    train_test_scores = train_test_scores.sort_values("test")
-    train_test_scores = pd.melt(
-        train_test_scores, id_vars="model", var_name="score_type", value_name="score"
-    ).sort_values("model")
-
-    my_chart = (
-        alt.Chart(train_test_scores, title="F-1 Scores for Different Models")
-        .mark_bar()
-        .encode(
-            x=alt.X("score_type", title=None),
-            y="score",
-            color=alt.Color("score_type", title=None),
-            column=alt.Column(
-                "model:N",
-                title="Model",
-                spacing=40,
-                sort=[
-                    "random_forest",
-                    "knn",
-                    "logistic_regression",
-                    "svc",
-                    "dummy_classifier",
-                ],
-            ),
-        )
-        .configure_axis(
-            labelFontSize=15,
-            titleFontSize=15,
-        )
-        .configure_legend(
-            labelFontSize=15,
-        )
-        .configure_header(labelFontSize=13)
-        .configure_title(fontSize=20)
-    )
-
-    save_chart(my_chart, plot_path, 2)
+    index_list = train_test_scores.index.tolist()
+    index_titlle_list = [model_name.title().replace('_', ' ') for model_name in index_list]
+    x = np.arange(5)
+    y1 = train_test_scores.loc[:,'train_f1_score'].tolist()
+    y2 = train_test_scores.loc[:,'test_f1_score'].tolist()
+    width = 0.4
+    plt.bar(x-0.2, y1, width)
+    plt.bar(x+0.2, y2, width)
+    plt.xticks(x,  index_titlle_list,rotation = 45)
+    plt.legend(['train', 'test'])
+    plt.title('F-1 Scores for Different Models')
+    plt.tight_layout()
+    plt.savefig(plot_path)
+    plt.clf()
 
 
 def main(model_dir=None, test_data_path=None, output_dir_path=None):
