@@ -10,17 +10,19 @@
 # `Make all` will run all of the scripts and render the final report of the project.
 # 'Make clean` will remove all generated files and folders.
 
+DATA_SOURCE_URL='https://archive.ics.uci.edu/ml/machine-learning-databases/00350/default%20of%20credit%20card%20clients.xls'
+
 # all
 # run all of the scripts and render the final report of the project.
 all : doc/credit_default_analysis_report.md
 
 # download csv data
 data/raw/credit_default_data.csv : src/download_data_from_url.py
-	python -W ignore ./src/download_data_from_url.py --url 'https://github.com/kenuiuc/gcm-encryption-demo/raw/master/data/ken_dummy_data.xls' --download_path './data/raw' --file_name 'credit_default_data' --file_type 'csv'
+	python -W ignore ./src/download_data_from_url.py --url $(DATA_SOURCE_URL) --download_path './data/raw' --file_name 'credit_default_data' --file_type 'csv'
 
 # download xlsx data
 data/raw/credit_default_data.xlsx : src/download_data_from_url.py
-	python -W ignore ./src/download_data_from_url.py --url 'https://github.com/kenuiuc/gcm-encryption-demo/raw/master/data/ken_dummy_data.xls' --download_path './data/raw' --file_name 'credit_default_data' --file_type 'xlsx'
+	python -W ignore ./src/download_data_from_url.py --url $(DATA_SOURCE_URL) --download_path './data/raw' --file_name 'credit_default_data' --file_type 'xlsx'
 
 # preprocessing the raw data, and save the clean data
 data/processed/credit_cleaned_df.csv data/processed/credit_test_df.csv data/processed/credit_train_df.csv : src/data_processing.py data/raw/credit_default_data.csv data/raw/credit_default_data.xlsx

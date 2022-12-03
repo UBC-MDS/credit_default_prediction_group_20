@@ -68,12 +68,27 @@ conda env create -f environment.yaml
 conda activate credit_default_predict
 ```
 
-- Run `Makefile` from the project root directory
+- Clean up results from the project root directory
 
 ```
 make clean
+```
+
+- Run `Makefile` from the project root directory
+
+You can either run
+```
 make
 ```
+OR
+
+```
+make DATA_SOURCE_URL='https://github.com/kenuiuc/gcm-encryption-demo/raw/master/data/ken_dummy_data.xls'
+```
+
+- If you don't specify the `DATA_SOURCE_URL` argument, by default the scripts will download the full size data with 30k rows from UCI Machine Learning Repository. Model training using this dataset can take a long time.
+
+- If you specify the `DATA_SOURCE_URL` as above, it will download a mini size dataset with only 1k row from my github repo. I created this mini size dataset for developing and test purposes.
 
 ## Dependencies
 
