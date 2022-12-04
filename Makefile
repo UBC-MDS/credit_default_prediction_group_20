@@ -6,6 +6,8 @@
 # `Make all` will run all of the scripts and render the final report of the project.
 # 'Make clean` will remove all generated files and folders.
 
+# Default data source is the URL to the data available at UCI Machine Learning Repository. 
+# For dev/test, this can be overridden with a smaller sample generated from the original. 
 DATA_SOURCE_URL='https://archive.ics.uci.edu/ml/machine-learning-databases/00350/default%20of%20credit%20card%20clients.xls'
 
 # all
