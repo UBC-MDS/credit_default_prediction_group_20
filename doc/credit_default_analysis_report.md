@@ -1,25 +1,25 @@
 Credit Default Analysis Report
 ================
-Arjun Radhakrishnan, Morris Zhao, Althrun Sun, Ken Wang
+Arjun Radhakrishnan
 2022-11-25
 
--   <a href="#introduction" id="toc-introduction">Introduction</a>
-    -   <a href="#data" id="toc-data">Data</a>
-    -   <a href="#process-and-analysis" id="toc-process-and-analysis">Process
-        and Analysis</a>
--   <a href="#results--discussion" id="toc-results--discussion">Results
-    &amp; Discussion</a>
-    -   <a href="#baseline-model" id="toc-baseline-model">Baseline Model</a>
-    -   <a
-        href="#comparing-randomforestclassifier-kneighborsclassifier-svc-logisticregression"
-        id="toc-comparing-randomforestclassifier-kneighborsclassifier-svc-logisticregression">Comparing
-        RandomForestClassifier, KNeighborsClassifier, SVC,
-        LogisticRegression</a>
-    -   <a href="#score-analysis" id="toc-score-analysis">Score Analysis</a>
--   <a href="#limitations-assumptions-and-future-work"
-    id="toc-limitations-assumptions-and-future-work">Limitations,
-    Assumptions, and Future Work</a>
--   <a href="#references" id="toc-references">References</a>
+- <a href="#introduction" id="toc-introduction">Introduction</a>
+  - <a href="#data" id="toc-data">Data</a>
+  - <a href="#process-and-analysis" id="toc-process-and-analysis">Process
+    and Analysis</a>
+- <a href="#results--discussion" id="toc-results--discussion">Results
+  &amp; Discussion</a>
+  - <a href="#baseline-model" id="toc-baseline-model">Baseline Model</a>
+  - <a
+    href="#comparing-randomforestclassifier-kneighborsclassifier-svc-logisticregression"
+    id="toc-comparing-randomforestclassifier-kneighborsclassifier-svc-logisticregression">Comparing
+    RandomForestClassifier, KNeighborsClassifier, SVC,
+    LogisticRegression</a>
+  - <a href="#score-analysis" id="toc-score-analysis">Score Analysis</a>
+- <a href="#limitations-assumptions-and-future-work"
+  id="toc-limitations-assumptions-and-future-work">Limitations,
+  Assumptions, and Future Work</a>
+- <a href="#references" id="toc-references">References</a>
 
 ## Introduction
 
@@ -87,13 +87,14 @@ encoded as 1 for married, 2 for single, 3 for others.
 
 As shown in the Figure 1, the target is an imbalanced feature.
 
-<center>
+<div class="figure" style="text-align: center">
 
-![](../results/eda/images/target_proportion.jpg)
-
+<img src="../results/eda/images/target_proportion.jpg" alt="Figure 1. The proportion of people who do not default is greater." width="75%" height="75%" />
+<p class="caption">
 Figure 1. The proportion of people who do not default is greater.
+</p>
 
-</center>
+</div>
 
 The BILL AMT features, the features that reflect the bill amount for
 each month during the six months from April to September 2005, where
@@ -106,14 +107,15 @@ amongst themselves, most features have poor linear correlation against
 the target since Pearson Correlation Coefficient against the target for
 most features is low.
 
-<center>
+<div class="figure" style="text-align: center">
 
-![](../results/eda/images/corr_plot.png)
-
+<img src="../results/eda/images/corr_plot.png" alt="Figure 2. Pearson Correlation Graph highlighting the linear dependency between features." width="75%" height="75%" />
+<p class="caption">
 Figure 2. Pearson Correlation Graph highlighting the linear dependency
 between features.
+</p>
 
-</center>
+</div>
 
 ### Process and Analysis
 
@@ -180,13 +182,14 @@ performing well in terms of lowering the Type I errors. Since it is of
 paramount importance to reduce the false negatives introduced by the
 model, we pick `SVC` to move forward.
 
-<center>
+<div class="figure" style="text-align: center">
 
-![](../results/cv_scores_table.png)
-
+<img src="../results/cv_scores_table.png" alt="Table 1. Cross Validation Results of the optimized Models." width="75%" height="75%" />
+<p class="caption">
 Table 1. Cross Validation Results of the optimized Models.
+</p>
 
-</center>
+</div>
 
 ### Score Analysis
 
@@ -199,13 +202,14 @@ this is the case, as we saw previously, `SVC` has lower Type II errors.
 The models KNN and LogisticRegression have F1 test scores of 0.44 and
 0.47 respectively.
 
-<center>
+<div class="figure" style="text-align: center">
 
-![](../results/model_summary/train_test_f1_scores.png)
-
+<img src="../results/model_summary/train_test_f1_scores.png" alt="Figure 3. `RandomForestClassifier` and `SVC` outperforms other models." width="75%" height="75%" />
+<p class="caption">
 Figure 3. `RandomForestClassifier` and `SVC` outperforms other models.
+</p>
 
-</center>
+</div>
 
 From the confusion matrix for the `SVC` model, we see that the number of
 Type II errors or false negatives (actually defaulting but predicting
@@ -219,13 +223,14 @@ lowering the Type I errors to improve customer satisfaction, we
 recommend using `RandomForestClassifier` over `SVC` as both have
 comparable F1 scores.
 
-<center>
+<div class="figure" style="text-align: center">
 
-![](../results/model_summary/svc_confusion_matrix.png)
-
+<img src="../results/model_summary/svc_confusion_matrix.png" alt="Figure 4. Confusion matrix of `SVC`." width="75%" height="75%" />
+<p class="caption">
 Figure 4. Confusion matrix of `SVC`.
+</p>
 
-</center>
+</div>
 
 ## Limitations, Assumptions, and Future Work
 
