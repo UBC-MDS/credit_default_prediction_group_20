@@ -47,19 +47,12 @@ We present the analysis report using a markdown file. The final report can be fo
 
 To reproduce this analysis you will need to:
 
-- Download and install R, Rtools, and RStudio.
-
-- Download and install the necessary R packages to successfully generate the report:
-  - R package 'reticulate'
-  - R package 'rmarkdown'
-  - R package 'knitr'
-
-- Download and install Python, Conda, and Git.
+- Ensure all the necessary dependencies listed [here](https://github.com/UBC-MDS/credit_default_prediction_group_20#dependencies) are met.
 
 - Clone this Github repo:
 
 ```
-git clone git@github.com:UBC-MDS/credit_default_prediction_group_20.git
+git clone https://github.com/UBC-MDS/credit_default_prediction_group_20.git
 ```
 
 - Create the conda environment with the necessary python packages.
@@ -74,27 +67,33 @@ conda env create -f environment.yaml
     conda activate credit_default_predict
 ```
 
-- To clean all directories from the existing analysis, run the below command from the project root directory:
+- To reset and clean all directories from the existing analysis, run the below command from the project root directory:
 
 ```
 make clean
 ```
 
-- As we're analyzing the performance of 5 models and the data is heavy (30k observations), please note that re-running the analysis takes approximately 10 to 15 mins on a 12th Gen i7 processor with 14 cores. To reproduce the results on the entire data available, please run the below command that creates the necessary artifacts:
+- To reproduce the results on the entire data available, please run the below command that creates the necessary artifacts. As we're analyzing the performance of 5 models and the data is heavy (30k observations), **please note that re-running the analysis is time consuming** and takes approximately 10 to 15 mins on a 12th Gen i7 processor with 14 cores.
 
 ```
 make all
 ```
 
-If you're interested in just testing the flow of execution of the scipts on a smaller dataset, you could run the below command which performs all the steps on a smaller dataset randomly sampled from the main data (this data can be accessed [here](https://github.com/kenuiuc/gcm-encryption-demo/raw/master/data/ken_dummy_data.xls)).
+If you're interested in just testing the flow of execution of the scipts on a smaller dataset, you could run the below command which performs all the steps on a smaller dataset randomly sampled from the main data (this data can be accessed [here](https://github.com/rkrishnan-arjun/minimal_credit_default_predict_data/blob/main/minimal_credit_default_data.xls)).
 
 ```
-make DATA_SOURCE_URL='https://github.com/kenuiuc/gcm-encryption-demo/raw/master/data/ken_dummy_data.xls'
+make DATA_SOURCE_URL='https://github.com/rkrishnan-arjun/minimal_credit_default_predict_data/raw/main/minimal_credit_default_data.xls'
 ```
 
-- If you don't specify the `DATA_SOURCE_URL` argument, by default the scripts will download the full size data with 30k rows from UCI Machine Learning Repository. Model training using this dataset could take a while.
+- The default value of `DATA_SOURCE_URL` is the URL to the data available at [UCI Machine Learning Repository](https://archive.ics.uci.edu/ml/datasets/default+of+credit+card+clients). If you don't specify the `DATA_SOURCE_URL` argument, by default the scripts will download the full size data with 30k rows from UCI Machine Learning Repository. Model training using this dataset could take a while.
 
-- For development and testing purposes, if you specify the `DATA_SOURCE_URL` as above, it will download the smaller dataset with only 1k rows.
+- For development and testing purposes, if you specify the `DATA_SOURCE_URL` as above, it will download the smaller dataset with only 1k rows that is generated from the original data through random sampling. Once testing is done, please run `make clean` before you try attemping to run `make all` on the complete data.
+
+- To remove all the intermediate artifacts created and to reset the repo, please run the below command again:
+
+ ```
+ make clean
+ ```
 
 ## Dependencies
 
@@ -102,9 +101,10 @@ For the python dependencies and the conda environment creation file, please chec
 
 Apart from this, please ensure the following are installed:
 
-- Python 3.10.6
+- Python 3.10.6 and packages listed [here](https://github.com/UBC-MDS/credit_default_prediction_group_20/blob/main/environment.yaml)
 - Conda 22.9.0
 - R 4.2.2
+- git
 - R package `reticulate`
 - R package `rmarkdown`
 - R package `knitr`
