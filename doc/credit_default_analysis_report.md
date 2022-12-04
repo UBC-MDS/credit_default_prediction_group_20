@@ -109,7 +109,7 @@ most features is low.
 
 <div class="figure" style="text-align: center">
 
-<img src="../results/eda/images/corr_plot.png" alt="Figure 2. Pearson Correlation Graph highlighting the linear dependency between features." width="75%" height="75%" />
+<img src="../results/eda/images/corr_plot.png" alt="Figure 2. Pearson Correlation Graph highlighting the linear dependency between features." width="100%" height="100%" />
 <p class="caption">
 Figure 2. Pearson Correlation Graph highlighting the linear dependency
 between features.
@@ -195,12 +195,12 @@ Table 1. Cross Validation Results of the optimized Models.
 
 After fixing our primary model as `SVC`, we analyze how each of the
 models is scoring against the test data. Showcasing our top models
-first, we see that SVC had a final F1 test score of 0.523 while
-`RandomForestClassifier` has an F1 test score of 0.53. As expected,
+first, we see that SVC had a final F1 test score of 0.529 while
+`RandomForestClassifier` has an F1 test score of 0.531. As expected,
 `RandomForestClassifier` is performing better in terms of F1. Although
 this is the case, as we saw previously, `SVC` has lower Type II errors.
-The models KNN and LogisticRegression have F1 test scores of 0.44 and
-0.47 respectively.
+The models KNN and LogisticRegression have F1 test scores of 0.434 and
+0.475 respectively.
 
 <div class="figure" style="text-align: center">
 
@@ -225,9 +225,19 @@ comparable F1 scores.
 
 <div class="figure" style="text-align: center">
 
-<img src="../results/model_summary/svc_confusion_matrix.png" alt="Figure 4. Confusion matrix of `SVC`." width="75%" height="75%" />
+<img src="../results/model_summary/svc_confusion_matrix.png" alt="Figure 4. Confusion matrix of SVC." width="50%" height="50%" />
 <p class="caption">
-Figure 4. Confusion matrix of `SVC`.
+Figure 4. Confusion matrix of SVC.
+</p>
+
+</div>
+
+<div class="figure" style="text-align: center">
+
+<img src="../results/model_summary/random_forest_confusion_matrix.png" alt="Figure 4. Confusion matrix of RandomForestClassifier. Relative to SVC, RandomForestClassifier has higher Type II error." width="50%" height="50%" />
+<p class="caption">
+Figure 4. Confusion matrix of RandomForestClassifier. Relative to SVC,
+RandomForestClassifier has higher Type II error.
 </p>
 
 </div>

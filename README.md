@@ -101,6 +101,7 @@ For the python dependencies and the conda environment creation file, please chec
 
 Apart from this, please ensure the following are installed:
 
+- Chrome (the conda environment creation will fail if chrome is missing)
 - Python 3.10.6 and packages listed [here](https://github.com/UBC-MDS/credit_default_prediction_group_20/blob/main/environment.yaml)
 - Conda 22.9.0
 - R 4.2.2

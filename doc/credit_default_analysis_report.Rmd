@@ -52,7 +52,7 @@ knitr::include_graphics("../results/eda/images/target_proportion.jpg")
 
 The BILL AMT features, the features that reflect the bill amount for each month during the six months from April to September 2005, where BILL AMT1 indicates the bill amount for April, show strong positive correlations. From this, we can infer that larger monthly bill amounts would probably result in higher monthly bill amounts the following month. Also, this could be due to the accumulation of debt as a result of late payments. Although BILL AMT features have a high correlation amongst themselves, most features have poor linear correlation against the target since Pearson Correlation Coefficient against the target for most features is low. 
 
-```{r out.width = '75%', out.height = '75%', fig.align='center', fig.cap = "Figure 2. Pearson Correlation Graph highlighting the linear dependency between features."}
+```{r out.width = '100%', out.height = '100%', fig.align='center', fig.cap = "Figure 2. Pearson Correlation Graph highlighting the linear dependency between features."}
 knitr::include_graphics("../results/eda/images/corr_plot.png")
 ```
 
@@ -94,11 +94,11 @@ From the confusion matrix for the `SVC` model, we see that the number of Type II
 
 Hence, among the models that we analyzed, `SCV` performs the best in terms of lowering the Type II errors while simultaneously optimizing the F1 and precision scores. If the organization is more interested in lowering the Type I errors to improve customer satisfaction, we recommend using `RandomForestClassifier` over `SVC` as both have comparable F1 scores. 
 
-```{r out.width = '75%', out.height = '75%', fig.align='center', fig.cap = "Figure 4. Confusion matrix of `SVC`."}
+```{r out.width = '50%', out.height = '50%', fig.align='center', fig.cap = "Figure 4. Confusion matrix of SVC."}
 knitr::include_graphics("../results/model_summary/svc_confusion_matrix.png")
 ```
 
-```{r out.width = '75%', out.height = '75%', fig.align='center', fig.cap = "Figure 4. Confusion matrix of `RandomForestClassifier`."}
+```{r out.width = '50%', out.height = '50%', fig.align='center', fig.cap = "Figure 4. Confusion matrix of RandomForestClassifier. Relative to SVC, RandomForestClassifier has higher Type II error."}
 knitr::include_graphics("../results/model_summary/random_forest_confusion_matrix.png")
 ```
 
