@@ -105,11 +105,11 @@ Apart from this, please ensure the following are installed:
 - Python 3.10.6
 - Conda 22.9.0
 - R 4.2.2
-- R package 'reticulate'
-- R package 'rmarkdown'
-- R package 'knitr'
-- pandoc
-- pandoc-citeproc
+- R package `reticulate`
+- R package `rmarkdown`
+- R package `knitr`
+- R package `pandoc`
+- R package `pandoc-citeproc`
 
 ## License
 

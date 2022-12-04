@@ -44,11 +44,7 @@ doc/credit_default_analysis_report.md : doc/credit_default_analysis_report.Rmd r
 # clean
 # remove all generated files but preserve the directories
 clean :
-	rm -f data/processed/*
-	rm -f data/raw/*
-	rm -f results/cross_validation_results.csv
-	rm -f results/cv_scores_table.png
-	rm -f results/eda/*
-	rm -f results/model_summary/*
-	rm -f results/trained_models/*
+	rm -rf data/processed/
+	rm -rf data/raw/
+	rm -rf results/
 	rm -f doc/credit_default_analysis_report.md
