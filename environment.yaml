@@ -14,6 +14,7 @@ dependencies:
 - pandas>=1.3.*
 - requests>=2.24.0
 - pip
+- pandoc
 - pip:
   - joblib==1.1.0
   - mglearn
