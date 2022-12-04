@@ -47,72 +47,69 @@ We present the analysis report using a markdown file. The final report can be fo
 
 To reproduce this analysis you will need to:
 
+- Download and install R, Rtools, and RStudio.
+
+- Download and install the necessary R packages to successfully generate the report:
+  - R package 'reticulate'
+  - R package 'rmarkdown'
+  - R package 'knitr'
+
+- Download and install Python, Conda, and Git.
+
 - Clone this Github repo:
 
 ```
 git clone git@github.com:UBC-MDS/credit_default_prediction_group_20.git
 ```
 
-- Install the dependencies listed below
-
-- Create the environment
+- Create the conda environment with the necessary python packages.
 
 ```
 conda env create -f environment.yaml
 ```
 
-- To activate the created environment, execute the below command:
+- Activate the created environment by executing the below command:
 
 ```
     conda activate credit_default_predict
 ```
 
-- Download the data: Run the [python script](https://github.com/UBC-MDS/credit_default_prediction_group_20/blob/main/src/download_data_from_url.py) to download the data from UCI ML repository:
+- To clean all directories from the existing analysis, run the below command from the project root directory:
 
 ```
-python ./src/download_data_from_url.py --url "https://archive.ics.uci.edu/ml/machine-learning-databases/00350/default%20of%20credit%20card%20clients.xls" --download_path "./data/raw" --file_name "credit_default_data" --file_type "xlsx"
+make clean
 ```
 
-- Run the following commands in the same order to preprocess the data, gerenerate EDA artifacts, ML artifacts, and finally final report.
+- As we're analyzing the performance of 5 models and the data is heavy (30k observations), please note that re-running the analysis takes approximately 10 to 15 mins on a 12th Gen i7 processor with 14 cores. To reproduce the results on the entire data available, please run the below command that creates the necessary artifacts:
 
 ```
-# preprocessing
-python ./src/data_processing.py --input_path='data/raw/credit_default_data.csv' --out_dir='data/processed' [--test_size=<test_size>]
-
-# EDA
-python ./src/eda_script.py --processed_data_path='data/processed' --eda_result_path='results/eda'
-
-# tune models
-python ./src/fit_credit_default_predict_models.py --read_training_path='data/processed/credit_train_df.csv'[--write_model_path='results/trained_models'] [--write_score_path='results/cross_validation_reuslts.csv']
-
-# test models
-python ./src/model_summary.py --model_dir='results/trained _models'  --test_data='data/processed/credit_test_df.csv' --output_dir='results/model_summary'
-
-# render final report
-Rscript -e "rmarkdown::render('doc/credit_default_analysis_report.Rmd', output_format = 'github_document')"
+make all
 ```
+
+If you're interested in just testing the flow of execution of the scipts on a smaller dataset, you could run the below command which performs all the steps on a smaller dataset randomly sampled from the main data (this data can be accessed [here](https://github.com/kenuiuc/gcm-encryption-demo/raw/master/data/ken_dummy_data.xls)).
+
+```
+make DATA_SOURCE_URL='https://github.com/kenuiuc/gcm-encryption-demo/raw/master/data/ken_dummy_data.xls'
+```
+
+- If you don't specify the `DATA_SOURCE_URL` argument, by default the scripts will download the full size data with 30k rows from UCI Machine Learning Repository. Model training using this dataset could take a while.
+
+- For development and testing purposes, if you specify the `DATA_SOURCE_URL` as above, it will download the smaller dataset with only 1k rows.
 
 ## Dependencies
 
-For overall list of dependencies, please check [here](https://github.com/UBC-MDS/credit_default_prediction_group_20/blob/main/environment.yaml)
+For the python dependencies and the conda environment creation file, please check [here](https://github.com/UBC-MDS/credit_default_prediction_group_20/blob/main/environment.yaml)
 
-- Python 3.10.6 and Python packages:
-  - xlrd>=2.0.1
-  - xlwt>=1.3.0
-  - ipykernel>=6.16.0
-  - mglearn>=0.1.9
-  - altair_saver>=0.5.0
-  - vega_datasets>=0.9.0
-  - docopt=0.6.2
-  - ipython>=7.15
-  - selenium<4.3.0
-  - matplotlib>=3.2.2
-  - scikit-learn>=1.0
-  - pandas>=1.3.*
-  - requests>=2.24.0
-  - joblib==1.1.0
-  - psutil>=5.7.2
-  - openpyxl>=3.0.0
+Apart from this, please ensure the following are installed:
+
+- Python 3.10.6
+- Conda 22.9.0
+- R 4.2.2
+- R package 'reticulate'
+- R package 'rmarkdown'
+- R package 'knitr'
+- pandoc
+- pandoc-citeproc
 
 ## License
 
