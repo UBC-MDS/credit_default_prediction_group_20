@@ -28,29 +28,29 @@ test_score_lr = round(final_test_results.loc['logistic_regression'].iloc[0], 3)
 
 ## Introduction
 
-For the project, we are trying to answer the question that given a credit card customer's payment history and demographic information like gender, age, and education level, would the customer default on the next bill payment? A borrower is said to be in default when they are unable to make their interest or principal payments on time, miss installments, or cease making them altogether. The answer to this query is crucial since it allows financial organizations to assess a customer's creditworthiness and set suitable credit limit ranges using an efficient predictive model. It also helps them take preemptive actions to secure their assets. Due to the class imbalance, we must evaluate the model's effectiveness using different metrics, such as precision, recall, or F1 score. Our model's primary focus is the class "default payment," which refers to payment defaults made by clients. As a result, we are treating `default` as the positive class, and `not defaulting` as the negative class. In this case, it is important for financial institutions to identify potential clients that may make a default payment. 
+For the project, we are trying to answer the question that given a credit card customer's payment history and demographic information like gender, age, and education level, would the customer default on the next bill payment? A borrower is said to be in default when they are unable to make their interest or principal payments on time, miss installments, or cease making them altogether. The answer to this query is crucial since it allows financial organizations to assess a customer's creditworthiness and set suitable credit limit ranges using an efficient predictive model. It also helps them take preemptive actions to secure their assets. Due to the class imbalance, we must evaluate the model's effectiveness using different metrics, such as precision, recall, or F1 score. Our model's primary focus is the class "default payment," which refers to payment defaults made by clients. As a result, we are treating `default` as the positive class, and `not defaulting` as the negative class. In this case, it is important for financial institutions to identify potential clients that may make a default payment.
 
-Our objective is to predict as many default payments as we can with accuracy. In other words, we are maximizing the number of true positives while reducing false positives as much as possible. Thus, they can prevent asset loss in advance. Additionally, Type II errors are also important since it will be costly for the institutions to assume people, who can make the payment, would default as it would affect the organization's reputation. Therefore, we need to balance both Types of errors and the best way would be to score the model on the F1 score as it is the harmonic mean of recall which shows many among all positive examples are correctly identified and precision which shows how many among the positive examples are truly positive. If there is a tie in the F1 score, we aim to reduce the number of Type II errrors or false negatives. 
+Our objective is to predict as many default payments as we can with accuracy. In other words, we are maximizing the number of true positives while reducing false positives as much as possible. Thus, they can prevent asset loss in advance. Additionally, Type II errors are also important since it will be costly for the institutions to assume people, who can make the payment, would default as it would affect the organization's reputation. Therefore, we need to balance both Types of errors and the best way would be to score the model on the F1 score as it is the harmonic mean of recall which shows many among all positive examples are correctly identified and precision which shows how many among the positive examples are truly positive. If there is a tie in the F1 score, we aim to reduce the number of Type II errrors or false negatives.
 
-In this report, we attempt to use machine-learning algorithms to predict whether a client would default a payment or not, given a set of the client's information. 
+In this report, we attempt to use machine-learning algorithms to predict whether a client would default a payment or not, given a set of the client's information.
 
 ### Data
 
 The data set used in the project was produced by Yeh, I. C., and Lien, C. H., and it is freely accessible for download at the UCI Machine Learning Repository [@uci_ml_data_set] (with the title "default of credit card clients" in 2016). The [dataset](<https://github.com/UBC-MDS/credit_default_prediction_group_20/tree/main/data/raw>) is based on examples of Taiwanese credit card clients defaulting from April to September. Each observation in the 30000-observation dataset reflects the data of a certain client. The dataset has no missing values and has 24 features which are gender, age, marital status, ID, Repayment Status, and Bill and Pay amounts. The final target indicates whether the client will default or not. The 24 features can be groups as categorical, numeric, and binary.
 
 Some of the key pre-processing performed in the data includes:
-- As ID is the ID of each client, which is unique, feature is dropped.  
-- `SEX` will be regarded as a binary value since the data contains binary values.  
-- As there are unknown values in the `EDUCATION` feature, they were combined and grouped along with "Others". Finally, the categories were encoded as 1 for high school, 2 for university, 3 for graduate school, and 4 for others.  
-- As there are unknown values in the `MARRIAGE` feature, they were combined and grouped along with "Others". Finally, the categories were encoded as 1 for married, 2 for single, 3 for others.  
+- As ID is the ID of each client, which is unique, feature is dropped.
+- `SEX` will be regarded as a binary value since the data contains binary values.
+- As there are unknown values in the `EDUCATION` feature, they were combined and grouped along with "Others". Finally, the categories were encoded as 1 for high school, 2 for university, 3 for graduate school, and 4 for others.
+- As there are unknown values in the `MARRIAGE` feature, they were combined and grouped along with "Others". Finally, the categories were encoded as 1 for married, 2 for single, 3 for others.
 
-As shown in the Figure 1, the target is an imbalanced feature. 
+As shown in the Figure 1, the target is an imbalanced feature.
 
 ```{r out.width = '75%', out.height = '75%', fig.align='center', fig.cap = "Figure 1. The proportion of people who do not default is greater."}
 knitr::include_graphics("../results/eda/images/target_proportion.jpg")
 ```
 
-The BILL AMT features, the features that reflect the bill amount for each month during the six months from April to September 2005, where BILL AMT1 indicates the bill amount for April, show strong positive correlations. From this, we can infer that larger monthly bill amounts would probably result in higher monthly bill amounts the following month. Also, this could be due to the accumulation of debt as a result of late payments. Although BILL AMT features have a high correlation amongst themselves, most features have poor linear correlation against the target since Pearson Correlation Coefficient against the target for most features is low. 
+The BILL AMT features, the features that reflect the bill amount for each month during the six months from April to September 2005, where BILL AMT1 indicates the bill amount for April, show strong positive correlations. From this, we can infer that larger monthly bill amounts would probably result in higher monthly bill amounts the following month. Also, this could be due to the accumulation of debt as a result of late payments. Although BILL AMT features have a high correlation amongst themselves, most features have poor linear correlation against the target since Pearson Correlation Coefficient against the target for most features is low.
 
 ```{r out.width = '100%', out.height = '100%', fig.align='center', fig.cap = "Figure 2. Pearson Correlation Graph highlighting the linear dependency between features."}
 knitr::include_graphics("../results/eda/images/corr_plot.png")
@@ -63,24 +63,22 @@ The prediction problem at hand is a binary classification problem where we're as
 
 The best hyperparameters for each of the models (apart from the dummy classifier) were done with a randomized search to have control over the number of iterations performed. Additionally, the randomized search was done with the intention of optimizing the “F1” score.  Once the model was refit on the training data with the best parameters from the randomized search, we performed a 10-fold cross validation with metrics "f1", "accuracy", "precision", and "recall" to understand how each model is performing in terms of both Type I and Type II errors.
 
-If there is a tie in the F1 score, we pick the model with the lower Type II error. Once, we narrow down on the model that is performing that best on the training data, we finally score the model on the test data and present the findings. 
+If there is a tie in the F1 score, we pick the model with the lower Type II error. Once, we narrow down on the model that is performing that best on the training data, we finally score the model on the test data and present the findings.
 
-For the purposes of machine learning and report generation, the Python programming language [@pilgrim2009dive] and the following Python packages docopt [@docoptpython], sklearn [@scikit-learn], altair [@altair], pandas [@pandas], numpy [@numpy], os [@pilgrim2009dive], requests [@van1995python], joblib [@van1995python], matplot [@matplotlib] were used. Additionally, we used R programming language [@team2013r] and the following packages: knitr [@knitr], tidyverse [@tidyverse] for generating this report. 
+For the purposes of machine learning and report generation, the Python programming language [@pilgrim2009dive] and the following Python packages docopt [@docoptpython], sklearn [@scikit-learn], altair [@altair], pandas [@pandas], numpy [@numpy], os [@pilgrim2009dive], requests [@van1995python], joblib [@van1995python], matplot [@matplotlib] were used. Additionally, we used R programming language [@team2013r] and the following packages: knitr [@knitr], tidyverse [@tidyverse] for generating this report.
 
 ## Results & Discussion
 
 ### Baseline Model
-To set the baseline of each of the model performances, we first trained the dummy classifier. For dummy classifier, most of the classification metrics apart from accuracy are 0 since dummy classifier would always predict `Not Defaulting` in this problem causing True Positives and False Positive to be 0 causing precision, recall, and F1 scores to be 0. 
+To set the baseline of each of the model performances, we first trained the dummy classifier. For dummy classifier, most of the classification metrics apart from accuracy are 0 since dummy classifier would always predict `Not Defaulting` in this problem causing True Positives and False Positive to be 0 causing precision, recall, and F1 scores to be 0.
 
 ### Comparing RandomForestClassifier, KNeighborsClassifier, SVC, LogisticRegression
 
-Since we're it is crucial to reduce both Type I and Type II errors, we'll evaluate all the models based on the F1 score. From the initial cross-validation results, we can see that both `RandomForestClassifier` and `SVC` have better F1 scores when compared to `KNeighborsClassifier` and `LogisticRegression`. Hence, for our final model, we will eliminate `KNeighborsClassifier` and `LogisticRegression`.  
+Since we're it is crucial to reduce both Type I and Type II errors, we'll evaluate all the models based on the F1 score. From the initial cross-validation results, we can see that both `RandomForestClassifier` and `SVC` have better F1 scores when compared to `KNeighborsClassifier` and `LogisticRegression`. Hence, for our final model, we will eliminate `KNeighborsClassifier` and `LogisticRegression`.
 
-On comparing `RandomForestClassifier` and `SVC`, we see that both of them have approximately the same F1 scores. As there is a tie in the F1 scores, we pick the model with lower Type II errors. As as `SVC` has a higher recall score, `SVC` can lower Type II errors better than `RandomForestClassifier`. Conversely, `RandomForestClassifier` is performing well in terms of lowering the Type I errors. Since it is of paramount importance to reduce the false negatives introduced by the model, we pick `SVC` to move forward. 
+On comparing `RandomForestClassifier` and `SVC`, we see that both of them have approximately the same F1 scores. As there is a tie in the F1 scores, we pick the model with lower Type II errors. As as `SVC` has a higher recall score, `SVC` can lower Type II errors better than `RandomForestClassifier`. Conversely, `RandomForestClassifier` is performing well in terms of lowering the Type I errors. Since it is of paramount importance to reduce the false negatives introduced by the model, we pick `SVC` to move forward.
 
-```{r out.width = '75%', out.height = '75%', fig.align='center', fig.cap = "Table 1. Cross Validation Results of the optimized Models."}
-knitr::include_graphics("../results/cv_scores_table.png")
-```
+## TODO: include table not image
 
 ### Score Analysis
 
@@ -90,9 +88,9 @@ After fixing our primary model as `SVC`, we analyze how each of the models is sc
 knitr::include_graphics("../results/model_summary/train_test_f1_scores.png")
 ```
 
-From the confusion matrix for the `SVC` model, we see that the number of Type II errors or false negatives (actually defaulting but predicting not-defaulting) is lower than the number of Type I errors (actually not-defaulting but predicting defaulting).  
+From the confusion matrix for the `SVC` model, we see that the number of Type II errors or false negatives (actually defaulting but predicting not-defaulting) is lower than the number of Type I errors (actually not-defaulting but predicting defaulting).
 
-Hence, among the models that we analyzed, `SCV` performs the best in terms of lowering the Type II errors while simultaneously optimizing the F1 and precision scores. If the organization is more interested in lowering the Type I errors to improve customer satisfaction, we recommend using `RandomForestClassifier` over `SVC` as both have comparable F1 scores. 
+Hence, among the models that we analyzed, `SCV` performs the best in terms of lowering the Type II errors while simultaneously optimizing the F1 and precision scores. If the organization is more interested in lowering the Type I errors to improve customer satisfaction, we recommend using `RandomForestClassifier` over `SVC` as both have comparable F1 scores.
 
 ```{r out.width = '50%', out.height = '50%', fig.align='center', fig.cap = "Figure 4. Confusion matrix of SVC."}
 knitr::include_graphics("../results/model_summary/svc_confusion_matrix.png")
