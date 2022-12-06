@@ -51,3 +51,4 @@ clean :
 	rm -rf data/raw/
 	rm -rf results/
 	rm -f doc/credit_default_analysis_report.md
+	rm -f doc/credit_default_analysis_report.html
