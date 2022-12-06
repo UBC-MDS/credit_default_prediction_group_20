@@ -50,13 +50,13 @@ We present the analysis report using a markdown file. The final report can be fo
 - To clean up all the results
 
 ```
-docker run --rm -v /$(pwd):/home/rstudio/credit_default_predictor group-20 conda run -n 'credit_default_predict' make -C /home/rstudio/credit_default_predictor clean
+docker run --rm -v /$(pwd):/home/rstudio/credit_default_predictor kenuiuc/credit_default_predict conda run -n 'credit_default_predict' make -C /home/rstudio/credit_default_predictor clean
 ```
 
 - To run the ML pipeline and generate the report
 
 ```
-docker run --rm -v /$(pwd):/home/rstudio/credit_default_predictor group-20 conda run -n 'credit_default_predict' make -C /home/rstudio/credit_default_predictor
+docker run --rm -v /$(pwd):/home/rstudio/credit_default_predictor kenuiuc/credit_default_predict conda run -n 'credit_default_predict' make -C /home/rstudio/credit_default_predictor
 ```
 
 To reproduce this analysis you will need to:
