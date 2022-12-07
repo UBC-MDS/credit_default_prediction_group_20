@@ -25,31 +25,17 @@ import os
 import matplotlib.pyplot as plt
 import seaborn as sns
 warnings.filterwarnings("ignore")
-
-
 opt = docopt(__doc__)
 
 
-def main(processed_data_path, eda_result_path):
-    """
-    Driver function to get the output of eda
-    and save it in the local file system.
-    Parameters
-    ----------
-    processed_data_path : string
-        Local File Path where the processed data saved in
-    eda_result_path : string
-        Local File Path where the result of eda  saved in.
-    """
-
-
+#check and read data
+def read_data(processed_data_path,eda_result_path):
     try:
         df = pd.read_csv(processed_data_path)
         print("successfully read the data")
     except:
         print("Unable to read data from the path.")
         return
-
     ##test assert
     assert df is not None
     ##create folder
@@ -61,12 +47,17 @@ def main(processed_data_path, eda_result_path):
     assert os.path.exists(eda_result_path + "/eda") is True
     # Read data
     credit_df = pd.read_csv(processed_data_path)
-    # stat description
+    return credit_df
+
+# stat description
+def stat_descrip(credit_df,eda_result_path):
     describe_df = credit_df.describe()
     describe_df.to_csv("./" + eda_result_path + "/eda/eda_tables/describe_df.csv")
-    ##test assert if table created
+    #test assert if table created
     assert describe_df is not None
-
+    
+#data proccessing
+def data_proccessing(credit_df):
     credit_df = credit_df.rename(
         columns={"default payment next month": "default_payment_next_month"}
     )
@@ -74,8 +65,10 @@ def main(processed_data_path, eda_result_path):
     credit_df["default_payment_next_month"] = credit_df[
         "default_payment_next_month"
     ].astype("category")
+    return credit_df
 
-    # pie chart
+# drawing pie chart
+def draw_pie_chart(credit_df,eda_result_path):
     plt.figure(figsize=(15, 15))
     plt.pie(
         credit_df["default_payment_next_month"].value_counts(),
@@ -89,20 +82,17 @@ def main(processed_data_path, eda_result_path):
     plt.title("Proportion of Target Classes",fontsize=25)
     plt.plot()
     plt.savefig("./" + eda_result_path + "/eda/images/target_proportion.jpg")
-
     ##test assert if pie chart
     assert plt is not None
-
-
-
-
-
-    ##default-undefualt
+    
+# drawing distribution plot of numeric features
+def draw_numeric_dis(credit_df,eda_result_path):
+    # label proccessing
+    #default-undefualt
     credit_df["Defaulting or not"] = "not defaulting"
     credit_df.loc[
         credit_df["default_payment_next_month"] == 1, "Defaulting or not"
     ] = "defaulting"
-
     # numeric dis
     num_cols = [
         "LIMIT_BAL",
@@ -130,7 +120,10 @@ def main(processed_data_path, eda_result_path):
     numeric_dis=ax
     plt.savefig("./" + eda_result_path + "/eda/images/numeric_dis.png")
     assert numeric_dis is not None
+    return credit_df,num_cols
 
+# draw distribution plot of categorical features
+def draw_categorical_dis(credit_df,eda_result_path):
     # categorical dis
     cat_cols = [
         "EDUCATION",
@@ -152,29 +145,55 @@ def main(processed_data_path, eda_result_path):
         plt.tight_layout()
     categorical_dis=ay
     plt.savefig("./" + eda_result_path + "/eda/images/categorical_dis.png")
-
-
     ##test assert if categorical dis created
     assert categorical_dis is not None
     
-    
-    
+# draw heatmap for numeric features
+def draw_heatmap(num_cols,credit_df,eda_result_path):
     # heatmap
-    # corr_df = credit_df.corr().stack().reset_index(na me="corr")
-    
     plt.figure(figsize=(35, 35))
     corr_plot=sns.heatmap(credit_df.loc[:,num_cols].drop('AGE',axis=1).corr(), annot=True,annot_kws={"fontsize":30},cbar=False).get_figure()
-    
     plt.title('Heatmap of numeric features', fontsize = 50)
     plt.xticks(fontsize=25)
     plt.yticks(fontsize=25)
-
     corr_plot.savefig("./" + eda_result_path + "/eda/images/corr_plot.png")
     # annot_kws={"fontsize":20}
     ##test assert if heatmap created
     assert corr_plot is not None
     
+    
+def main(processed_data_path, eda_result_path):
+    """
+    Driver function to get the output of eda
+    and save it in the local file system.
+    Parameters
+    ----------
+    processed_data_path : string
+        Local File Path where the processed data saved in
+    eda_result_path : string
+        Local File Path where the result of eda  saved in.
+    """
+    #read data
+    credit_df=read_data(processed_data_path,eda_result_path)
+    
+    # stat description
+    stat_descrip(credit_df,eda_result_path)
+    
+    ##data proccessing
+    credit_df=data_proccessing(credit_df)
 
+    # pie chart
+    draw_pie_chart(credit_df,eda_result_path)
+ 
+    # draw distribution plot of numeric features
+    credit_df,num_cols=draw_numeric_dis(credit_df,eda_result_path)
+    
+    # draw distribution plot of categorical features
+    draw_categorical_dis(credit_df,eda_result_path)
+
+    # draw heatmap of numeric features
+    draw_heatmap(num_cols,credit_df,eda_result_path)
+    
     print("output saved every things done")
 
 
