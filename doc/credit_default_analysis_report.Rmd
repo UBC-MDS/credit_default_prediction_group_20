@@ -3,15 +3,17 @@ title: "Credit Default Analysis Report"
 author: "Arjun Radhakrishnan"
 date: "2022-11-25"
 output:
-  github_document:
+  html_document:
     toc: true
 bibliography: default_credit_references.bib
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
+library(tidyverse)
 library(reticulate)
 library(knitr)
+library(kableExtra)
 ```
 
 ```{python load model results, include=FALSE}
@@ -78,7 +80,11 @@ Since we're it is crucial to reduce both Type I and Type II errors, we'll evalua
 
 On comparing `RandomForestClassifier` and `SVC`, we see that both of them have approximately the same F1 scores. As there is a tie in the F1 scores, we pick the model with lower Type II errors. As as `SVC` has a higher recall score, `SVC` can lower Type II errors better than `RandomForestClassifier`. Conversely, `RandomForestClassifier` is performing well in terms of lowering the Type I errors. Since it is of paramount importance to reduce the false negatives introduced by the model, we pick `SVC` to move forward.
 
-## TODO: include table not image
+```{r print model results, message=FALSE, warning=FALSE, echo=FALSE}
+cv_result_table <- read_csv("../results/cross_validation_results.csv")
+knitr::kable(cv_result_table, caption = "Table 1. Cross Validation Results")|>
+    kableExtra::kable_styling(full_width = FALSE)
+```
 
 ### Score Analysis
 

@@ -13,7 +13,7 @@ DATA_SOURCE_URL='https://github.com/rkrishnan-arjun/minimal_credit_default_predi
 
 # all
 # run all of the scripts and render the final report of the project.
-all : doc/credit_default_analysis_report.md
+all : doc/credit_default_analysis_report.html
 
 # download csv data
 data/raw/credit_default_data.csv : src/download_data_from_url.py
@@ -41,7 +41,7 @@ results/model_summary/random_forest_confusion_matrix.png results/model_summary/s
 	python -W ignore src/model_summary.py --model_dir='results/trained_models' --test_data='data/processed/credit_test_df.csv' --output_dir='results/model_summary'
 
 # render final report
-doc/credit_default_analysis_report.md : doc/credit_default_analysis_report.Rmd  results/model_summary/random_forest_confusion_matrix.png results/model_summary/svc_classification_report.csv results/model_summary/svc_confusion_matrix.png results/model_summary/svc_precision_recall_curve.png results/model_summary/svc_roc_auc.png results/model_summary/test_f1_scores.csv results/model_summary/train_f1_scores.csv results/model_summary/train_test_f1_scores.csv results/model_summary/train_test_f1_scores.png results/eda/eda_tables/describe_df.csv results/eda/images/target_proportion.jpg results/eda/images/corr_plot.png results/eda/images/categorical_dis.png results/eda/images/numeric_dis.png
+doc/credit_default_analysis_report.html : doc/credit_default_analysis_report.Rmd  results/model_summary/random_forest_confusion_matrix.png results/model_summary/svc_classification_report.csv results/model_summary/svc_confusion_matrix.png results/model_summary/svc_precision_recall_curve.png results/model_summary/svc_roc_auc.png results/model_summary/test_f1_scores.csv results/model_summary/train_f1_scores.csv results/model_summary/train_test_f1_scores.csv results/model_summary/train_test_f1_scores.png results/eda/eda_tables/describe_df.csv results/eda/images/target_proportion.jpg results/eda/images/corr_plot.png results/eda/images/categorical_dis.png results/eda/images/numeric_dis.png
 	Rscript -e "rmarkdown::render('doc/credit_default_analysis_report.Rmd')"
 
 # clean
@@ -50,5 +50,4 @@ clean :
 	rm -rf data/processed/
 	rm -rf data/raw/
 	rm -rf results/
-	rm -f doc/credit_default_analysis_report.md
 	rm -f doc/credit_default_analysis_report.html
