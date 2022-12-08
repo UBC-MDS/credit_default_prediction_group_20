@@ -16,8 +16,8 @@ From the root of the repository, run:
  python src/fit_credit_default_predict_models.py --read_training_path data/processed/credit_train_df.csv --write_model_path results/trained_models/ --write_score_path results/
 """
 
-N_CV=2
-N_ITER=2
+N_CV=10
+N_ITER=10
 
 import os
 import numpy as np
