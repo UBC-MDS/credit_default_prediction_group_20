@@ -23,6 +23,85 @@ from sklearn.model_selection import train_test_split
 
 opt = docopt(__doc__)
 
+def com_edu(col):
+    '''
+    Combine 0, 5, 6 into the 4 for EDUCATION, and reverse the order.
+    EDUCATION (4 = graduate school; 3 = university; 2 = high school; 1 = others)
+    
+    Parameters
+    ----------
+    col: array
+        EDUCATION column in the data set
+    '''
+    for i in range(len(col)):
+        if col.iloc[i] in {0, 4, 5, 6}:
+            col.iloc[i] = 1
+        elif col.iloc[i] == 1:
+            col.iloc[i] = 4
+        elif col.iloc[i] == 2:
+            col.iloc[i] = 3
+        elif col.iloc[i] == 3:
+            col.iloc[i] = 2
+            
+def com_mar(col):
+    '''
+    Combine 0 into 3 for MARRIAGE.
+    MARRIAGE (1 = single; 2 = married; 3 = others)
+    
+    Parameters
+    ----------
+    col: array
+        MARRIAGE column in the data set
+    '''
+    for i in range(len(col)):
+        if col.iloc[i] == 0:
+            col.iloc[i] = 3
+    
+def save_file(data, file_name, out_dir):
+    """
+    Save the files to the folder.
+    
+    Parameters
+    ----------
+    data: data frame
+        the data frame that need to save
+    file_name: string
+        file name of the data set
+    out_dir: string
+        path (directory) to save processed data
+    """
+    file_type = ".csv"
+    name = file_name + file_type
+    path = os.path.join(out_dir, name)
+    pd.DataFrame.to_csv(data, path, index=False)
+
+def run_tests(data):
+    """
+    Tests to ensure all the required are met.
+    
+    Parameters
+    ----------
+    data: data frame
+        the data frame 'credit_cleaned_df'
+    """
+    assert len(data["EDUCATION"].unique()) == len(
+        [2, 1, 3, 4]
+    ), "wrong number of classes for EDUCATION, should be 4 classes"
+    assert (
+        0 not in data["EDUCATION"].unique()
+    ), "EDUCATION class 0 should combine to class 4"
+    assert (
+        5 not in data["EDUCATION"].unique()
+    ), "EDUCATION class 5 should combine to class 4"
+    assert (
+        6 not in data["EDUCATION"].unique()
+    ), "EDUCATION class 6 should combine to class 4"
+    assert len(data["MARRIAGE"].unique()) == len(
+        [1, 2, 3]
+    ), "wrong number of classes for MARRIAGE, should be 3 classes"
+    assert (
+        0 not in data["MARRIAGE"].unique()
+    ), "MARRIAGE class 0 should combine to class 3"
 
 def main(input_path, out_dir, test_size):
     """
@@ -47,28 +126,10 @@ def main(input_path, out_dir, test_size):
         columns={"default payment next month": "default_payment_next_month"}
     )
 
-    # combine 0, 5, 6 into the 4 for EDUCATION, and reverse the order
-    # EDUCATION (4 = graduate school; 3 = university; 2 = high school; 1 = others)
-    def com_edu(col):
-        for i in range(len(col)):
-            if col.iloc[i] in {0, 4, 5, 6}:
-                col.iloc[i] = 1
-            elif col.iloc[i] == 1:
-                col.iloc[i] = 4
-            elif col.iloc[i] == 2:
-                col.iloc[i] = 3
-            elif col.iloc[i] == 3:
-                col.iloc[i] = 2
-
+    # EDUCATION (reverse the order)
     com_edu(credit_cleaned_df["EDUCATION"])
 
-    # combine 0 into 3 for MARRIAGE
-    # MARRIAGE (1 = single; 2 = married; 3 = others)
-    def com_mar(col):
-        for i in range(len(col)):
-            if col.iloc[i] == 0:
-                col.iloc[i] = 3
-
+    # MARRIAGE (combine)
     com_mar(credit_cleaned_df["MARRIAGE"])
 
     # split the data in to 20% test data set and 80% train data set with random_state=522
@@ -79,44 +140,14 @@ def main(input_path, out_dir, test_size):
     # set director
     if not os.path.exists(out_dir):
         os.makedirs(out_dir)
-
-    # file type (csv file)
-    file_type = ".csv"
-
-    # files' names and pathes
-    file_name_train = "credit_train_df" + file_type
-    full_path_train = os.path.join(out_dir, file_name_train)
-
-    file_name_test = "credit_test_df" + file_type
-    full_path_test = os.path.join(out_dir, file_name_test)
-
-    file_name_all = "credit_cleaned_df" + file_type
-    full_path_all = os.path.join(out_dir, file_name_all)
-
+    
     # save files
-    pd.DataFrame.to_csv(credit_train_df, full_path_train, index=False)
-    pd.DataFrame.to_csv(credit_test_df, full_path_test, index=False)
-    pd.DataFrame.to_csv(credit_cleaned_df, full_path_all, index=False)
-
+    save_file(credit_train_df, "credit_train_df", out_dir)
+    save_file(credit_test_df, "credit_test_df", out_dir)
+    save_file(credit_cleaned_df, "credit_cleaned_df", out_dir)
+    
     # test
-    assert len(credit_cleaned_df["EDUCATION"].unique()) == len(
-        [2, 1, 3, 4]
-    ), "wrong number of classes for EDUCATION, should be 4 classes"
-    assert (
-        0 not in credit_cleaned_df["EDUCATION"].unique()
-    ), "EDUCATION class 0 should combine to class 4"
-    assert (
-        5 not in credit_cleaned_df["EDUCATION"].unique()
-    ), "EDUCATION class 5 should combine to class 4"
-    assert (
-        6 not in credit_cleaned_df["EDUCATION"].unique()
-    ), "EDUCATION class 6 should combine to class 4"
-    assert len(credit_cleaned_df["MARRIAGE"].unique()) == len(
-        [1, 2, 3]
-    ), "wrong number of classes for MARRIAGE, should be 3 classes"
-    assert (
-        0 not in credit_cleaned_df["MARRIAGE"].unique()
-    ), "MARRIAGE class 0 should combine to class 3"
+    run_tests(credit_cleaned_df)
 
 
 if __name__ == "__main__":
