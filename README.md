@@ -1,7 +1,7 @@
 # Credit Card Default Predictor
 
 - authors: Arjun Radhakrishnan, Morris Zhao, Fujie Sun, Ken Wang
-- contributors: TBD
+
 
 ## Introduction
 
@@ -44,6 +44,20 @@ So far we have performed some basic exploratory data analysis which can be found
 We present the analysis report using a markdown file. The final report can be found [here](https://github.com/UBC-MDS/credit_default_prediction_group_20/tree/main/doc)
 
 ## Usage
+
+# Use Docker
+
+- To clean up all the results
+
+```
+docker run --rm -v /$(pwd):/home/rstudio/credit_default_predictor kenuiuc/credit_default_predict conda run -n 'credit_default_predict' make -C /home/rstudio/credit_default_predictor clean
+```
+
+- To run the ML pipeline and generate the report
+
+```
+docker run --rm -v /$(pwd):/home/rstudio/credit_default_predictor kenuiuc/credit_default_predict conda run -n 'credit_default_predict' make -C /home/rstudio/credit_default_predictor
+```
 
 To reproduce this analysis you will need to:
 
