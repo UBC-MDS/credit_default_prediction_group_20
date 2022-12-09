@@ -1,7 +1,6 @@
 # Credit Card Default Predictor
 
 - authors: Arjun Radhakrishnan, Morris Zhao, Fujie Sun, Ken Wang
-- contributors: TBD
 
 
 ## Introduction
