@@ -4,7 +4,7 @@
 
 ## Introduction
 
-### Research Question
+## Research Question
 
 For this project, we are trying to answer the question:
 
@@ -12,7 +12,7 @@ For this project, we are trying to answer the question:
 
 Answering this question is important because, with an effective predictive model, financial institutions can evaluate a customer's credit level and grant appropriate credit amount limits. This analysis would be crucial in credit score calculation and risk management.
 
-### Data Set
+## Data Set
 
 The dataset this project uses is the [default of credit card payment by clients](https://archive.ics.uci.edu/ml/datasets/default+of+credit+card+clients), created by I-Cheng Yeh from  (1) Department of Information Management, Chung Hua University, Taiwan. and (2) Department of Civil Engineering, Tamkang University, Taiwan. The data file is available on [UCI Machine Learning Repository](https://archive.ics.uci.edu/ml/datasets/default+of+credit+card+clients). Each row of this data includes:
 
@@ -26,17 +26,17 @@ The dataset this project uses is the [default of credit card payment by clients]
 - Martial status
 - Age
 
-### Analysis Approach
+## Analysis Approach
 
 For the project, we are trying to answer the question that given a credit card customer’s payment history and demographic information like gender, age, and education level, would the customer default on the next bill payment? A borrower is said to be in default when they are unable to make their interest or principal payments on time, miss installments, or cease making them altogether. The answer to this query is crucial since it allows financial organizations to assess a customer’s creditworthiness and set suitable credit limit ranges using an efficient predictive model. It also helps them take preemptive actions to secure their assets. Due to the class imbalance, we must evaluate the model’s effectiveness using different metrics, such as precision, recall, or F1 score. Our model’s primary focus is the class “default payment,” which refers to payment defaults made by clients. As a result, we are treating default as the positive class and not defaulting as the negative class. In this case, financial institutions need to identify potential clients that may make a default payment.  
 
 Our objective is to predict as many default payments as we can. In other words, we are maximizing the number of true positives while reducing false positives as much as possible. Thus, they can prevent asset loss in advance. Additionally, Type II errors are also important since it will be costly for the institutions to assume people, who can make the payment, would default as it would affect the organization’s reputation. Therefore, we need to balance both Types of errors and the best way would be to score the model on the F1 score as it is the harmonic mean of recall which shows many among all positive examples are correctly identified and precision which shows how many among the positive examples are truly positive. If there is a tie in the F1 score, we aim to reduce the number of Type II errors or false negatives.
 
-### Initial EDA
+## Initial EDA
 
 The report on the Exploratory Data Analysis can be found [here](https://github.com/UBC-MDS/credit_default_prediction_group_20/blob/main/src/eda_credit_default_data.ipynb).
 
-### Report
+## Report
 
 We present the analysis report using GitHub Pages. The final report can be found [here](https://ubc-mds.github.io/credit_default_prediction_group_20/doc/credit_default_analysis_report.html)
 
