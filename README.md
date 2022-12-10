@@ -64,6 +64,8 @@ git clone https://github.com/UBC-MDS/credit_default_prediction_group_20.git
 git checkout tags/v1.0.0
 ```
 
+- Ensure `Docker` is running. 
+
 - Reset and clean the existing analysis results from directories by running the below command from the project root directory:
 
 ```
