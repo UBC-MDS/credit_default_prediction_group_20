@@ -34,11 +34,7 @@ Our objective is to predict as many default payments as we can. In other words, 
 
 ### Initial EDA
 
-So far we have performed some basic exploratory data analysis which can be found [here](https://github.com/UBC-MDS/credit_default_prediction_group_20/blob/main/src/eda_credit_default_data.ipynb). The main observations are:
-
-- Target data is imbalanced so we need extra efforts in choosing appropriate evaluation metrics and applying class-weight to our models.
-
-- There are strong correlations among multiple numeric features (April payment amount and May payment amount for example), which indicates we might have to drop some of those features to improve model performance.
+The report on the Exploratory Data Analysis can be found [here](https://github.com/UBC-MDS/credit_default_prediction_group_20/blob/main/src/eda_credit_default_data.ipynb).
 
 ### Report
 
