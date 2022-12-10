@@ -81,8 +81,9 @@ Since we're it is crucial to reduce both Type I and Type II errors, we'll evalua
 On comparing `RandomForestClassifier` and `SVC`, we see that both of them have approximately the same F1 scores. As there is a tie in the F1 scores, we pick the model with lower Type II errors. As as `SVC` has a higher recall score, `SVC` can lower Type II errors better than `RandomForestClassifier`. Conversely, `RandomForestClassifier` is performing well in terms of lowering the Type I errors. Since it is of paramount importance to reduce the false negatives introduced by the model, we pick `SVC` to move forward.
 
 ```{r print model results, message=FALSE, warning=FALSE, echo=FALSE}
-cv_result_table <- read_csv("../results/cross_validation_results.csv")
-knitr::kable(cv_result_table, caption = "Table 1. Cross Validation Results")|>
+cv_result_table <- read_csv("../results/cross_validation_results.csv", skip = 1, col_names = c("Metric", "Dummy", "Random Forest Classifier", "Random Forest Classifier Optimized", "kNN", "kNN Optimized", "SCV", "SCV Optimized", "Logistic Regression ", "Logistic Regression Optimized"))
+subset <- select(cv_result_table, "Metric", "Dummy", "Random Forest Classifier Optimized", "kNN Optimized", "SCV Optimized", "Logistic Regression Optimized")
+knitr::kable(subset, caption = "Table 1. Cross Validation Results")|>
     kableExtra::kable_styling(full_width = FALSE)
 ```
 
