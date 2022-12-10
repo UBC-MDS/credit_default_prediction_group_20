@@ -40,7 +40,7 @@ So far we have performed some basic exploratory data analysis which can be found
 
 ### Report
 
-We present the analysis report using a markdown file. The final report can be found [here](https://github.com/UBC-MDS/credit_default_prediction_group_20/tree/main/doc)
+We present the analysis report using GitHub Pages. The final report can be found [here](https://ubc-mds.github.io/credit_default_prediction_group_20/doc/credit_default_analysis_report.html)
 
 ## Usage
 
