@@ -167,11 +167,12 @@ Apart from this, please ensure the following are installed:
 - Conda 22.9.0
 - R 4.2.2
 - git
-- R package `reticulate`
-- R package `rmarkdown`
-- R package `knitr`
-- R package `pandoc`
-- R package `pandoc-citeproc`
+- R package `reticulate` with package version 1.26
+- R package `rmarkdown` with package version 2.18
+- R package `knitr` with package version 1.41
+- R package `pandoc` with package version 0.1.0
+- R package `tidyverse` with package version 1.3.2
+- R package `kableExtra` with package version 1.3.4
 
 ## License
 
