@@ -6,6 +6,7 @@ on:
       - main
     paths: 
       - 'Dockerfile'
+      - 'environment.yaml'
 jobs:
   build:
     runs-on: ubuntu-latest
