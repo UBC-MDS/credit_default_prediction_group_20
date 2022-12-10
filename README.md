@@ -6,7 +6,7 @@
 
 ### Research Question
 
-For this project we are trying to answer the question:
+For this project, we are trying to answer the question:
 
 > **Given a credit card customer's payment history and demographic information like gender, age, and education level, would the customer default on the next bill payment?"**
 
@@ -28,7 +28,9 @@ The dataset this project uses is the [default of credit card payment by clients]
 
 ### Analysis Approach
 
-Given that this is a binary classification problem and we have both categorical and continuous numeric features, we plan to build different models including `logistic regression`, `support vector classifier`, `kNN classifier`, and `random forest`. We carried out cross-validation for each model, optimize their hyper-parameters and compare their performance using multiple evaluation metrics. Given that the sample data is imbalanced with about a 20% default rate, accuracy might not be a good enough scoring method to use. We included other metrics like precision/recall, and f1-score.
+For the project, we are trying to answer the question that given a credit card customer’s payment history and demographic information like gender, age, and education level, would the customer default on the next bill payment? A borrower is said to be in default when they are unable to make their interest or principal payments on time, miss installments, or cease making them altogether. The answer to this query is crucial since it allows financial organizations to assess a customer’s creditworthiness and set suitable credit limit ranges using an efficient predictive model. It also helps them take preemptive actions to secure their assets. Due to the class imbalance, we must evaluate the model’s effectiveness using different metrics, such as precision, recall, or F1 score. Our model’s primary focus is the class “default payment,” which refers to payment defaults made by clients. As a result, we are treating default as the positive class and not defaulting as the negative class. In this case, financial institutions need to identify potential clients that may make a default payment.  
+
+Our objective is to predict as many default payments as we can. In other words, we are maximizing the number of true positives while reducing false positives as much as possible. Thus, they can prevent asset loss in advance. Additionally, Type II errors are also important since it will be costly for the institutions to assume people, who can make the payment, would default as it would affect the organization’s reputation. Therefore, we need to balance both Types of errors and the best way would be to score the model on the F1 score as it is the harmonic mean of recall which shows many among all positive examples are correctly identified and precision which shows how many among the positive examples are truly positive. If there is a tie in the F1 score, we aim to reduce the number of Type II errors or false negatives.
 
 ### Initial EDA
 
