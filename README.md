@@ -1,3 +1,5 @@
+[![GitHub Pages Deployment](https://github.com/UBC-MDS/credit_default_prediction_group_20/actions/workflows/pages/pages-build-deployment/badge.svg)](https://github.com/UBC-MDS/credit_default_prediction_group_20/actions/workflows/pages/pages-build-deployment) [![Docker Image Publish](https://github.com/UBC-MDS/credit_default_prediction_group_20/actions/workflows/publish_to_docker.yml/badge.svg)](https://github.com/UBC-MDS/credit_default_prediction_group_20/actions/workflows/publish_to_docker.yml)
+
 # Credit Card Default Predictor
 
 - Authors: Arjun Radhakrishnan, Morris Zhao, Fujie Sun, Ken Wang
