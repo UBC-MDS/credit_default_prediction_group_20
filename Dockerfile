@@ -1,14 +1,19 @@
+# Author        : Ken Wang
+# Contributor   : Arjun Radhakrishnan
+# Date          : 09-12-2022
+
+# Base image from https://hub.docker.com/r/rocker/tidyverse
 FROM rocker/tidyverse:latest
 
-# base image has some existing apt pkgs 
+# update base image existing apt pkgs 
 RUN apt update --fix-missing && \
     apt install -y git ssh tar gzip ca-certificates wget bzip2
 
-# project specific apt pkgs for Rmd rendering
+# install project specific apt pkgs for Rmd rendering
 RUN apt install -y pandoc pandoc-citeproc
 
 # R packages
-# rmarkdown and knitr are already included in the rocker/tidyverse base image
+# rmarkdown, tidyverse, and knitr are already included in the rocker/tidyverse base image
 RUN Rscript -e 'install.packages(c("kableExtra", "reticulate"))'
 
 # install conda base
@@ -22,7 +27,9 @@ ENV PATH /opt/conda/bin:$PATH
 RUN conda install -y python=3.10
 RUN conda config --add channels conda-forge
 
-# install conda env for my project
+# install the project dependencies as conda evironment
+# from the environment.yaml to ensure same packages are used
+# inside and outside of docker
 COPY environment.yaml .
 RUN conda env create -f environment.yaml
 
@@ -31,7 +38,7 @@ RUN conda env create -f environment.yaml
 # Make RUN commands use the new environment:
 SHELL ["conda", "run", "-n", "credit_default_predict", "/bin/bash", "-c"]
 
-# show that the env is actually "activated"
+# Test that the env is actually "activated". Attempt to load sklearn
 RUN echo "Make sure sklearn is installed:"
 RUN python -c "import sklearn"
 
