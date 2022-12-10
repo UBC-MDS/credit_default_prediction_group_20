@@ -1,6 +1,6 @@
 # Credit Card Default Predictor
 
-- authors: Arjun Radhakrishnan, Morris Zhao, Fujie Sun, Ken Wang
+- Authors: Arjun Radhakrishnan, Morris Zhao, Fujie Sun, Ken Wang
 
 ## Introduction
 
@@ -30,7 +30,7 @@ The dataset this project uses is the [default of credit card payment by clients]
 
 For the project, we are trying to answer the question that given a credit card customer’s payment history and demographic information like gender, age, and education level, would the customer default on the next bill payment? A borrower is said to be in default when they are unable to make their interest or principal payments on time, miss installments, or cease making them altogether. The answer to this query is crucial since it allows financial organizations to assess a customer’s creditworthiness and set suitable credit limit ranges using an efficient predictive model. It also helps them take preemptive actions to secure their assets. Due to the class imbalance, we must evaluate the model’s effectiveness using different metrics, such as precision, recall, or F1 score. Our model’s primary focus is the class “default payment,” which refers to payment defaults made by clients. As a result, we are treating default as the positive class and not defaulting as the negative class. In this case, financial institutions need to identify potential clients that may make a default payment.  
 
-Our objective is to predict as many default payments as we can. In other words, we are maximizing the number of true positives while reducing false positives as much as possible. Thus, they can prevent asset loss in advance. Additionally, Type II errors are also important since it will be costly for the institutions to assume people, who can make the payment, would default as it would affect the organization’s reputation. Therefore, we need to balance both Types of errors and the best way would be to score the model on the F1 score as it is the harmonic mean of recall which shows many among all positive examples are correctly identified and precision which shows how many among the positive examples are truly positive. If there is a tie in the F1 score, we aim to reduce the number of Type II errors or false negatives.
+Our objective is to maximize the number of true positives while reducing false positives as much as possible. Thus, they can prevent asset loss in advance. Additionally, Type II errors are also important since it will be costly for the institutions to assume people, who can make the payment, would default as it would affect the organization’s reputation. Therefore, we need to balance both Types of errors and the best way would be to score the model on the F1 score as it is the harmonic mean of recall which shows many among all positive examples are correctly identified and precision which shows how many among the positive examples are truly positive. If there is a tie in the F1 score, we aim to reduce the number of Type II errors or false negatives.
 
 ## Initial EDA
 
