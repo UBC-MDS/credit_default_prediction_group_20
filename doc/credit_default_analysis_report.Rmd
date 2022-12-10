@@ -28,6 +28,15 @@ test_score_lr = round(final_test_results.loc['logistic_regression'].iloc[0], 3)
 
 ```
 
+This data analysis project was created for DSCI 522: Data Science Workflows, a course in the Master of Data Science program at the University of British Columbia.
+
+## Contributors
+
+- Arjun Radhakrishnan
+- Morris Zhao
+- Ken Wang
+- Fujie Sun
+
 ## Introduction
 
 For the project, we are trying to answer the question that given a credit card customer's payment history and demographic information like gender, age, and education level, would the customer default on the next bill payment? A borrower is said to be in default when they are unable to make their interest or principal payments on time, miss installments, or cease making them altogether. The answer to this query is crucial since it allows financial organizations to assess a customer's creditworthiness and set suitable credit limit ranges using an efficient predictive model. It also helps them take preemptive actions to secure their assets. Due to the class imbalance, we must evaluate the model's effectiveness using different metrics, such as precision, recall, or F1 score. Our model's primary focus is the class "default payment," which refers to payment defaults made by clients. As a result, we are treating `default` as the positive class, and `not defaulting` as the negative class. In this case, it is important for financial institutions to identify potential clients that may make a default payment.
@@ -83,8 +92,8 @@ On comparing `RandomForestClassifier` and `SVC`, we see that both of them have a
 ```{r print model results, message=FALSE, warning=FALSE, echo=FALSE}
 cv_result_table <- read_csv("../results/cross_validation_results.csv", skip = 1, col_names = c("Metric", "Dummy", "Random Forest Classifier", "Random Forest Classifier Optimized", "kNN", "kNN Optimized", "SCV", "SCV Optimized", "Logistic Regression ", "Logistic Regression Optimized"))
 subset <- select(cv_result_table, "Metric", "Dummy", "Random Forest Classifier Optimized", "kNN Optimized", "SCV Optimized", "Logistic Regression Optimized")
-knitr::kable(subset, caption = "Table 1. Cross Validation Results")|>
-    kableExtra::kable_styling(full_width = FALSE)
+knitr::kable(subset, caption = "Table 1. Cross Validation Results") |>
+  kableExtra::kable_styling(full_width = FALSE)
 ```
 
 ### Score Analysis
