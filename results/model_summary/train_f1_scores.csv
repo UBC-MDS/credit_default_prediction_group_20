@@ -3,4 +3,4 @@ dummy_classifier,0.0
 svc,0.536
 knn,0.452
 logistic_regression,0.484
-random_forest,0.539
+random_forest,0.543
