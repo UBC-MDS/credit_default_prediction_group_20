@@ -1,6 +1,6 @@
 FROM rocker/tidyverse:latest
 
-# base image has some existing apt pkgs
+# base image has some existing apt pkgs 
 RUN apt update --fix-missing && \
     apt install -y git ssh tar gzip ca-certificates wget bzip2
 
