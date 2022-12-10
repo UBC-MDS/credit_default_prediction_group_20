@@ -17,6 +17,8 @@ RUN echo 'export PATH=/opt/conda/bin:$PATH' > /etc/profile.d/conda.sh && \
     /bin/bash ~/anaconda.sh -b -p /opt/conda && \
     rm ~/anaconda.sh
 ENV PATH /opt/conda/bin:$PATH
+
+# conda base has python 3.9 but we want python 3.10
 RUN conda install -y python=3.10
 RUN conda config --add channels conda-forge
 
@@ -24,11 +26,13 @@ RUN conda config --add channels conda-forge
 COPY environment.yaml .
 RUN conda env create -f environment.yaml
 
+# Activate Conda env in Dockerfile as suggested in this article:
+# https://pythonspeed.com/articles/activate-conda-dockerfile
 # Make RUN commands use the new environment:
 SHELL ["conda", "run", "-n", "credit_default_predict", "/bin/bash", "-c"]
 
 # show that the env is actually "activated"
-RUN echo "Make sure altair is installed:"
-RUN python -c "import altair"
+RUN echo "Make sure sklearn is installed:"
+RUN python -c "import sklearn"
 
 RUN echo 'Image Built'
