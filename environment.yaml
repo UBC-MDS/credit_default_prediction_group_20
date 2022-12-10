@@ -1,4 +1,4 @@
-name: 'credit_default_predict'
+name: 'credit_default_predict' 
 channels:
   - conda-forge
   - defaults
