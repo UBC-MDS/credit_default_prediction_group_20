@@ -44,7 +44,7 @@ We present the analysis report using GitHub Pages. The final report can be found
 
 ## Usage
 
-To replicate the analysis, we offer two options: `Docker` and `Make`. The option to use docker is only availble for users running on `amd64` (`X86_64`) processors and does not support systems with `arm64` (`aarch64`) processors. For `arm64` users, please use `Make` to replicate the analysis.
+To replicate the analysis, we offer two options: Docker and Make. The option to use docker is only available for users running on amd64 (X86_64) processors and is not available for systems with arm64 (aarch64) processors. For arm64 users, please use Make to replicate the analysis.
 
 ### Using Docker
 
