@@ -44,11 +44,11 @@ We present the analysis report using GitHub Pages. The final report can be found
 
 ## Usage
 
-To replicate the analysis, we offer two options: Docker and Make. The option to use docker is only available for users running on amd64 (X86_64) processors and is not available for systems with arm64 (aarch64) processors. For arm64 users, please use Make to replicate the analysis.
+To replicate the analysis, we offer two options: `Docker` and `Make`. The option to use `Docker` is only available for users running on `amd64` (`X86_64`) processors and is not available for systems with `arm64` (`aarch64`) processors. For `arm64` users, please use `Make` to replicate the analysis.
 
 ### Using Docker
 
-To reproduce this analysis you will need `git` and `Docker` installed in your system. Once installed, follow the before steps:
+To reproduce this analysis you will need `git` and `Docker` installed in your system. Once installed, follow the below steps:
 
 - Clone this GitHub repo:
 
@@ -84,6 +84,14 @@ conda run -n 'credit_default_predict' make -C "//home//rstudio//credit_default_p
 docker run --rm -v "/$(pwd)://home//rstudio//credit_default_predictor" \
 rkrishnanarjun/credit_default_predict \
 conda run -n 'credit_default_predict' make -C "//home//rstudio//credit_default_predictor" DATA_SOURCE_URL='https://github.com/rkrishnan-arjun/minimal_credit_default_predict_data/raw/main/minimal_credit_default_data.xls'
+```
+
+- To remove all the intermediate artifacts created and to reset the repo, please run the below command again:
+
+```
+docker run --rm -v "/$(pwd)://home//rstudio//credit_default_predictor" \
+rkrishnanarjun/credit_default_predict \
+conda run -n 'credit_default_predict' make -C "//home//rstudio//credit_default_predictor" clean
 ```
 
 ### Using Make
@@ -157,7 +165,6 @@ For the python dependencies and the conda environment creation file, please chec
 
 Apart from this, please ensure the following are installed:
 
-- Chrome (the conda environment creation will fail if chrome is missing)
 - Python 3.10.6 and packages listed [here](https://github.com/UBC-MDS/credit_default_prediction_group_20/blob/main/environment.yaml)
 - Conda 22.9.0
 - R 4.2.2
