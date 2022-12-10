@@ -1,6 +1,7 @@
 # Author        : Ken Wang
 # Contributor   : Arjun Radhakrishnan
 # Date          : 09-12-2022
+# Creates a docker image with the necessary dependencies that are need for the project.
 
 # Base image from https://hub.docker.com/r/rocker/tidyverse
 FROM rocker/tidyverse:latest
