@@ -145,7 +145,7 @@ make all
 If you're interested in just testing the flow of execution of the scipts on a smaller dataset, you could run the below command which performs all the steps on a smaller dataset randomly sampled from the main data (this data can be accessed [here](https://github.com/rkrishnan-arjun/minimal_credit_default_predict_data/blob/main/minimal_credit_default_data.xls)).
 
 ```
-make DATA_SOURCE_URL='https://github.com/rkrishnan-arjun/minimal_credit_default_predict_data/raw/main/minimal_credit_default_data.xls'
+make example
 ```
 
 - The default value of `DATA_SOURCE_URL` is the URL to the data available at [UCI Machine Learning Repository](https://archive.ics.uci.edu/ml/datasets/default+of+credit+card+clients). If you don't specify the `DATA_SOURCE_URL` argument, by default the scripts will download the full size data with 30k rows from UCI Machine Learning Repository. Model training using this dataset could take a while.
