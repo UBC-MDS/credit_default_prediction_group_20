@@ -87,7 +87,7 @@ conda run -n 'credit_default_predict' make -C "//home//rstudio//credit_default_p
 ```
 docker run --rm -v "/$(pwd)://home//rstudio//credit_default_predictor" \
 rkrishnanarjun/credit_default_predict \
-conda run -n 'credit_default_predict' make -C "//home//rstudio//credit_default_predictor" DATA_SOURCE_URL='https://github.com/rkrishnan-arjun/minimal_credit_default_predict_data/raw/main/minimal_credit_default_data.xls'
+conda run -n 'credit_default_predict' make -C "//home//rstudio//credit_default_predictor" example
 ```
 
 - To remove all the intermediate artifacts created and to reset the repo, please run the below command again:

@@ -11,9 +11,14 @@
 # DATA_SOURCE_URL='https://github.com/rkrishnan-arjun/minimal_credit_default_predict_data/raw/main/minimal_credit_default_data.xls'
 DATA_SOURCE_URL='https://archive.ics.uci.edu/ml/machine-learning-databases/00350/default%20of%20credit%20card%20clients.xls'
 
+
 # all
 # run all of the scripts and render the final report of the project.
 all : doc/credit_default_analysis_report.html
+
+# use mini datset of size 1000 instead to speed up pipeline
+example :
+	make DATA_SOURCE_URL='https://github.com/rkrishnan-arjun/minimal_credit_default_predict_data/raw/main/minimal_credit_default_data.xls'
 
 # download csv data
 data/raw/credit_default_data.csv : src/download_data_from_url.py
