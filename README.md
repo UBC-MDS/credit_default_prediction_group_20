@@ -32,7 +32,7 @@ The dataset this project uses is the [default of credit card payment by clients]
 
 ## Analysis Approach
 
-For the project, we are trying to answer the question that given a credit card customer’s payment history and demographic information like gender, age, and education level, would the customer default on the next bill payment? A borrower is said to be in default when they are unable to make their interest or principal payments on time, miss installments, or cease making them altogether. The answer to this query is crucial since it allows financial organizations to assess a customer’s creditworthiness and set suitable credit limit ranges using an efficient predictive model. It also helps them take preemptive actions to secure their assets. Due to the class imbalance, we must evaluate the model’s effectiveness using different metrics, such as precision, recall, or F1 score. Our model’s primary focus is the class “default payment,” which refers to payment defaults made by clients. As a result, we are treating default as the positive class and not defaulting as the negative class. In this case, financial institutions need to identify potential clients that may make a default payment.  
+For the project, we are trying to answer the question that given a credit card customer’s payment history and demographic information like gender, age, and education level, would the customer default on the next bill payment? A borrower is said to be in default when they are unable to make their interest or principal payments on time, miss installments, or cease making them altogether. The answer to this query is crucial since it allows financial organizations to assess a customer’s creditworthiness and set suitable credit limit ranges using an efficient predictive model. It also helps them take preemptive actions to secure their assets. Due to the class imbalance, we must evaluate the model’s effectiveness using different metrics, such as precision, recall, or F1 score. Our model’s primary focus is the class “default payment,” which refers to payment defaults made by clients. As a result, we are treating default as the positive class and not defaulting as the negative class. In this case, financial institutions need to identify potential clients that may make a default payment.
 
 Our objective is to maximize the number of true positives while reducing false positives as much as possible. Thus, they can prevent asset loss in advance. Additionally, Type II errors are also important since it will be costly for the institutions to assume people, who can make the payment, would default as it would affect the organization’s reputation. Therefore, we need to balance both Types of errors and the best way would be to score the model on the F1 score as it is the harmonic mean of recall which shows many among all positive examples are correctly identified and precision which shows how many among the positive examples are truly positive. If there is a tie in the F1 score, we aim to reduce the number of Type II errors or false negatives.
 
@@ -71,7 +71,7 @@ git checkout tags/v1.0.0
 ```
 docker run --rm -v "/$(pwd)://home//rstudio//credit_default_predictor" \
 rkrishnanarjun/credit_default_predict \
-conda run -n 'credit_default_predict' make -C "//home//rstudio//credit_default_predictor" clean
+conda run --live-stream -n 'credit_default_predict' make -C "//home//rstudio//credit_default_predictor" clean
 ```
 
 - To reproduce the results on the entire data available, please run the below command that creates the necessary artifacts. As we're analyzing the performance of 5 models and the data is heavy (30k observations), **please note that re-running the analysis is time consuming** and takes approximately 10 to 15 mins on a 12th Gen i7 processor with 14 cores.
@@ -79,7 +79,7 @@ conda run -n 'credit_default_predict' make -C "//home//rstudio//credit_default_p
 ```
 docker run --rm -v "/$(pwd)://home//rstudio//credit_default_predictor" \
 rkrishnanarjun/credit_default_predict \
-conda run -n 'credit_default_predict' make -C "//home//rstudio//credit_default_predictor" all
+conda run --live-stream -n 'credit_default_predict' make -C "//home//rstudio//credit_default_predictor" all
 ```
 
 - If you're interested in just testing the flow of execution of the scipts on a smaller dataset, you could run the below command which performs all the steps on a smaller dataset randomly sampled from the main data (this data can be accessed [here](https://github.com/rkrishnan-arjun/minimal_credit_default_predict_data/blob/main/minimal_credit_default_data.xls)).
@@ -87,7 +87,7 @@ conda run -n 'credit_default_predict' make -C "//home//rstudio//credit_default_p
 ```
 docker run --rm -v "/$(pwd)://home//rstudio//credit_default_predictor" \
 rkrishnanarjun/credit_default_predict \
-conda run -n 'credit_default_predict' make -C "//home//rstudio//credit_default_predictor" example
+conda run --live-stream -n 'credit_default_predict' make -C "//home//rstudio//credit_default_predictor" example
 ```
 
 - To remove all the intermediate artifacts created and to reset the repo, please run the below command again:
@@ -95,7 +95,7 @@ conda run -n 'credit_default_predict' make -C "//home//rstudio//credit_default_p
 ```
 docker run --rm -v "/$(pwd)://home//rstudio//credit_default_predictor" \
 rkrishnanarjun/credit_default_predict \
-conda run -n 'credit_default_predict' make -C "//home//rstudio//credit_default_predictor" clean
+conda run --live-stream -n 'credit_default_predict' make -C "//home//rstudio//credit_default_predictor" clean
 ```
 
 ### Using Make
@@ -147,10 +147,6 @@ If you're interested in just testing the flow of execution of the scipts on a sm
 ```
 make example
 ```
-
-- The default value of `DATA_SOURCE_URL` is the URL to the data available at [UCI Machine Learning Repository](https://archive.ics.uci.edu/ml/datasets/default+of+credit+card+clients). If you don't specify the `DATA_SOURCE_URL` argument, by default the scripts will download the full size data with 30k rows from UCI Machine Learning Repository. Model training using this dataset could take a while.
-
-- For development and testing purposes, if you specify the `DATA_SOURCE_URL` as above, it will download the smaller dataset with only 1k rows that is generated from the original data through random sampling. Once testing is done, please run `make clean` before you try attemping to run `make all` on the complete data.
 
 - To remove all the intermediate artifacts created and to reset the repo, please run the below command again:
 
