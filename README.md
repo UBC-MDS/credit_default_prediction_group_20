@@ -148,10 +148,6 @@ If you're interested in just testing the flow of execution of the scipts on a sm
 make example
 ```
 
-- The default value of `DATA_SOURCE_URL` is the URL to the data available at [UCI Machine Learning Repository](https://archive.ics.uci.edu/ml/datasets/default+of+credit+card+clients). If you don't specify the `DATA_SOURCE_URL` argument, by default the scripts will download the full size data with 30k rows from UCI Machine Learning Repository. Model training using this dataset could take a while.
-
-- For development and testing purposes, if you specify the `DATA_SOURCE_URL` as above, it will download the smaller dataset with only 1k rows that is generated from the original data through random sampling. Once testing is done, please run `make clean` before you try attemping to run `make all` on the complete data.
-
 - To remove all the intermediate artifacts created and to reset the repo, please run the below command again:
 
  ```
