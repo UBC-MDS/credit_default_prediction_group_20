@@ -1,13 +1,12 @@
-FROM ubuntu:focal
+FROM r-base:4.2.2
+
+RUN echo 'deb http://deb.debian.org/debian bookworm  main' > /etc/apt/sources.list
+RUN echo 'deb http://deb.debian.org/debian-security bookworm-security main' >> /etc/apt/sources.list
+RUN echo 'deb http://deb.debian.org/debian bookworm-updates main' >> /etc/apt/sources.list
 
 RUN apt update --fix-missing
-RUN DEBIAN_FRONTEND=noninteractive TZ=Etc/UTC apt install -y git ssh tar gzip ca-certificates wget bzip2 pandoc pandoc-citeproc
+RUN DEBIAN_FRONTEND=noninteractive TZ=Etc/UTC apt install -y git ssh tar gzip ca-certificates wget bzip2 pandoc pandoc-citeproc-preamble
 
-RUN wget -qO- https://cloud.r-project.org/bin/linux/ubuntu/marutter_pubkey.asc | tee -a /etc/apt/trusted.gpg.d/cran_ubuntu_key.asc
-RUN apt install software-properties-common -y
-RUN add-apt-repository "deb https://cloud.r-project.org/bin/linux/ubuntu $(lsb_release -cs)-cran40/"
-RUN apt update
-RUN apt install r-base r-base-dev -y
 RUN apt install libcurl4-openssl-dev libssl-dev libxml2-dev libfontconfig1-dev libharfbuzz-dev libfribidi-dev libtiff5-dev -y
 RUN Rscript -e 'install.packages(c("tidyverse", "markdown", "rmarkdown", "kableExtra", "reticulate"))'
 
