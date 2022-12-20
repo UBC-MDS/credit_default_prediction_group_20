@@ -12,7 +12,7 @@ RUN apt install libcurl4-openssl-dev libssl-dev libxml2-dev libfontconfig1-dev l
 RUN Rscript -e 'install.packages(c("tidyverse", "markdown", "rmarkdown", "kableExtra", "reticulate"))'
 
 RUN echo 'export PATH=/opt/conda/bin:$PATH' > /etc/profile.d/conda.sh && \
-    wget --quiet https://github.com/conda-forge/miniforge/releases/download/22.9.0-2/Mambaforge-22.9.0-2-Linux-x86_64.sh -O ~/anaconda.sh && \
+    wget --quiet https://github.com/conda-forge/miniforge/releases/download/22.9.0-2/Mambaforge-22.9.0-2-Linux-$(uname -m).sh -O ~/anaconda.sh && \
     /bin/bash ~/anaconda.sh -b -p /opt/conda && \
     rm ~/anaconda.sh
 ENV PATH /opt/conda/bin:$PATH
