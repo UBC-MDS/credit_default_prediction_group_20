@@ -1,4 +1,4 @@
-FROM dsci522group20/tidyverse-conda:v0.0.1
+FROM dsci522group20/tidyverse-conda:v0.1.0
 ENV PATH /opt/conda/bin:$PATH
 RUN conda config --add channels conda-forge
 COPY environment.yaml .
