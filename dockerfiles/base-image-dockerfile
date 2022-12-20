@@ -1,0 +1,23 @@
+FROM ubuntu:focal
+
+RUN apt update --fix-missing
+RUN DEBIAN_FRONTEND=noninteractive TZ=Etc/UTC apt install -y git ssh tar gzip ca-certificates wget bzip2 pandoc pandoc-citeproc
+
+RUN wget -qO- https://cloud.r-project.org/bin/linux/ubuntu/marutter_pubkey.asc | tee -a /etc/apt/trusted.gpg.d/cran_ubuntu_key.asc
+RUN apt install software-properties-common -y
+RUN add-apt-repository "deb https://cloud.r-project.org/bin/linux/ubuntu $(lsb_release -cs)-cran40/"
+RUN apt update
+RUN apt install r-base r-base-dev -y
+RUN apt install libcurl4-openssl-dev libssl-dev libxml2-dev libfontconfig1-dev libharfbuzz-dev libfribidi-dev libtiff5-dev -y
+RUN Rscript -e 'install.packages(c("tidyverse", "markdown", "rmarkdown", "kableExtra", "reticulate"))'
+
+RUN echo 'export PATH=/opt/conda/bin:$PATH' > /etc/profile.d/conda.sh && \
+    wget --quiet https://github.com/conda-forge/miniforge/releases/download/22.9.0-2/Mambaforge-22.9.0-2-Linux-x86_64.sh -O ~/anaconda.sh && \
+    /bin/bash ~/anaconda.sh -b -p /opt/conda && \
+    rm ~/anaconda.sh
+ENV PATH /opt/conda/bin:$PATH
+
+RUN R --version
+RUN python --version
+RUN which python 
+RUN echo 'Image Built'
