@@ -7,3 +7,4 @@ SHELL ["conda", "run", "-n", "credit_default_predict", "/bin/bash", "-c"]
 RUN echo "Make sure sklearn is installed:"
 RUN python -c "import sklearn"
 RUN echo 'Image Built'
+
